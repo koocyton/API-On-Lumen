@@ -14,16 +14,8 @@ class LoginController extends BaseController
 	 * 登录表单
 	 */
     public function index(Response $response) {
-		// 设置 cookie
-		$response->withCookie(new Cookie("locale", $this->locale));
-        // return $response->setContent
-        // $loader = $app['translation.loader'];
-        // $locale = $app['config']['app.locale'];
-        $lang = new Translator('cn');
-
-        echo $lang->trans('login.Language');exit();
         // 返回 view
-        // return $response->setContent(view('login_index', ["locale"=>$this->locale]));
+        return $response->setContent(view('login_index'));
 	}
 
     /*

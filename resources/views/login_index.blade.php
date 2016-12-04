@@ -1,12 +1,12 @@
 <?php
-use Illuminate\Support\Facades\Lang;
+use App\Http\Facades\Lang;
 ?>
 <!DOCTYPE HTML>
 <html>
   <title>用户登录</title>
   @include('__header')
   <body>
-	<table class="body-table" style="background:rgba(0,0,0,0) url(/css/<?php echo $locale; ?>_bg.jpg) no-repeat scroll 0 0 / cover;">
+	<table class="body-table" style="background:rgba(0,0,0,0) url(/css/_bg.jpg) no-repeat scroll 0 0 / cover;">
       <tr>
 		<td class="nav-left">
 		  <div class="nav-item dropdown-container" style="margin-left:21px;">

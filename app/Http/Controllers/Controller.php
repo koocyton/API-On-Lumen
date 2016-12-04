@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Support\Facades\Lang;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 
+use App\Http\Facades\Lang;
+
 class Controller extends BaseController
 {
-	protected $locale = "cn";
+    protected $locale = "cn";
+
+    public $trans = null;
 	
     // 構造函數
     public function __construct(Request $request) {
 		// 设置本地语言
 		$this->setLocale($request);
+        // 初始化语言
+        Lang::init($this->locale);
 	}
     
     // 设置本地语言
@@ -29,6 +34,5 @@ class Controller extends BaseController
         }
         // 修正
         $this->locale = in_array($this->locale, ["en", "jp", "kr", "tw" , "cn"]) ? $this->locale : "cn" ;
-        // Lang::setLocale($this->locale);
     }
 }

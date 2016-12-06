@@ -11,4 +11,6 @@ return [
 	'Throttle' => '登录太频繁，请在秒后重试。',
 	"Session Timeout" => "登录已超时。",
 	"You have no rights" => "你没有访问权限",
+	"Please enter account" => "请输入邮箱账号",
+	"Please enter password" => "请输入您的密码",
 ];

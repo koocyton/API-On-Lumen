@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
+use Laravel\Lumen\Application;
 use Illuminate\Http\Request;
 
-use App\Http\Facades\Lang;
+use App\Facades\Lang;
 
 class Controller extends BaseController
 {
@@ -14,11 +15,11 @@ class Controller extends BaseController
     public $trans = null;
 	
     // 構造函數
-    public function __construct(Request $request) {
+    public function __construct(Request $request, Application $app) {
 		// 设置本地语言
 		$this->setLocale($request);
         // 初始化语言
-        Lang::init($this->locale);
+        Lang::init($app->make('translator'), $this->locale);
 	}
     
     // 设置本地语言

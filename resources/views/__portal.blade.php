@@ -4,7 +4,7 @@
   @include('__header')
   <body>
 
-	<table class="body-table" style="background:rgba(0, 0, 0, 0) url(/css/<?php echo $locale; ?>_bg.jpg) repeat scroll 0 0 / cover ;">
+	<table class="body-table" style="background:rgba(0, 0, 0, 0) url(/css/<?=Lang::getLocale();?>_bg.jpg) repeat scroll 0 0 / cover ;">
 
       <tr>
 		<td class="nav-left" colspan="2">

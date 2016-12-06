@@ -1,12 +1,12 @@
 <?php
-use App\Http\Facades\Lang;
+use App\Facades\Lang;
 ?>
 <!DOCTYPE HTML>
 <html>
   <title>用户登录</title>
   @include('__header')
   <body>
-	<table class="body-table" style="background:rgba(0,0,0,0) url(/css/_bg.jpg) no-repeat scroll 0 0 / cover;">
+	<table class="body-table" style="background:rgba(0,0,0,0) url(/css/<?=Lang::getLocale();?>_bg.jpg) no-repeat scroll 0 0 / cover;">
       <tr>
 		<td class="nav-left">
 		  <div class="nav-item dropdown-container" style="margin-left:21px;">
@@ -41,7 +41,7 @@ use App\Http\Facades\Lang;
 			  <div style="width:265px;position:relative;">
 				<dl>
 				  <dd>
-					<input type="text" class="text-input" maxlength="50" name="account" validation="/email:请填写邮箱账号/" placeholder="请填写邮箱账号" value="" />
+					<input type="text" class="text-input" maxlength="50" name="account" validation="/email:<?=Lang::get('login.Please enter account')?>/" placeholder="<?=Lang::get('login.Please enter account')?>" value="" />
 				  </dd>
 				</dl>
 			  </div>
@@ -52,13 +52,13 @@ use App\Http\Facades\Lang;
 					  <div style="width:187px;position:relative;">
 						<dl>
 						  <dd>
-							<input type="password" class="text-input" maxlength="50" name="password" validation="/!empty:请输入密码/" placeholder="请输入密码" value="" />
+							<input type="password" class="text-input" maxlength="50" name="password" validation="/!empty:<?=Lang::get('login.Please enter password')?>/" placeholder="<?=Lang::get('login.Please enter password')?>" value="" />
 						  </dd>
 						</dl>
 					  </div>
 					</td><td style="width:1%;">
 					  <div>
-						<button type="submit" class="disable-btn" style="width:70px;"><?php echo Lang::get('login.Login');?></button>
+						<button type="submit" class="disable-btn" style="width:70px;"><?=Lang::get('login.Login')?></button>
 					  </div>
 					</td>
 				  </tr>
@@ -67,7 +67,7 @@ use App\Http\Facades\Lang;
 			  <div style="height:22px;line-height:22px;">
 				<label style="color:#8899a6">
 				  <input type="checkbox" name="rember" value="1">
-				  <span><?php echo Lang::get('login.Remember me');?></span>
+				  <span><?=Lang::get('login.Remember me')?></span>
 				</label>
 				<span class="separator">·</span>
 				<span><a href="javascript:$.KTAnchor.showSlidMessage('send mail to koocyton(AT)gmail.com');" native="yes" style="color:#0084b4"><?=Lang::get('login.Forgot password')?></a></span>

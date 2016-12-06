@@ -22,12 +22,12 @@ $app->get('/', function () use ($app) {
 |-----------------------------------------------------
 */
 // 页面 - 显示登录的界面
-$app->get('/login', ['as' => 'login', 'uses' => 'LoginController@index']);
+$app->get('/login', 'LoginController@index');
 
 // 登录校验的接口
-$app->group(['prefix' => 'login'], function () use ($app) {
+$app->group(['prefix' => '/login', 'namespace'=>'App\Http\Controllers'], function () use ($app) {
 	// 用户登录
-	$app->post('signin', ['uses' => 'App\Http\Controllers\LoginController@signIn']);
+	$app->post('signin', 'LoginController@signIn');
 	// 用户登出
 	$app->get('signout', 'LoginController@signOut');
 });

@@ -20,6 +20,10 @@ class Controller extends BaseController
 		$this->setLocale($request);
         // 初始化语言
         Lang::init($app->make('translator'), $this->locale);
+
+        // 权限判断
+        $auth = $app->make('auth');
+        print_r($auth);exit();
 	}
     
     // 设置本地语言

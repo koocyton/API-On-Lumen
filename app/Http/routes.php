@@ -12,7 +12,7 @@
 */
 
 // 更路径
-$app->get('/', function () use ($app) {
+$app->get('/', function () {
 	return redirect()->route('login');
 });
 
@@ -22,16 +22,15 @@ $app->get('/', function () use ($app) {
 |-----------------------------------------------------
 */
 // 页面 - 显示登录的界面
-$app->get('/login', 'LoginController@index');
+$app->get('/login', ['as' => 'login', 'uses' => 'LoginController@index']);
 
 // 登录校验的接口
 $app->group(['prefix' => '/login', 'namespace'=>'App\Http\Controllers'], function () use ($app) {
 	// 用户登录
-	$app->post('signin', 'LoginController@signIn');
+	$app->post('/signin', 'LoginController@signIn');
 	// 用户登出
-	$app->get('signout', 'LoginController@signOut');
+	$app->get('/signout', 'LoginController@signOut');
 });
-
 
 
 /*
@@ -39,13 +38,12 @@ $app->group(['prefix' => '/login', 'namespace'=>'App\Http\Controllers'], functio
 |管理员的页面和接口 Route 设置
 |--------------------------------------------------
 */
-// 页面 - 管理员列表
-$app->get('/managers', [ 'uses' => '/manager/list' ]);
-// 页面 - 某个管理员信息
-$app->get('/manager/{id}', [ 'uses' => '/manager/detail' ]);
-
 // 管理员的接口
-$app->group(['prefix'=>'manager'], function() use ($app) {
+$app->group(['prefix'=>'/manager', 'namespace'=>'App\Http\Controllers'], function() use ($app) {
+	// 管理员列表
+	$app->get('/list', 'ManagerController@list');
+	// 管理员
+	$app->get('/{id}', 'ManagerController@get');
 	// 创建管理员
 	$app->post('/{id}', 'ManagerController@create');
 	// 更新管理员信息
@@ -53,4 +51,3 @@ $app->group(['prefix'=>'manager'], function() use ($app) {
 	// 删除管理员
 	$app->delete('/{id}', 'ManagerController@delete');
 });
-

@@ -18,7 +18,6 @@
 												<b class="angle-up" style="left:67px;top:-5px;"></b>
 												<div class="content-board radius-4 shadow-3" style="width:278px;padding:20px;">
 													<form action="/manager/create" method="post">
-													<input type="hidden" name="_token" value="{{csrf_token()}}" />
 														<div style="margin-top:10px;">
 															<div class="input-box" style="width:55px;">
 																<span>邮箱</span>
@@ -55,7 +54,7 @@
 			                                    <div class="input-box" style="width:200px;">
 			                                        <dl>
 			                                            <dd>
-			                                                <input type="text" class="text-input" name="q" validation="/!empty:请填写搜索条件/" placeholder="请填写搜索条件" value="<?php echo $q;?>" />
+			                                                <input type="text" class="text-input" name="q" validation="/!empty:请填写搜索条件/" placeholder="请填写搜索条件" value="" />
 			                                            </dd>
 			                                        </dl>
 			                                    </div>

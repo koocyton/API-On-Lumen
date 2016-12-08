@@ -4,7 +4,7 @@
   @include('__header')
   <body>
 
-	<table class="body-table" style="background:rgba(0, 0, 0, 0) url(/css/<?=Lang::getLocale();?>_bg.jpg) repeat scroll 0 0 / cover ;">
+	<table class="body-table" style="background:rgba(0, 0, 0, 0) url(/css/<?=$trans->getLocale();?>_bg.jpg) repeat scroll 0 0 / cover ;">
 
       <tr>
 		<td class="nav-left" colspan="2">
@@ -18,7 +18,7 @@
 		</td>
 		<td class="nav-right">
 		  <div class="nav-item" style="margin-right:21px;">
-            <span style="font-size:16px;"><?php echo $account?></span>
+            <span style="font-size:16px;"><?=$_COOKIE['auth_user']?></span>
 		  </div>
 		  <div class="nav-item dropdown-container" style="margin-right:21px;">
 			<a href="javascript:;" pushstate="no" title="设置" class="nav-item bold-medium" style="height:40px;line-height:40px;">
@@ -68,7 +68,7 @@
                     ]},
                     {"text":"管理员", "menus":[
                         {"text":"操作日志", "href":"/log"},
-                        {"text":"权限管理", "href":"/manager" }
+                        {"text":"权限管理", "href":"/manager/list" }
                     ]}
                 ];
 				document.write($.KTTreeMenuHTML.getMenuHtml(menu_data));

@@ -47,11 +47,15 @@ return [
     | 用户密码的 hash 串
     |--------------------------------------------------------------------------
     |
-    | The fallback locale determines the locale to use when the current one
-    | is not available. You may change the value to correspond to any of
-    | the language folders that are provided through your application.
-    |
     */
     'password_hash_prefix' => 'S*z-#)_o+0$2#_%s_^aFqA7=SD2/Sf',
+
+    /*
+    |--------------------------------------------------------------------------
+    | 默认登陆成功进入的页面
+    |--------------------------------------------------------------------------
+    |
+    */
+    'default_portal' => '/manager/list',
 
 ];

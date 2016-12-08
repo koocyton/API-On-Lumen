@@ -122,16 +122,18 @@
 			},
 
 			success: function(container, responseText){
-				// $.KTLog("JQuery.KTAnchor.success : " + container, responseText);
-				// 举例：如果想输入一个脚本的处理方式
-				if (/^<script>(.+)<\/script>$/.test(responseText)) {
+				// 如果获取到一个 json
+				if (typeof(responseText)=="object" && typeof(responseText.action)=="string") {
+					if (responseText.action=="redirect") {
+						window.location = responseText.url;
+					}
+					else if (responseText.action=="showMessage") {
+						$.KTAhchor.showSlidMessage(responseText.message);
+					}
+				}
+				else if (/^<script>(.+)<\/script>$/.test(responseText)) {
 					var response = responseText.match(/<script>(.+)<\/script>/);
 					eval(response[1]);
-				}
-				// 举例：自定义的匹配处理
-				else if (/^\[ktanchor-message:(.+)\]$/.test(responseText)) {
-					var message = responseText.match(/^\[ktanchor-message:(.+)\]$/);
-					$.KTAnchor.showSlidMessage(message[1]);
 				}
 				// 请求到的文本
 				else {
@@ -141,15 +143,25 @@
 					// 填充完后重新设定填充区域内的 KTLoader
 					$(container).KTLoader();
 					// 检查有无滚动条需要重置
-					$(container).parent($.KTAnchor.scroll_container).ktScrollReset();
+					// $(container).parent($.KTAnchor.scroll_container).ktScrollReset();
 					// 关闭窗口下面滑入的错误提示信息
 					$.KTAnchor.closeSlidMessage();
 				}
 			},
 
 			error: function(container, XMLHttpRequest){
-				$.KTLog("JQuery.KTAnchor.error : " + container);
-				$.KTAnchor.showSlidMessage("Error : " + XMLHttpRequest.status);
+				if (typeof(XMLHttpRequest.responseJSON)=="object" && typeof(XMLHttpRequest.responseJSON.action)=="string") {
+					var responseJSON = XMLHttpRequest.responseJSON;
+					if (responseJSON.action=="redirect") {
+						window.location = responseText.url;
+					}
+					else if (responseJSON.action=="showMessage") {
+						$.KTAnchor.showSlidMessage("Error : " + XMLHttpRequest.status + ' - ' + responseJSON.message);
+					}
+				}
+				else {
+					$.KTAnchor.showSlidMessage("Error : " + XMLHttpRequest.status);
+				}
 			},
 
 			begin: function(){
@@ -163,7 +175,7 @@
 			// 弹出窗口
 		    popupLoader : function(url){
 		        if ($(".kt-popup-loader").length==0) {
-		            $(document.body).append('<div class="kt-popup-loader"><div class="kt-popup-mask"></div><div class="kt-popup-doc radius-3 shadow-3"><div class="scroll-container" style="height:100%;"><div style="top:0px;position:relative;height:43px;"></div><div class="kt-popup-body" style="top:0px;position:relative;"></div></div><div class="kt-popup-shadow shadow-3"></div><div class="kt-popup-head"><span class="kt-popup-close" style="font-family:octicons;font-size:23px;margin-right:10px;cursor:pointer;">&#xf081;</span></div></div></div>');
+		            $(document.body).append('<div class="kt-popup-loader"><div class="kt-popup-mask"></div><div class="kt-popup-doc radius-3 shadow-3"><div style="height:100%;"><div style="top:0px;position:relative;height:43px;"></div><div style="width:100%;"><div class="scroll-container kt-popup-body" style="top:0px;position:relative;"></div></div></div><div class="kt-popup-shadow shadow-3"></div><div class="kt-popup-head"><span class="kt-popup-close" style="font-family:octicons;font-size:23px;margin-right:10px;cursor:pointer;">&#xf081;</span></div></div></div>');
 					// 关闭的动画
 		            $(".kt-popup-close").bind("click", function(){
 						$(".kt-popup-doc").css({"margin-top":"5%", "opacity":"1"}).animate({"margin-top":"2%", "opacity":"0"}, "normal", function(){
@@ -175,7 +187,12 @@
 		        $(".kt-popup-body").html("loading...").load(url,function(){$(".kt-popup-body").KTLoader()});
 				$(".kt-popup-loader").css("display", "block").KTLoader();
 				// 弹出动画
-				$(".kt-popup-doc").css({"margin-top":"2%", "opacity":"0"}).animate({"margin-top":"5%", "opacity":"1"} ,"normal");
+				$(".kt-popup-doc").css({"margin-top":"2%", "opacity":"0"})
+								.animate({"margin-top":"5%", "opacity":"1"} ,"normal", function() {
+									var parent_height = $(".kt-popup-doc").height() - 43;
+									$(".kt-popup-body").parent().height(parent_height);
+									$(document.body).KTMouseWheel();
+								});
 		    },
 
 			// 左侧菜单被选中
@@ -769,7 +786,19 @@
 			return this;
 		},
 
-		ktScrollReset : function(){
+		KTMouseWheel : function() {
+
+			// 所有的自定义滚动条层
+			var containers = this.find($.KTAnchor.scroll_container);
+			// 查询匹配的节点
+			containers.each(function(key, scroll_container) {
+				var scroll_container = $(scroll_container)
+				var parent_height = scroll_container.parent().height();
+				scroll_container.css({"height":parent_height, "overflow-y":"scroll"});
+			});
+		},
+
+		/* ktScrollReset : function(){
 			var $scroll_container = $(this);
 			// $.KTLog(scroll_container, $.KTAnchor.scroll_container.substr(1));
 			if ($scroll_container.hasClass($.KTAnchor.scroll_container.substr(1))) {
@@ -857,11 +886,9 @@
 			});
 			content_childrens = $(content_childrens);
 
-			/*
-			 * 如果内容的高度 <= 容器的高度
-			 * 滚动条 top 为 0，高度是 100%
-			 * 滚动区节点的 top 为 0 , position 为 relative
-			 */
+			// 如果内容的高度 <= 容器的高度
+			// 滚动条 top 为 0，高度是 100%
+			// 滚动区节点的 top 为 0 , position 为 relative
 			if (content_height<=container_height) {
 				scroll_bar.css({"top":"0px", "height":"100%"});
 				content_childrens.css({"top":"0px"})
@@ -973,7 +1000,7 @@
 				});
 				return false;
 			});
-		}
+		} */
 	});
 
 })(jQuery);
@@ -983,7 +1010,7 @@ $.KTAnchor.init({
 	response_container: ".response-container", // Ajax, 设定默认 response 填充的区域
 	paging_container: ".paging-container", // 分页，分页的容器
 	paging_limit: 30, // 分页，默认每页 30 条记录
-	paging_symbol: "&c", // 分页，默认通过传统的 & 来分割，值通过 http.request.GET.cc 来传递
+	paging_symbol: "&po", // 分页，默认通过传统的 & 来分割，值通过 http.request.GET.cc 来传递
 	dropdown_container: ".dropdown-container", // 弹出菜单，通过识别此节点，来绑定 下拉菜单的 事件
 	treemenu_container: ".treemenu-container", // 树状菜单，通过识别此节点，来绑定 树状菜单 点击事件
 	scroll_container: ".scroll-container" // 自定义相应鼠标滚动，通过识别此节点，来绑定
@@ -1000,4 +1027,15 @@ $(window).bind("popstate", function(){
 $(document).ready(function(){
   $(document.body).KTLoader();
   $(window).trigger("popstate");
+
+  // 调整窗口时时，
+  $(window).bind("resize", function(){
+    // 主内容的区域的高度，为浏览区域的高度，减去 40
+    $("#left-container, #right-container").height($(window).height()-40);
+	$(".kt-popup-body").parent().height($(".kt-popup-doc").height() - 43);
+    // 如果不是移动的浏览器
+    $(document.body).KTMouseWheel();
+  });
+  // 手动触发一次
+  $(window).trigger("resize");
 });

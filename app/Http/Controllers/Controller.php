@@ -13,21 +13,17 @@ class Controller extends BaseController
     protected $locale = "cn";
 
     public $trans = null;
+
+    public $auth = null;
 	
     // 構造函數
-    public function __construct(Request $request, Application $app) {
+    public function __construct(Request $request) {
 		// 设置本地语言
 		$this->setLocale($request);
-        // 初始化语言
-        Lang::init($app->make('translator'), $this->locale);
-
-        // 权限判断
-        $auth = $app->make('auth');
-        print_r($auth);exit();
 	}
     
     // 设置本地语言
-    protected function setLocale(Request $request)
+    protected function setLocale($request)
     {
         // 从 Cookie 获取本地化设置
         if (!empty($request->cookie('locale'))) {
@@ -39,5 +35,9 @@ class Controller extends BaseController
         }
         // 修正
         $this->locale = in_array($this->locale, ["en", "jp", "kr", "tw" , "cn"]) ? $this->locale : "cn" ;
+
+        // 设置多语言
+        $this->trans = app('translator');
+        $this->trans->setLocale($this->locale);
     }
 }

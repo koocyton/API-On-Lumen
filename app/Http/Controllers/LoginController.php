@@ -10,17 +10,14 @@ use App\Http\Controllers\Controller as BaseController;
 
 class LoginController extends BaseController
 {
-    // 密码加密 key
-    private static $password_key = 'S*D-#%+0$2#^AFA7=SD2/sf_';
-
     /*
      * 登录表单
      */
     public function index(Response $response) {
-        // cookie
-        $response->withCookie(new Cookie('locale', $this->locale));
+        // 发送 cookie
+        $with_cookie = new Cookie('locale', $this->locale);
         // 返回 view
-        return $response->setContent(view('login_index'));
+        return response(view('login_index', ['trans'=>$this->trans]))->withCookie($with_cookie);
     }
 
     /*
@@ -34,25 +31,23 @@ class LoginController extends BaseController
         $account = $request->input("account");
         // 密码
         $password = $request->input("password");
-        // 加密后的密码
-        $hash_password = md5(self::$password_key . '_' . $password);
 
         // 登录
         $manager = app('db')->table('manager')->where('account', $account)->first();
         // 管理员存在
-        if ($manager) {
+        if (!empty($manager) && !empty($password)) {
+            // 加密后的密码
+            $hash_password = md5(sprintf(config("app")['password_hash_prefix'], $password));
             // 密码正确
             if ($manager->password==$hash_password) {
-                // set cookie
-                $response->withCookie(new Cookie('auth_user', $account));
                 // 登录成功
-                return $response->setContent(json_encode([]));
+                return response()->json(null, 200)->withCookie(new Cookie('auth_user', $account));
             }
             // 密码错误
-            return $response->setContent('2');
+            return response()->json(null, 400);
         }
         // 管理员不存在
-        return $response->setContent('3');
+        return response()->json(null, 400);
     }
 
     /*
@@ -61,6 +56,6 @@ class LoginController extends BaseController
     public function signout()
     {
         // set cookie
-        $response->withCookie(new Cookie('auth_user', null));
+        return response('1')->withCookie(new Cookie('auth_user', null));
     }
 }

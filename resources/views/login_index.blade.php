@@ -6,12 +6,12 @@ use App\Facades\Lang;
   <title>用户登录</title>
   @include('__header')
   <body>
-	<table class="body-table" style="background:rgba(0,0,0,0) url(/css/<?=Lang::getLocale();?>_bg.jpg) no-repeat scroll 0 0 / cover;">
+	<table class="body-table" style="background:rgba(0,0,0,0) url(/css/<?=$trans->getLocale();?>_bg.jpg) no-repeat scroll 0 0 / cover;">
       <tr>
 		<td class="nav-left">
 		  <div class="nav-item dropdown-container" style="margin-left:21px;">
 			<a href="javascript:;" pushstate="no" class="nav-item bold-medium" style="height:40px;line-height:40px;">
-			  <?=Lang::get('login.Language');?>：<?=Lang::get('login.Location');?> &nbsp;
+			  <?=$trans->get('login.Language');?>：<?=$trans->get('login.Location');?> &nbsp;
 			  <span class="octicon" style="font-size:13px;">&#xf0a3;</span>
 			</a>
 			<div class="pop-layout" style="top:38px;left:-7px;">
@@ -41,7 +41,7 @@ use App\Facades\Lang;
 			  <div style="width:265px;position:relative;">
 				<dl>
 				  <dd>
-					<input type="text" class="text-input" maxlength="50" name="account" validation="/email:<?=Lang::get('login.Please enter account')?>/" placeholder="<?=Lang::get('login.Please enter account')?>" value="" />
+					<input type="text" class="text-input" maxlength="50" name="account" validation="/email:<?=$trans->get('login.Please enter account')?>/" placeholder="<?=$trans->get('login.Please enter account')?>" value="" />
 				  </dd>
 				</dl>
 			  </div>
@@ -52,13 +52,13 @@ use App\Facades\Lang;
 					  <div style="width:187px;position:relative;">
 						<dl>
 						  <dd>
-							<input type="password" class="text-input" maxlength="50" name="password" validation="/!empty:<?=Lang::get('login.Please enter password')?>/" placeholder="<?=Lang::get('login.Please enter password')?>" value="" />
+							<input type="password" class="text-input" maxlength="50" name="password" validation="/!empty:<?=$trans->get('login.Please enter password')?>/" placeholder="<?=$trans->get('login.Please enter password')?>" value="" />
 						  </dd>
 						</dl>
 					  </div>
 					</td><td style="width:1%;">
 					  <div>
-						<button type="submit" class="disable-btn" style="width:70px;"><?=Lang::get('login.Login')?></button>
+						<button type="submit" class="disable-btn" style="width:70px;"><?=$trans->get('login.Login')?></button>
 					  </div>
 					</td>
 				  </tr>
@@ -67,10 +67,10 @@ use App\Facades\Lang;
 			  <div style="height:22px;line-height:22px;">
 				<label style="color:#8899a6">
 				  <input type="checkbox" name="rember" value="1">
-				  <span><?=Lang::get('login.Remember me')?></span>
+				  <span><?=$trans->get('login.Remember me')?></span>
 				</label>
 				<span class="separator">·</span>
-				<span><a href="javascript:$.KTAnchor.showSlidMessage('send mail to koocyton(AT)gmail.com');" native="yes" style="color:#0084b4"><?=Lang::get('login.Forgot password')?></a></span>
+				<span><a href="javascript:$.KTAnchor.showSlidMessage('send mail to koocyton(AT)gmail.com');" native="yes" style="color:#0084b4"><?=$trans->get('login.Forgot password')?></a></span>
 			  </div>
 			</form>
 			<!-- Login Form [End] //-->

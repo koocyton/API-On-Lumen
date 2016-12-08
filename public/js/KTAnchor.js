@@ -218,7 +218,9 @@
 				// 如果是菜单
 				if (menu_elt.parent().hasClass("menu_layout")) {
 					// 检查是否所在 div 未打开
+					$.KTLog(menu_elt);
 					if (menu_elt.parent().prev().hasClass("tree-menu-close")) {
+						$.KTLog(menu_elt);
 						menu_elt.parent().prev().trigger("click");
 					}
 				}
@@ -714,16 +716,22 @@
 					$menu_elt.bind("click", function() {
 						// 打开菜单
 						if ($next_elt.css("display")=="none") {
-							$next_elt.css("display", "block");
-							if ($menu_elt.hasClass("tree-menu-1")) $menu_elt.removeClass("tree-menu-close").addClass("tree-menu-open");
+							// 滑出
+							$next_elt.slideDown("fast"); // $next_elt.css("display", "block");
+							if ($menu_elt.hasClass("tree-menu-1")) {
+								$menu_elt.removeClass("tree-menu-close").addClass("tree-menu-open");
+							}
 						}
 						// 折叠菜单
 						else {
-							$next_elt.css("display", "none");
-							if ($menu_elt.hasClass("tree-menu-1")) $menu_elt.removeClass("tree-menu-open").addClass("tree-menu-close");
+							// 滑入
+							$next_elt.slideUp("fast"); // $next_elt.css("display", "none");
+							if ($menu_elt.hasClass("tree-menu-1")) {
+								$menu_elt.removeClass("tree-menu-open").addClass("tree-menu-close");
+							}
 						}
 						// 重置滚动条
-						$treemenu_elt.parents($.KTAnchor.scroll_container).ktScrollSliding();
+						// $treemenu_elt.parents($.KTAnchor.scroll_container).ktScrollSliding();
 						// menu_elt 没错
 						menu_elt.blur();
 						return false;

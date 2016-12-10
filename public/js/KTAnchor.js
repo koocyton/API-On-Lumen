@@ -200,6 +200,7 @@
 		        // 获取当前 URL
 				// var location_url = url;//'http://panda.doopp.com/admin/tracklog';//window.location.href;
 				var url_pattern  = /^https?:\/\/[^\/]+(\/[^\/\?]+)(\/[^\/\?]+)?(\/[^\/\?]+)?(\/[^\/\?]+)?/;
+				//
 				if (location_url.substr(0,1)=="/") {
 					url_pattern = /^(\/[^\/\?]+)(\/[^\/\?]+)?(\/[^\/\?]+)?(\/[^\/\?]+)?/;
 				}
@@ -210,19 +211,16 @@
 				// 从长到短获取节点
 				var menu_elt = $($.KTAnchor.treemenu_container + " a[href='" + url_match[1] + url_match[2] + url_match[3] + url_match[4] + "']");
 				if (!menu_elt.exist()) {
+					menu_elt = $($.KTAnchor.treemenu_container + " a[href='" + url_match[1] + url_match[2] + url_match[3] + "']");
+				}
+				if (!menu_elt.exist()) {
 					menu_elt = $($.KTAnchor.treemenu_container + " a[href='" + url_match[1] + url_match[2] + "']");
 				}
 				if (!menu_elt.exist()) {
 					menu_elt = $($.KTAnchor.treemenu_container + " a[href^='" + url_match[1] + "']");
 				}
-				// 如果是菜单
-				if (menu_elt.parent().hasClass("menu_layout")) {
-					// 检查是否所在 div 未打开
-					$.KTLog(menu_elt);
-					if (menu_elt.parent().prev().hasClass("tree-menu-close")) {
-						$.KTLog(menu_elt);
-						menu_elt.parent().prev().trigger("click");
-					}
+				if (menu_elt.parent().prev().hasClass("tree-menu-close")) {
+					menu_elt.parent().prev().trigger("click");
 				}
 				$(".tree-select-menu").removeClass("tree-select-menu").addClass("tree-menu");
 				menu_elt.removeClass("tree-menu").addClass("tree-select-menu");

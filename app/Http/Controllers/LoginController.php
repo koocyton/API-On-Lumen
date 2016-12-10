@@ -34,11 +34,13 @@ class LoginController extends BaseController
         // 登录
         $manager = app('db')->table('manager')->where('account', $account)->first();
         // 管理员存在
-        if (!empty($manager) && !empty($password)) {
+        if (!empty($manager) && $manager->is_action=="on") {
             // 加密后的密码
             $hash_password = md5(sprintf(config("app")['password_hash_prefix'], $password));
             // 密码正确
             if ($manager->password==$hash_password) {
+                // 更新登录时间
+                app('db')->table('manager')->where([ 'id'=>$manager->id ])->update([ 'updated_at'=>time() ]);
                 // 登录成功
                 return response()->json(['action'=>'redirect', 'url'=>config("app")['default_portal']], 200)
                                 ->withCookie(new Cookie('auth_user', $account));
@@ -55,7 +57,6 @@ class LoginController extends BaseController
      */
     public function signout() {
         // 退出登陆
-        return response()->json(['action'=>'redirect', 'url'=>'/login'], 200)
-                        ->withCookie(new Cookie('auth_user', null));
+        return response()->json(['action'=>'redirect', 'url'=>'/login'], 200)->withCookie(new Cookie('auth_user', null));
     }
 }

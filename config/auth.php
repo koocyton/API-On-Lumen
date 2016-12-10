@@ -2,6 +2,16 @@
 
 return [
 
+    // auth 资源权限
+    'scope' => 'get_user_info, upload_pic, add_news, del_news',
+
+    // 客户端 APP ID
+    'app_id' => 'com.doopp.android.pic-news',
+
+    // APP KEY
+    'app_key' => '12bcf5e7-ca32-47d3-9159-09c106ba68c9',
+
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults

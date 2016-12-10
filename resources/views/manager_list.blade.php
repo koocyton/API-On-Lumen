@@ -73,50 +73,60 @@
     							<thead>
     								<tr>
 										<td style="width:80px;">ID</td>
-										<td style="width:160px;">Email</td>
-										<td style="width:130px;">最近登录</td>
+										<td style="width:80px;">激活</td>
+										<td style="width:160px;">账号</td>
+										<td style="width:130px;">创建时间</td>
+										<td style="width:180px;">最近登录</td>
 										<td style="text-align:left;">&nbsp;权限</td>
 									</tr>
     							</thead>
     							<tbody>
                                     <?php foreach($managers as $manager) {?>
                                     <tr>
-										<td><?php echo $manager->id?></td>
-										<td><a class="normal-anchor" href="/manager/edit/<?php echo $manager->id?>"><?php echo $manager->email?></a></td>
-										<td title="<?php echo $manager->updated_at?>">
+										<td>{{ $manager->id }}</td>
+										<td>
+											<a href="/manager/{{ $manager->id }}/switch" pushstate="no">
+											<img src="/image/switch_{{ $manager->is_action }}.png" style="width:50px;">
+											</a>
+										</td>
+										<td><a class="normal-anchor" href="/manager/{{ $manager->id }}">{{ $manager->account }}</a></td>
+										<td>{{ date("Y-m-d H:i:s", $manager->created_at) }}</td>
+										<td>
 										<?php
 										if ($manager->updated_at=="0000-00-00 00:00:00") {
 											echo "<span style=\"color:#bbb;\">从未登录</span>";
 										}
 										else {
-											$ut = strtotime($manager->updated_at);
+											$ut = $manager->updated_at;
 											$nt = time();
 											$dt = $nt - $ut;
 											// 一个小时内，显示多少分钟前
 											if ($dt<3600) {
-												echo "<span style=\"color:#555;\">".floor($dt/60)." 分钟前</span>";
+												echo "<span style=\"color:red;\">".floor($dt/60)." 分钟前</span>";
 											}
 											// 一个天内，显示多少小时前
 											else if ($dt<86400) {
-												echo "<span style=\"color:#555;\">".floor($dt/3600)." 小时前</span>";
+												echo "<span style=\"color:red;\">".floor($dt/3600)." 小时前</span>";
 											}
 											// 一周内，显示多少天前
 											else if ($dt<603800) {
-												echo "<span style=\"color:#555;\">".floor($dt/86400)." 天前</span>";
+												echo "<span style=\"color:blue;\">".floor($dt/86400)." 天前</span>";
 											}
 											// 一月内，显示多少周前
 											else if ($dt<2678400) {
-												echo "<span style=\"color:#555;\">".floor($dt/603800)." 周前</span>";
+												echo "<span style=\"color:blue;\">".floor($dt/603800)." 周前</span>";
 											}
 											// 一年内，显示多少月前
 											else if ($dt<31536000) {
-												echo "<span style=\"color:#555;\">".floor($dt/2678400)." 月前</span>";
+												echo "<span style=\"color:green;\">".floor($dt/2678400)." 月前</span>";
 											}
 											else {
-												echo "<span style=\"color:#555;\">".floor($dt/31536000)." 年前</span>";
+												echo "<span style=\"color:green;\">".floor($dt/31536000)." 年前</span>";
 											}
 										}
 										?>
+										<span class="separator"> / </span>
+										<span>  {{ date("Y-m-d H:i:s", $manager->updated_at) }}</span>
 										</td>
 										<td style="text-align:left;"><?php echo $manager->privileges?></td>
 									</tr>

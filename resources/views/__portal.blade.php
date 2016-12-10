@@ -37,7 +37,7 @@
 						<span style="font-family:octicons;font-size:15px;">&#xf049;</span>
 						&nbsp;账号安全
 					</a></li>
-					<li><a class="radius-3" native="yes" href="/login/signout">
+					<li><a class="radius-3" pushstate="no" href="/login/signout">
                         <span style="font-family:octicons;font-size:15px;">&#xf032;</span>
                         &nbsp;退出登录
                     </a></li>
@@ -66,8 +66,27 @@
                             {"text":"优化分析", "href":"/optimize"}
                         ]}
                     ]},
+                    {"text":"项目研发 · 微闻", "menus":[
+                        {"text":"API 接口", "open":true, "menus":[
+                            {"text":"登录 GET /access-token", "href":"/project/api-debug/access-token"},
+                            {"text":"频道列表 GET /channel-menu", "href":"/project/api-debug/channel-menu"},
+                            {"text":"频道新闻 GET /channel/{id}", "href":"/project/api-debug/channel"},
+                            {"text":"新闻内容 GET /news/{id}", "href":"/project/api-debug/news"},
+                            {"text":"上传新闻 POST /news", "href":"/project/api-debug/post-news"},
+                            {"text":"选择地区 UPDATE /region/{id}", "href":"/project/api-debug/region/{id}"}
+                        ]},
+                        {"text":"项目文档", "open":false, "menus":[
+                            {"text":"概叙", "href":"/project/doc/1"},
+                            {"text":"登录", "href":"/project/doc/2"},
+                            {"text":"注册", "href":"/project/doc/3"},
+                            {"text":"主界面", "href":"/project/doc/4"},
+                            {"text":"拍照", "href":"/project/doc/5"},
+                            {"text":"填写拍照信息", "href":"/project/doc/6"},
+                        ]},
+                        {"text":"Task & Bugzilla", "href":"/task/list"},
+                    ]},
                     {"text":"管理员", "menus":[
-                        {"text":"操作日志", "href":"/log"},
+                        {"text":"操作日志", "href":"/operation/list"},
                         {"text":"权限管理", "href":"/manager/list" }
                     ]}
                 ];

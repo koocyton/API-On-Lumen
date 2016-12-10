@@ -27,9 +27,9 @@ $app->get('/login', ['as' => 'login', 'uses' => 'LoginController@index']);
 // 登录校验的接口
 $app->group(['prefix' => '/login', 'namespace'=>'App\Http\Controllers'], function () use ($app) {
 	// 用户登录
-	$app->post('/signin', 'LoginController@signIn');
+	$app->post('signin', 'LoginController@signIn');
 	// 用户登出
-	$app->get('/signout', 'LoginController@signOut');
+	$app->get('signout', 'LoginController@signOut');
 });
 
 
@@ -38,16 +38,37 @@ $app->group(['prefix' => '/login', 'namespace'=>'App\Http\Controllers'], functio
 |管理员的页面和接口 Route 设置
 |--------------------------------------------------
 */
+// 操作日志
+$app->get('/operation/list', 'ManagerController@operationList');
+
 // 管理员的接口
 $app->group(['prefix'=>'/manager', 'namespace'=>'App\Http\Controllers'], function() use ($app) {
 	// 管理员列表
-	$app->get('/list', 'ManagerController@list');
+	$app->get('list', 'ManagerController@list');
 	// 管理员
-	$app->get('/{id}', 'ManagerController@get');
-	// 创建管理员
-	$app->post('/{id}', 'ManagerController@create');
-	// 更新管理员信息
-	$app->put('/{id}', 'ManagerController@update');
+	$app->get('{id}', 'ManagerController@get');
 	// 删除管理员
-	$app->delete('/{id}', 'ManagerController@delete');
+	$app->delete('{id}', 'ManagerController@delete');
+	// 管理员开关
+	$app->get('{id}/switch', 'ManagerController@switch');
 });
+
+/*
+|--------------------------------------------------
+| 项目操作
+|--------------------------------------------------
+*/
+// 管理员的接口
+$app->group(['prefix'=>'/project', 'namespace'=>'App\Http\Controllers'], function() use ($app) {
+	// 接口文档
+	$app->get('api-debug/{key}', 'ProjectController@apiDebug');
+});
+
+
+/*
+|--------------------------------------------------
+| API 接口
+|--------------------------------------------------
+*/
+$app->post('/access-token', 'UserController@accessToken');
+

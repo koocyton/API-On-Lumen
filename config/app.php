@@ -57,5 +57,4 @@ return [
     |
     */
     'default_portal' => '/manager/list',
-
 ];

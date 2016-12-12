@@ -131,6 +131,13 @@
 						$.KTAhchor.showSlidMessage(responseText.message);
 					}
 				}
+				else if (typeof(responseText)=="object") {
+					// 填充
+					$(container).empty();
+					$(container).html("{<div style=\"padding-left:20px;\">" + $.KTPrintr(responseText) + "</div>}");
+					// 关闭窗口下面滑入的错误提示信息
+					$.KTAnchor.closeSlidMessage();
+				}
 				else if (/^<script>(.+)<\/script>$/.test(responseText)) {
 					var response = responseText.match(/<script>(.+)<\/script>/);
 					eval(response[1]);
@@ -158,6 +165,13 @@
 					else if (responseJSON.action=="showMessage") {
 						$.KTAnchor.showSlidMessage("Error : " + XMLHttpRequest.status + ' - ' + responseJSON.message);
 					}
+				}
+				else if (typeof(XMLHttpRequest.responseJSON)=="object") {
+					// 填充
+					$(container).empty();
+					$(container).html("{<div style=\"padding-left:20px;\">" + $.KTPrintr(XMLHttpRequest.responseJSON) + "</div>}");
+					// 关闭窗口下面滑入的错误提示信息
+					$.KTAnchor.closeSlidMessage();
 				}
 				else {
 					$.KTAnchor.showSlidMessage("Error : " + XMLHttpRequest.status);
@@ -248,6 +262,24 @@
 					window.console.log(arguments[ii]);
 				}
 			}
+		},
+
+		//
+		KTPrintr: function(theObj) {
+			var retStr = '';
+			if (typeof theObj == 'object') {
+				retStr += '<div>';
+				for (var p in theObj) {
+					if (typeof theObj[p] == 'object') {
+						retStr += '<div><b>['+p+'] => ' + typeof(theObj) + '</b></div>';
+						retStr += '<div style="padding-left:25px;">' + $.KTPrintr(theObj[p]) + '</div>';
+					} else {
+						retStr += '<div>['+p+'] => <b>' + theObj[p] + '</b></div>';
+					}
+				}
+				retStr += '</div>';
+			}
+			return retStr;
 		},
 
 		// show request process

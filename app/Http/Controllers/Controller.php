@@ -26,7 +26,7 @@ class Controller extends BaseController
         // 生成重定向...
         $this->beforeFilter($request);
         // 保存操作记录
-        $this->saveOperationRecord($request);
+        // $this->saveOperationRecord($request);
 	}
 
     // 自定义 beforeFielter
@@ -52,6 +52,7 @@ class Controller extends BaseController
 
     // 记录操作日志
     private function saveOperationRecord($request) {
+        // 忽略查看日志的操作
         if ($request->path()!="manager/operation-list") {
             $opteration = [
                   'manager_id' => 1,

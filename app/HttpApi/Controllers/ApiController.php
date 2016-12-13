@@ -2,6 +2,8 @@
 
 namespace App\HttpApi\Controllers;
 
+use Illuminate\Http\Request;
+
 class ApiController
 {
 	// 登录的用户
@@ -13,7 +15,17 @@ class ApiController
 	// 匿名用户
 	public $anonymous = null;
 
-	public function __construct() {
-		
+	// 请求的 Authorization
+	public $authorization = [];
+
+	// 构造函数
+	public function __construct(Request $request) {
+		// 分析 authorization 信息
+		$this->parseAuthorization($request);
+	}
+
+	// 分析提交的头信息
+	private function parseAuthorization($request) {
+		$authorization = $request->header("Authorization");
 	}
 }

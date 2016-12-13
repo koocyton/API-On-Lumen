@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'backend'),
 
     /*
     |--------------------------------------------------------------------------
@@ -57,17 +57,31 @@ return [
             'prefix'   => env('DB_PREFIX', ''),
         ],
 
-        'mysql' => [
+        'backend' => [
             'driver'    => 'mysql',
-            'host'      => env('DB_HOST', 'localhost'),
-            'port'      => env('DB_PORT', 3306),
-            'database'  => env('DB_DATABASE', 'lumen-backend'),
-            'username'  => env('DB_USERNAME', 'lumen-user'),
-            'password'  => env('DB_PASSWORD', 'lumen-user'),
+            'host'      => 'localhost',
+            'port'      => 3306,
+            'database'  => 'lumen-backend',
+            'username'  => 'lumen-user',
+            'password'  => 'lumen-user',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
-            'prefix'    => env('DB_PREFIX', ''),
-            'timezone'  => env('DB_TIMEZONE', '+00:00'),
+            'prefix'    => '',
+            'timezone'  => '+00:00',
+            'strict'    => false,
+        ],
+
+        'api' => [
+            'driver'    => 'mysql',
+            'host'      => 'localhost',
+            'port'      => 3306,
+            'database'  => 'lumen-api',
+            'username'  => 'lumen-user',
+            'password'  => 'lumen-user',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'timezone'  => '+00:00',
             'strict'    => false,
         ],
 

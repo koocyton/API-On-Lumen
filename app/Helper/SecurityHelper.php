@@ -3,6 +3,10 @@ namespace App\Helper;
 
 class SecurityHelper
 {
+    public const TOKEN_LENGTH = 10;
+
+    public const SECURITY_LENGTH = 18;
+
     /*
      * 获取一个随机的字符串
      */

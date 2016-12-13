@@ -81,12 +81,16 @@
 									</tr>
     							</thead>
     							<tbody>
-                                    <?php foreach($managers as $manager) {?>
+                                    <?php
+                                    foreach($managers as $manager)
+                                    {
+                                    	$status = empty($manager->deleted_at) ? 'on' : 'off';
+                                    ?>
                                     <tr>
 										<td>{{ $manager->id }}</td>
 										<td>
 											<a href="/manager/{{ $manager->id }}/switch" pushstate="no">
-											<img src="/image/switch_{{ $manager->is_action }}.png" style="width:50px;">
+											<img src="/image/switch_{{ $status }}.png" style="width:50px;">
 											</a>
 										</td>
 										<td><a class="normal-anchor" href="/manager/{{ $manager->id }}">{{ $manager->account }}</a></td>

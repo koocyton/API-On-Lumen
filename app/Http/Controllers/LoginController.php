@@ -33,7 +33,7 @@ class LoginController extends BaseController
         // 登录
         $manager = Manager::where('account', $account)->first();
         // 管理员存在
-        if (!empty($manager) && $manager->is_action=="on") {
+        if (!empty($manager) && empty($manager->deleted_at)) {
             // 加密后的密码
             $hash_password = md5(sprintf(env("APP_ENCRYPT_SALT"), $password));
             // 密码正确

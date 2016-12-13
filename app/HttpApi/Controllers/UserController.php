@@ -68,12 +68,12 @@ class UserController extends ApiController
                 $update_param = [ 'updated_at'=>time() ];
                 // 如果 user token 为空
                 if (empty($user->token)) {
-                    $user->token = SecurityHelper::randomToken(32);
+                    $user->token = SecurityHelper::randomToken(SecurityHelper::TOKEN_LENGTH);
                     $update_param['token'] = $user->token;
                 }
                 // 如果 user token_secret 为空
                 if (empty($user->token_secret)) {
-                    $user->token_secret = SecurityHelper::randomToken(32);
+                    $user->token_secret = SecurityHelper::randomToken(SecurityHelper::SECURITY_LENGTH);
                     $update_param['token_secret'] = $user->token_secret;
                 }
                 // 更新登录时间 和 token

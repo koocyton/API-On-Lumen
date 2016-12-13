@@ -3,9 +3,13 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Manager extends Model
 {
+    // 使用软删除
+    use SoftDeletes;
+
 	/**
      * 与模型关联的数据表
      *
@@ -20,6 +24,13 @@ class Manager extends Model
      */
     public $timestamps = false;
 
+    /**
+     * 需要被转换成日期的属性。
+     *
+     * @var array
+     */
+    // protected $dates = ['deleted_at', 'created_at', 'updated_at'];
+
 	/**
      * 与模型关联的数据字段
      *
@@ -29,7 +40,7 @@ class Manager extends Model
     	'id', 
     	'account', 
     	'password', 
-    	'is_action', 
+    	'deleted_at', 
     	'created_at', 
     	'updated_at', 
     	'privileges'

@@ -64,7 +64,7 @@
 						</div>
 
 						<div style="margin-top:20px;padding:20px;border:1px solid #cccccc;">
-							<form action="/access-token" method="post" container="#debug-response-container">
+							<form action="/channel-menu" method="post" container="#debug-response-container">
 								<table class="notes-table">
 	    							<tbody>
 	    								<tr>

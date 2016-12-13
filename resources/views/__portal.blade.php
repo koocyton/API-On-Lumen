@@ -67,10 +67,10 @@
                         ]}
                     ]},
                     {"text":"项目研发 · 微闻", "menus":[
-                        {"text":"API 接口", "open":true, "menus":[
+                        {"text":"API 接口", "open":false, "menus":[
                             {"text":"登录 GET /access-token", "href":"/project/api-debug/access-token"},
                             {"text":"频道列表 GET /channel-menu", "href":"/project/api-debug/channel-menu"},
-                            {"text":"频道新闻 GET /channel/{id}", "href":"/project/api-debug/channel"},
+                            {"text":"频道新闻 GET /channel-detail/{id}", "href":"/project/api-debug/channel-detail"},
                             {"text":"新闻内容 GET /news/{id}", "href":"/project/api-debug/news"},
                             {"text":"上传新闻 POST /news", "href":"/project/api-debug/post-news"},
                             {"text":"选择地区 UPDATE /region/{id}", "href":"/project/api-debug/region/{id}"}

@@ -14,12 +14,20 @@ class ProjectController extends BaseController
      */
     public function apiDebug($key) {
         $assign = [ "key" => $key ];
-        // 
+        $user = User::where('account', 'koocyton@gmail.com')->first();
+        // channel-menu
         if ($key=="channel-menu") {
-            $user = User::where('account', 'koocyton@gmail.com')->first();
             $token = $user->token;
             $token_secret = $user->token_secret;
             $request_url = "http://be.doopp.com/channel-menu";
+            $request_method = "GET";
+            $assign["authorization"] = SecurityHelper::authorization($token, $token_secret, $request_url, $request_method);
+        }
+        // channel-detail
+        if ($key=="channel-detail") {
+            $token = $user->token;
+            $token_secret = $user->token_secret;
+            $request_url = "http://be.doopp.com/channel-detail";
             $request_method = "GET";
             $assign["authorization"] = SecurityHelper::authorization($token, $token_secret, $request_url, $request_method);
         }

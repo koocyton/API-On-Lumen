@@ -64,7 +64,6 @@
 						</div>
 
 						<div style="margin-top:20px;padding:20px;border:1px solid #cccccc;">
-							<form action="/channel-menu" method="post" container="#debug-response-container">
 								<table class="notes-table">
 	    							<tbody>
 	    								<tr>
@@ -76,7 +75,9 @@
 												</div>
 	    									</td>
 											<td style="width:80px;">
-												<button type="submit" class="disable-btn" style="width:70px;">测试接口</button>
+												<a href="/channel-menu" pushstate="no" container="#debug-response-container">
+												<button type="button" class="button-btn" style="width:70px;">测试接口</button>
+												</a>
 											</td>
 											<td></td>
 										</tr>
@@ -97,5 +98,4 @@
 										</tr>
 									</tbody>
 								</table>
-							</form>
 						</div>

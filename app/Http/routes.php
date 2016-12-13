@@ -65,10 +65,3 @@ $app->group(['prefix'=>'/project', 'namespace'=>'App\Http\Controllers'], functio
 });
 
 
-/*
-|--------------------------------------------------
-| API 接口
-|--------------------------------------------------
-*/
-$app->post('/access-token', 'UserController@accessToken');
-

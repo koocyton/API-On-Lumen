@@ -24,7 +24,7 @@ $app = new Laravel\Lumen\Application(
 );
 
 // $app->withFacades();
-// $app->withEloquent();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -59,7 +59,7 @@ $app->singleton(
 */
 
 // $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
+//     App\Http\Middleware\SecurityMiddleware::class
 // ]);
 
 // $app->routeMiddleware([
@@ -92,8 +92,14 @@ $app->singleton(
 |
 */
 
+// 后台
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__.'/../app/Http/routes.php';
+});
+
+// API
+$app->group(['namespace' => 'App\HttpApi\Controllers'], function ($app) {
+    require __DIR__.'/../app/HttpApi/routes.php';
 });
 
 return $app;

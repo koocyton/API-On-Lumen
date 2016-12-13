@@ -7,6 +7,7 @@ use Laravel\Lumen\Application;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use App\Facades\Lang;
+use App\Model\ManagerOperation;
 
 class Controller extends BaseController
 {
@@ -60,7 +61,7 @@ class Controller extends BaseController
                  'request_uri' => $request->path(),
                    'post_data' => ($request->method()=="POST") ? json_encode($_POST) : ""
             ];
-            app('db')->table('manager-operation')->insert($opteration);
+            ManagerOperation::create($opteration);
         }
     }
 

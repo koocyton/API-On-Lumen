@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Cookie;
 
 use App\Http\Controllers\Controller as BaseController;
+use App\Model\Manager;
 
 class LoginController extends BaseController
 {
@@ -30,7 +31,7 @@ class LoginController extends BaseController
         $password = $request->input("password");
 
         // 登录
-        $manager = app('db')->table('manager')->where('account', $account)->first();
+        $manager = Manager::where('account', $account)->first();
         // 管理员存在
         if (!empty($manager) && $manager->is_action=="on") {
             // 加密后的密码
@@ -38,7 +39,7 @@ class LoginController extends BaseController
             // 密码正确
             if ($manager->password==$hash_password) {
                 // 更新登录时间
-                app('db')->table('manager')->where([ 'id'=>$manager->id ])->update([ 'updated_at'=>time() ]);
+                Manager::where([ 'id'=>$manager->id ])->update([ 'updated_at'=>time() ]);
                 // 登录成功
                 return response()->json(['action'=>'redirect', 'url'=>'/manager/list'], 200)
                                 ->withCookie(new Cookie('auth_user', $account));

@@ -490,6 +490,13 @@
 					// 开始
 					$.isFunction(begin) ? begin() : $.KTAnchor.begin();
 
+					var on_success = $form.attr("success");
+					if (typeof(on_success)=="string" && on_success.length>0) {
+						success = function(container, responseText) {
+							
+						}
+					}
+
 					// 如果 form 是 GET, 适合用来搜索
 					if ($form.attr("method")=="get") {
 						// 将字段拼接在 action 后

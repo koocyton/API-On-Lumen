@@ -41,30 +41,30 @@
                                     <tr>
 										<td>返回说明：</td>
 										<td colspan="2">
-<pre style="line-height:18px;font-size:14px;"><b>{
-	[channel_menu] => {
-		[0] => {
-			[id] => 1435523,
-			[name] => '西直门'
-		}
-		[1] => {
-			[id] => 1212,
-			[name] => '大兴'
-		}
-		[2] => {
-			[id] => 51263,
-			[name] => '北京'
-		}
-		[3] => {
-			[id] => 12315,
-			[name] => '北京郊区'
-		}
-		[4] => {
-			[id] => 54612,
-			[name] => '赛百味'
-		}
-	}
-}</b></pre></td>
+<textarea wrap="off" style="height:300px;width:800px;overflow:scroll;" class="text-input">{
+  [channel_menu] => {
+    [0] => {
+      [id] => 1435523,
+      [name] => '西直门'
+    }
+    [1] => {
+      [id] => 1212,
+      [name] => '大兴'
+    }
+    [2] => {
+      [id] => 51263,
+      [name] => '北京'
+    }
+    [3] => {
+      [id] => 12315,
+      [name] => '北京郊区'
+    }
+    [4] => {
+      [id] => 54612,
+      [name] => '赛百味'
+    }
+  }
+}</textarea></td>
 									</tr>
 								</tbody>
 							</table>

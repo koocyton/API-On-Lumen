@@ -21,19 +21,27 @@ class ApiController
 
 	// 构造函数
 	public function __construct(Request $request) {
-		// 分析 authorization 信息
-		$this->parseAuthorization($request);
-		// 获取用户信息
-		$this->setUser();
+		// access token 不用 check oauth
+		if ($request->path()!="access-token") {
+			// 分析 authorization 信息
+			$this->parseAuthorization($request);
+			// 获取用户信息
+			$this->setUser();
+		}
 	}
 
 	// 分析提交的 Authorization 头信息
 	private function parseAuthorization($request) {
-		$auth_header = urldecode($request->header("Authorization"));
-		if (preg_match('/^OAuth\s+(.*?)$/', $auth_header, $matches)) {
-			if (preg_match_all('/([^,]+)="([^,]+)"/', $matches[1], $matches)) {
-				foreach($matches[1] as $idx=>$key) {
-					$this->authorization[$key] = $matches[2][$idx];
+		if (!empty($request->header("Authorization"))) {
+			// 获取 Authorization 头
+			$auth_header = urldecode($request->header("Authorization"));
+			// 匹配
+			if (preg_match('/^OAuth\s+(.*?)$/', $auth_header, $matches)) {
+				// 将值提取出来
+				if (preg_match_all('/([^,]+)="([^,]+)"/', $matches[1], $matches)) {
+					foreach($matches[1] as $idx=>$key) {
+						$this->authorization[$key] = $matches[2][$idx];
+					}
 				}
 			}
 		}

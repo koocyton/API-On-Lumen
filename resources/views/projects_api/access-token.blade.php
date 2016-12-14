@@ -40,19 +40,19 @@
                                     <tr>
 										<td>返回说明：</td>
 										<td colspan="2">
-<pre style="line-height:18px;font-size:14px;"><b>{
-	[user] => {
-		[id] => 用户 id
-		[account] => 用户账号
-		[password] => 加密的密码
-		[is_action] => 是否活动状态
-		[created_at] => 创建时间
-		[updated_at] => 更新时间
-		[privileges] => 权限
-	}
-	[token] => oauth token
-	[token_secret] => oauth token_secret
-}</b></pre></td>
+<textarea wrap="off" style="height:300px;width:800px;overflow:scroll;" class="text-input">{
+  [user] => {
+    [id] => 用户 id
+    [account] => 用户账号
+    [password] => 加密的密码
+    [is_action] => 是否活动状态
+    [created_at] => 创建时间
+    [updated_at] => 更新时间
+    [privileges] => 权限
+  }
+  [token] => oauth token
+  [token_secret] => oauth token_secret
+}</textarea></td>
 									</tr>
 								</tbody>
 							</table>

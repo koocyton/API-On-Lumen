@@ -14,8 +14,7 @@ class ChannelController extends ApiController
      * 获取 channel menu
      */
     public function menu() {
-    	$user = User::where('token', '89e838b6723a9c6ece25')->first();
-    	$channels_id = explode(",", $user->channels_id);
+    	$channels_id = explode(",", $this->user->channels_id);
     	$channels = Channel::whereIn('id', $channels_id)->get();
     	return response()->json(["channel_menu"=>$channels]);
     }

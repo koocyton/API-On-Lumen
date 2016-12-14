@@ -293,7 +293,7 @@
 		},
 
 		// http request function
-		KTAjax: function(url, method, data, success, error, complete){
+		KTAjax: function(url, method, data, headers, success, error, complete){
 
 			// 如果没有进度条则创建一个
 			if ($(".kt-request-progress").length==0) {
@@ -304,6 +304,11 @@
 			if (typeof(window.currentKTAjax)=="object") {
 				try{window.currentKTAjax.abort()}catch(e){;}
 			}
+			// set headers
+			if ($.type(headers)!="object" || $.isEmptyObject(headers)) {
+				headers = {};
+			}
+			headers['Ajax-Request'] = "jQuery.KTAnchor";
 			// set ajax request
 			window.currentKTAjax = $.ajax({
 				"url"  : url,
@@ -311,7 +316,7 @@
 				"data" : data,
 				"contentType" : (method=="POST") ? "application/x-www-form-urlencoded" : false,
 				"processData" : false,
-				"headers" : {"Ajax-Request":"jQuery.KTAnchor"},
+				"headers" : headers,
 				"success" : function(responseText) {
 					if ($.isFunction(success)) success(responseText);
 				},
@@ -422,8 +427,13 @@
 					}
 					// 开始
 					$.isFunction(begin) ? begin() : $.KTAnchor.begin();
+					// set header
+					var header = null;
+					if ($.type($anchor.attr("header"))=="string") {
+						header = $.parseJSON($anchor.attr("header"));
+					}
 					// ajax 请求，并回调
-					$.KTAjax(request_url, "GET", null,
+					$.KTAjax(request_url, "GET", null, header,
 						// 成功
 						function(responseText){
 							$.isFunction(success) ? success(container, responseText) : $.KTAnchor.success(container, responseText);
@@ -435,7 +445,9 @@
 						// 结束 ( 成功或失败后 )
 						function(XMLHttpRequest){
 							$.isFunction(complete) ? complete(container, XMLHttpRequest) : $.KTAnchor.complete(container, XMLHttpRequest);
-							$.KTAnchor.treemenuSelected(request_url);
+							if (typeof($anchor.attr("pushstate"))=="undefined" || $anchor.attr("pushstate")!="no") {
+								$.KTAnchor.treemenuSelected(request_url);
+							}
 						}
 					);
 					// 防止链接点击生效
@@ -518,8 +530,13 @@
 							window.history.pushState(null, "", request_url);
 						}
 					}
+					// set header
+					var header = null;
+					if ($.type($form.attr("header"))=="string") {
+						header = $.parseJSON($form.attr("header"));
+					}
 					// ajax 请求，并回调
-					$.KTAjax(request_url, method, data,
+					$.KTAjax(request_url, method, data, header,
 						// 成功
 						function(responseText){
 							$.isFunction(success) ? success(container, responseText) : $.KTAnchor.success(container, responseText);
@@ -841,211 +858,7 @@
 				var parent_height = scroll_container.parent().height();
 				scroll_container.css({"height":parent_height, "overflow-y":"scroll"});
 			});
-		},
-
-		/* ktScrollReset : function(){
-			var $scroll_container = $(this);
-			// $.KTLog(scroll_container, $.KTAnchor.scroll_container.substr(1));
-			if ($scroll_container.hasClass($.KTAnchor.scroll_container.substr(1))) {
-				// 如果是移动浏览器
-				if ($.KTAnchor.mobile_browser==true) {
-					$scroll_container.scrollTop(0)
-				}
-				// 非移动浏览器
-				else {
-					$scroll_container.children().css("top", "0px");
-					$scroll_container.ktScrollSliding();
-				}
-			}
-		},
-
-		KTMouseWheel : function() {
-			// 所有的自定义滚动条层
-			var containers = this.find($.KTAnchor.scroll_container);
-			// 查询匹配的节点
-			containers.each(function(key, mousewheel_bar) {
-				// 如果是移动的浏览器
-				if ($.KTAnchor.mobile_browser==true) {
-					// 绑定移动浏览器的滑动屏幕的事件
-					// $(mousewheel_bar).bind("touchmove", function(ev){event.preventDefault();});
-					$(mousewheel_bar).css({"overflow-y":"auto"});
-				}
-				else {
-					// 初始化滚动条
-					$(mousewheel_bar).css({"padding":"0 9px 0 0"}).append('<div class="scroll-floor"><dir class="scroll-bar radius-4"></div></div>');
-					// 绑定滚动条拖动事件
-					$(mousewheel_bar).ktScrollDrag();
-					// 绑定滚轮事件
-					$(mousewheel_bar).bind("mousewheel", function(ev, delta) {
-						// 如果鼠标滚动的方向发生改变，就重初始化积累值
-						if ((delta>0 && $.KTAnchor.wheel_delta<0) || (delta<0 && $.KTAnchor.wheel_delta>0)) {
-							$.KTAnchor.wheel_delta = 0;
-						}
-						// 当滚轮移动一格时，既积累值正负移动一位，激活页面滚动
-						if ($.KTAnchor.wheel_delta==0) {
-							// 鼠标滚动，100 毫秒后，开始移动这个节点内的元素
-							setTimeout($.fn.ktScrollSliding.bind(this), 20);
-						}
-						// 没有改变的话，就继续累积滚动值
-						$.KTAnchor.wheel_delta = $.KTAnchor.wheel_delta + (delta*6);
-					});
-				}
-			});
-
-			// 调整窗口时时，
-			$(window).bind("resize", function(){
-				// 主内容的区域的高度，为浏览区域的高度，减去 40
-				$("#left-container, #right-container").css("height", $(window).height()-40);
-				// 如果不是移动的浏览器
-				if ($.KTAnchor.mobile_browser==false) {
-					// 窗口大小变化时调整滚动条的位置和高度
-					containers.each(function(key, mousewheel_bar) {
-						$(mousewheel_bar).ktScrollSliding();
-					});
-				}
-			});
-			// 手动触发一次
-			$(window).trigger("resize");
-		},
-
-		// 滑动页面
-		ktScrollSliding : function() {
-			// 容器的高度
-			var container_height = $(this).height();
-			// 内容的高度container_height
-			var content_height = 0;
-
-			// 除去滚动条外的，滚动区域内的所有节点
-			var content_childrens = [];
-			// 除去滚动条外的，滚动区域内的所有节点
-			var scroll_bar = $(this).find(".scroll-bar");
-
-			// 一个索引
-			var ii = 0;
-			// 除去滚动条，滚动范围内的所有节点高度之和，是内容的高度
-			$(this).children().each(function(key, children) {
-				if ($(children).hasClass("scroll-floor")) {return;}
-				content_height += $(children).height();
-				ii = content_childrens.length;
-				content_childrens[ii] = children;
-			});
-			content_childrens = $(content_childrens);
-
-			// 如果内容的高度 <= 容器的高度
-			// 滚动条 top 为 0，高度是 100%
-			// 滚动区节点的 top 为 0 , position 为 relative
-			if (content_height<=container_height) {
-				scroll_bar.css({"top":"0px", "height":"100%"});
-				content_childrens.css({"top":"0px"})
-			}
-			else {
-				var first_children = $(content_childrens[0]);
-				var first_children_top = first_children.position().top;
-				// 鼠标滚动越快，滑动越快，限定一个上限速度
-				var drift_speed = Math.abs($.KTAnchor.wheel_delta)>9 ? 9 : Math.abs($.KTAnchor.wheel_delta);
-				// 滑动的距离
-				var children_drift = $.KTAnchor.wheel_delta>0 ? drift_speed*5 : drift_speed*-5;
-				// 获取页面的 TOP
-				first_children_top = first_children_top + children_drift;
-				if (first_children_top>=0) {
-					first_children_top = 0;
-					// 到头了，不滚了
-					$.KTAnchor.wheel_delta = 0;
-				}
-				else if (first_children_top<container_height - content_height) {
-					first_children_top = container_height - content_height;
-					// 到头了，不滚了
-					$.KTAnchor.wheel_delta = 0;
-				}
-				content_childrens.css({"top":first_children_top + "px"});
-				// 滚动条的长度
-				var scroll_height = container_height / content_height * container_height;
-				// 滚动条 top
-				var scroll_top = -1*first_children_top/(content_height-container_height)*(container_height-scroll_height);
-				scroll_bar.css({"top":scroll_top+"px", "height":scroll_height+"px"});
-				// $.KTLog(scroll_height, scroll_top);
-
-				// 如果积累滚动值已经用完
-				if ($.KTAnchor.wheel_delta==0) {return null}
-				// 移动次，将积累的滚动值减一
-				$.KTAnchor.wheel_delta>0 ? $.KTAnchor.wheel_delta-- : $.KTAnchor.wheel_delta++;
-				// 鼠标滚动，100 毫秒后，开始移动这个节点内的元素
-				setTimeout($.fn.ktScrollSliding.bind(this), 26 - Math.abs($.KTAnchor.wheel_delta));
-			}
-		},
-
-		ktScrollDrag : function() {
-			// 容器另做一个实例
-			var container = this;
-			// 容器的高度
-			var container_height = $(this).height();
-			// 内容的高度container_height
-			var content_height = 0;
-
-			// 除去滚动条外的，滚动区域内的所有节点
-			var content_childrens = [];
-			// 除去滚动条外的，滚动区域内的所有节点
-			var scroll_bar = $(this).find(".scroll-bar");
-
-			// 一个索引
-			var ii = 0;
-			// 除去滚动条，滚动范围内的所有节点高度之和，是内容的高度
-			$(this).children().each(function(key, children) {
-				if ($(children).hasClass("scroll-floor")) {return;}
-				content_height += $(children).height();
-				ii = content_childrens.length;
-				content_childrens[ii] = children;
-			});
-			content_childrens = $(content_childrens);
-
-
-			// 设置鼠标拖动的事件
-			$(scroll_bar).mousedown(function(ev) {
-
-				container_height = $(container).height();
-				content_height = 0;
-				$(container).children().each(function(key, children) {
-					if ($(children).hasClass("scroll-floor")) {return;}
-					content_height += $(children).height();
-				});
-
-				// 鼠标按住滚动条时，滚动条的高度 和 鼠标的位置
-				var begin_mouse_pagey = ev.pageY;
-				var begin_scroll_top = $(scroll_bar).position().top;
-
-				// 当鼠标在页面移动时
-				$(window).mousemove(function(ev){
-
-					// 拖动时，鼠标的位置和 新的滚动条的高度
-					var now_mouse_pagey = ev.pageY;
-					var now_scroll_top = begin_scroll_top + ( now_mouse_pagey - begin_mouse_pagey );
-
-					// 滚动条框的高度，和滚动条的高度，差值是滚动条最远路径
-					var scroll_height  = $(scroll_bar).height();
-
-					// 设定滚动条的滑动范围
-					if (now_scroll_top<=0) {
-						now_scroll_top = 0;
-					}
-					else if (now_scroll_top>container_height-scroll_height) {
-						now_scroll_top = container_height-scroll_height;
-					}
-					// 滚动条的高度
-					scroll_bar.css("top", now_scroll_top + "px");
-					// 内容的 top
-					var children_top = -1*now_scroll_top/(container_height-scroll_height)*(content_height-container_height);
-					content_childrens.css("top", children_top + "px");
-					// $.KTLog(container_height, scroll_height, content_height, children_top);
-					return false;
-				});
-				$(window).mouseup(function(ev){
-					$(window).unbind("mousemove");
-					$(window).unbind("mouseup");
-					return false;
-				});
-				return false;
-			});
-		} */
+		}
 	});
 
 })(jQuery);

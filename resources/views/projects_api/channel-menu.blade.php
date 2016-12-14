@@ -31,6 +31,13 @@
 										<td>请求参数：</td>
 										<td><b>null</b></td>
 										<td></td>
+									</tr>
+                                    <tr>
+										<td>发送头：<br>Authorization</td>
+										<td colspan="2" >
+											<textarea style="height:80px;width:800px;" class="text-input">{{ $authorization }}</textarea>
+										</td>
+									</tr>
                                     <tr>
 										<td>返回说明：</td>
 										<td colspan="2">
@@ -64,38 +71,23 @@
 						</div>
 
 						<div style="margin-top:20px;padding:20px;border:1px solid #cccccc;">
-								<table class="notes-table">
-	    							<tbody>
-	    								<tr>
-	    									<td style="width:610px;">
-												<div style="width:600px;position:relative;">
-													<dl><dd>
-													<input class="text-input" value="API 请求地址：  http://{{ $_SERVER["HTTP_HOST"] }}/channel-menu" readonly="true" type="text">
-													</dd></dl>
-												</div>
-	    									</td>
-											<td style="width:80px;">
-												<a href="/channel-menu" pushstate="no" container="#debug-response-container">
-												<button type="button" class="button-btn" style="width:70px;">测试接口</button>
-												</a>
-											</td>
-											<td></td>
-										</tr>
-									</tbody>
-								</table>
-								<table class="notes-table">
-	    							<tbody>
-	                                    <tr>
-											<td style="width:810px;">
-												Header Send Authorization 
-												<div style="width:800px;position:relative;">
-													<dl><dd>
-													<textarea style="height:100px;" class="text-input">{{ $authorization }}</textarea>
-													</dd></dl>
-												</div>
-											</td>
-											<td></td>
-										</tr>
-									</tbody>
-								</table>
+							<table class="notes-table">
+    							<tbody>
+    								<tr>
+    									<td style="width:610px;">
+											<div style="width:600px;position:relative;">
+												<dl><dd>
+												<input class="text-input" value="API 请求地址：  http://{{ $_SERVER["HTTP_HOST"] }}/channel-menu" readonly="true" type="text">
+												</dd></dl>
+											</div>
+    									</td>
+										<td style="width:80px;">
+											<a href="/channel-menu" header='{ "Authorization": "{{ urlencode($authorization) }}" }' pushstate="no" container="#debug-response-container">
+											<button type="button" class="button-btn" style="width:70px;">测试接口</button>
+											</a>
+										</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
 						</div>

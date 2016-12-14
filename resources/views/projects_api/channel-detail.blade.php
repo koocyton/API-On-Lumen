@@ -19,8 +19,7 @@
 									</tr>
                                     <tr>
 										<td>请求地址：</td>
-										<td style="width:80px;"><b>/channel-detail/{channel_id}</b></td>
-										<td></td>
+										<td style="width:80px;" colspan="2"><b>/channel-detail/{channel_id}</b></td>
 									</tr>
                                     <tr>
 										<td>请求方法：</td>
@@ -31,6 +30,12 @@
 										<td>请求参数：</td>
 										<td><b>null</b></td>
 										<td></td>
+									</tr>
+                                    <tr>
+										<td>发送头：<br>Authorization</td>
+										<td colspan="2" >
+											<textarea style="height:80px;width:800px;" class="text-input">{{ $authorization }}</textarea>
+										</td>
 									</tr>
                                     <tr>
 										<td>返回说明：</td>
@@ -53,39 +58,24 @@
     									<td style="width:610px;">
 											<div style="width:600px;position:relative;">
 												<dl><dd>
-												<input class="text-input" value="API 请求地址：  http://<?=$_SERVER["HTTP_HOST"]?>/channel-detail/{channel_id}" readonly="true" type="text">
+												<input class="text-input" value="API 请求地址：  http://{{ $_SERVER["HTTP_HOST"] }}/channel-detail/{channel_id}" readonly="true" type="text">
 												</dd></dl>
 											</div>
     									</td>
 										<td style="width:80px;">
-											<a href="/channel-detail/1" pushstate="no" container="#debug-response-container">
+											<a href="/channel-detail/1" header='{ "Authorization": "{{ urlencode($authorization) }}" }' pushstate="no" container="#debug-response-container">
 											<button type="button" class="button-btn" style="width:70px;">测试接口 1</button>
 											</a>
 										</td>
 										<td style="width:80px;">
-											<a href="/channel-detail/2" pushstate="no" container="#debug-response-container">
+											<a href="/channel-detail/2" header='{ "Authorization": "{{ urlencode($authorization) }}" }' pushstate="no" container="#debug-response-container">
 											<button type="button" class="button-btn" style="width:70px;">测试接口 2</button>
 											</a>
 										</td>
 										<td style="width:80px;">
-											<a href="/channel-detail/3" pushstate="no" container="#debug-response-container">
+											<a href="/channel-detail/3" header='{ "Authorization": "{{ urlencode($authorization) }}" }' pushstate="no" container="#debug-response-container">
 											<button type="button" class="button-btn" style="width:70px;">测试接口 3</button>
 											</a>
-										</td>
-										<td></td>
-									</tr>
-								</tbody>
-							</table>
-							<table class="notes-table">
-    							<tbody>
-                                    <tr>
-										<td style="width:810px;">
-											Header Send Authorization 
-											<div style="width:800px;position:relative;">
-												<dl><dd>
-												<textarea style="height:100px;" class="text-input"><?=$authorization?></textarea>
-												</dd></dl>
-											</div>
 										</td>
 										<td></td>
 									</tr>

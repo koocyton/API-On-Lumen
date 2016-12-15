@@ -17,7 +17,7 @@ class Channel extends Model
 	 *
 	 * @var string
 	 */
-	protected $table = 'info-channel';
+	protected $table = 'channel';
 
 	/**
 	 * 该模型是否被自动维护时间戳
@@ -34,6 +34,7 @@ class Channel extends Model
 	protected $fillable = [
 		'id',
 		'name',
-		'region'
+		'region',
+		'banner'
     ];
 }

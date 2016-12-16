@@ -62,6 +62,8 @@ $app->group(['prefix'=>'/manager', 'namespace'=>'App\Http\Controllers'], functio
 $app->group(['prefix'=>'/project', 'namespace'=>'App\Http\Controllers'], function() use ($app) {
 	// 接口文档
 	$app->get('api-debug/{key}', 'ProjectController@apiDebug');
+	// 接口文档
+	$app->get('data-manage/{key}', 'ProjectController@dataManage');
 });
 
 

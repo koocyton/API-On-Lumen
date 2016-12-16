@@ -47,4 +47,25 @@ class User extends Model
 		'channels_id',
 		'deleted_at'
     ];
+
+    /**
+	 * 与模型关联的数据字段和注释
+	 *
+	 * @var array
+	 */
+	protected $field_info = [
+		'id' => 'ID',
+		'name' => '名称',
+		'region' => '类型',
+		'banner' => '广告条',
+	];
+
+	/**
+	 * 获取字段信息
+	 *
+	 * @var array
+	 */
+    public function getFields() {
+    	return $this->field_info;
+    }
 }

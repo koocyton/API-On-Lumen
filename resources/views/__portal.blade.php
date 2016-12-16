@@ -75,6 +75,11 @@
                             {"text":"上传新闻 POST /news", "href":"/project/api-debug/post-news"},
                             {"text":"选择地区 UPDATE /region/{id}", "href":"/project/api-debug/region/{id}"}
                         ]},
+                        {"text":"数据管理", "open":true, "menus":[
+                            {"text":"频道信息", "href":"/project/data-manage/channel"},
+                            {"text":"新闻列表", "href":"/project/data-manage/news"},
+                            {"text":"用户管理", "href":"/project/data-manage/user"},
+                        ]},
                         {"text":"项目文档", "open":false, "menus":[
                             {"text":"概叙", "href":"/project/doc/1"},
                             {"text":"登录", "href":"/project/doc/2"},

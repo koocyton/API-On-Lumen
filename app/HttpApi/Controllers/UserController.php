@@ -59,7 +59,7 @@ class UserController extends ApiController
         // 登录
         $user = User::where('account', $account)->first();
         // 用户存在
-        if (!empty($user) && $user->is_action=="on") {
+        if (!empty($user)) {
 	        // 加密后的密码
 	        $hash_password = md5(sprintf(env("APP_ENCRYPT_SALT"), $password));
             // 密码正确

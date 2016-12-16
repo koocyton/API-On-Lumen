@@ -48,6 +48,9 @@ class Channel extends Model
 		'name' => '名称',
 		'region' => '类型',
 		'banner' => '广告条',
+		'created_at' => '创建时间',
+		'updated_at' => '最新更新',
+		'deleted_at' => '禁用时间'
 	];
 
 	/**

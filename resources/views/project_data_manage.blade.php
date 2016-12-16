@@ -72,12 +72,20 @@
                             <table class="list-table">
     							<thead>
     								<tr>
-										<td style="width:80px;">ID</td>
-										<td style="width:80px;">激活</td>
-										<td style="width:160px;">账号</td>
-										<td style="width:130px;">创建时间</td>
-										<td style="width:180px;">最近登录</td>
-										<td style="text-align:left;">&nbsp;权限</td>
+    									<?php
+    									foreach($fields as $field=>$name)
+    									{
+    										$td_width = "";
+    										//
+    										if (in_array($field,['updated_at', 'created_at', 'deleted_at']))
+    										{
+    											$td_width = "120px;";
+    										}
+    									?>
+										<td style="width:{{ $td_width }};">{{ $name }}</td>
+										<?php
+										}
+										?>
 									</tr>
     							</thead>
     							<tbody>
@@ -87,7 +95,21 @@
                                     	$status = empty($line->deleted_at) ? 'on' : 'off';
                                     ?>
                                     <tr>
-										<td>{{ $line->id }}</td>
+    									<?php
+    									foreach($fields as $field=>$name)
+    									{
+    										$field_value = $line->$field;
+    										/*
+    										if (in_array($field,['updated_at', 'created_at', 'deleted_at']))
+    										{
+    											$field_value = date("Y-m-d H:i:s", $line->$field);
+    										}
+    										*/
+    									?>
+										<td>{{ $field_value }}</td>
+										<?php
+										}
+										?>
 									</tr>
                                     <?php } ?>
                                 </tbody>

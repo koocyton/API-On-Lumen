@@ -28,7 +28,7 @@ class User extends Model
 	 *
 	 * @var bool
 	 */
-	public $timestamps = false;
+	// public $timestamps = false;
 
 	/**
 	 * 与模型关联的数据字段
@@ -55,9 +55,11 @@ class User extends Model
 	 */
 	protected $field_info = [
 		'id' => 'ID',
-		'name' => '名称',
-		'region' => '类型',
-		'banner' => '广告条',
+		'account' => '账号',
+		'token' => 'token',
+		'created_at' => '创建时间',
+		'updated_at' => '最新更新',
+		'deleted_at' => '禁用时间',
 	];
 
 	/**

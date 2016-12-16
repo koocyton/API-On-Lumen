@@ -28,7 +28,7 @@ class News extends Model
 	 *
 	 * @var bool
 	 */
-	public $timestamps = false;
+	// public $timestamps = false;
 
 	/**
 	 * 与模型关联的数据字段
@@ -41,11 +41,10 @@ class News extends Model
 		'password',
 		'token',
 		'token_secret',
-		'is_action',
 		'created_at',
 		'updated_at',
-		'channels_id',
-		'deleted_at'
+		'deleted_at',
+		'channels_id'
     ];
 
     /**
@@ -55,9 +54,11 @@ class News extends Model
 	 */
 	protected $field_info = [
 		'id' => 'ID',
-		'name' => '名称',
-		'region' => '类型',
-		'banner' => '广告条',
+		'account' => '名称',
+		'channel_id' => '频道 ID',
+		'created_at' => '创建时间',
+		'updated_at' => '最新更新',
+		'deleted_at' => '禁用时间'
 	];
 
 	/**

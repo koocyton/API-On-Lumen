@@ -64,6 +64,8 @@ $app->group(['prefix'=>'/project', 'namespace'=>'App\Http\Controllers'], functio
 	$app->get('api-debug/{key}', 'ProjectController@apiDebug');
 	// 接口文档
 	$app->get('data-manage/{key}', 'ProjectController@dataManage');
+	// 软删除一条记录
+	$app->get('data-manage/{key}/{id}/switch', 'ProjectController@dataSwitch');
 });
 
 

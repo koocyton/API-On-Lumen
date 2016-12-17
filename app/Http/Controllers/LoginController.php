@@ -29,7 +29,6 @@ class LoginController extends BaseController
         $account = $request->input("account");
         // 密码
         $password = $request->input("password");
-
         // 登录
         $manager = Manager::where('account', $account)->first();
         // 管理员存在

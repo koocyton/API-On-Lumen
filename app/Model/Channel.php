@@ -2,15 +2,12 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Channel extends Model
 {
-	/**
-     * 此模型的连接名称。
-     *
-     * @var string
-     */
-    protected $connection = 'api';
+    // 使用软删除
+    use SoftDeletes;
 
 	/**
 	 * 与模型关联的数据表
@@ -24,7 +21,7 @@ class Channel extends Model
 	 *
 	 * @var bool
 	 */
-	// public $timestamps = false;
+	public $timestamps = false;
 
 	/**
 	 * 与模型关联的数据字段
@@ -60,5 +57,12 @@ class Channel extends Model
 	 */
     public function getFields() {
     	return $this->field_info;
+    }
+
+    // 补充更新时间
+    public function update(array $attributes = [], array $options = []) {
+        $attributes['updated_at'] = time();
+        print_r($attributes);exit();
+        parent::update($attributes, $options);
     }
 }

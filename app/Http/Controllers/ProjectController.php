@@ -39,11 +39,11 @@ class ProjectController extends BaseController
     }
 
     /*
-     * 接口文档
+     * 数据管理
      */
     public function dataManage($key) {
         // 预定义变量
-        $assign = [];
+        $assign = ['key'=>$key];
 
         // 获取数据
         if (in_array($key, ['channel', 'news', 'user'])) {
@@ -51,7 +51,7 @@ class ProjectController extends BaseController
             $class_name = "App\\Model\\".ucfirst($key);
             $model = new $class_name();
             $assign['fields'] = $model->getFields();
-            $assign['data'] = $model->skip($skip)->take(30)->orderBy('id', 'desc')->get();
+            $assign['data'] = $model->withTrashed()->skip($skip)->take(30)->orderBy('id', 'desc')->get();
         }
 
         // 分页信息
@@ -59,12 +59,28 @@ class ProjectController extends BaseController
             // 当前页的起始数
             'current' => empty($_GET['po']) ? 1 : $_GET['po'],
             // 总数 
-            'total' => $model->count(), 
+            'total' => $model->withTrashed()->count(), 
             // 每页显示多少条记录
             'limit' => 30
         ];
 
         // 返回 view
         return $this->view('project_data_manage', $assign);
+    }
+
+    /*
+     * 打开或关闭某条记录
+     */
+    public function dataSwitch($key, $id) {
+        $class_name = "App\\Model\\".ucfirst($key);
+        $model = new $class_name();
+        // 管理员列表
+        $line = $model->withTrashed()->where([ 'id'=>$id ])->first();
+        // 打开或关闭
+        $deleted_at = empty($line->deleted_at) ? time() : NULL;
+        // 更新
+        $model->withTrashed()->where([ 'id'=>$id ])->update([ 'deleted_at'=>$deleted_at ]);
+        // 刷新页面
+        return response('<script>$(window).trigger("popstate");</script>');
     }
 }

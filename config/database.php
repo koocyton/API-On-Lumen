@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'backend'),
+    'default' => env('DB_CONNECTION', 'api'),
 
     /*
     |--------------------------------------------------------------------------

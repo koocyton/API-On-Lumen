@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller as BaseController;
 use App\Model\Manager;
-use App\Model\ManagerOperation;
+use App\Model\OperationRecord;
 
 class ManagerController extends BaseController
 {
@@ -45,13 +45,13 @@ class ManagerController extends BaseController
      */
     public function operationList() {
         // 管理员操作的日志列表
-        $operations = ManagerOperation::skip(0)->take(30)->orderBy('id', 'desc')->get();
+        $operations = OperationRecord::skip(0)->take(30)->orderBy('id', 'desc')->get();
         // 分页信息
         $paging = [
             // 当前页的起始数
             'current' => empty($_GET['po']) ? 1 : $_GET['po'],
             // 总数 
-            'total' => ManagerOperation::count(), 
+            'total' => OperationRecord::count(), 
             // 每页显示多少条记录
             'limit' => 30
         ];

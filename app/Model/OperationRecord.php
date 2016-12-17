@@ -4,14 +4,22 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ManagerOperation extends Model
+class OperationRecord extends Model
 {
+
+    /**
+     * 此模型的连接名称。
+     *
+     * @var string
+     */
+    protected $connection = 'backend';
+
 	/**
      * 与模型关联的数据表
      *
      * @var string
      */
-    protected $table = 'manager-operation';
+    protected $table = 'operation-record';
 
 	/**
      * 该模型是否被自动维护时间戳

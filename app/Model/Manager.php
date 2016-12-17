@@ -10,6 +10,13 @@ class Manager extends Model
     // 使用软删除
     use SoftDeletes;
 
+    /**
+     * 此模型的连接名称。
+     *
+     * @var string
+     */
+    protected $connection = 'backend';
+
 	/**
      * 与模型关联的数据表
      *
@@ -45,4 +52,10 @@ class Manager extends Model
     	'updated_at', 
     	'privileges'
     ];
+
+    // 补充更新时间
+    public function update(array $attributes = [], array $options = []) {
+        $attributes['updated_at'] = time();
+        parent::update($attributes, $options);
+    }
 }

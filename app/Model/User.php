@@ -10,13 +10,6 @@ class User extends Model
     use SoftDeletes;
 
 	/**
-     * 此模型的连接名称。
-     *
-     * @var string
-     */
-    protected $connection = 'api';
-
-	/**
 	 * 与模型关联的数据表
 	 *
 	 * @var string
@@ -28,7 +21,7 @@ class User extends Model
 	 *
 	 * @var bool
 	 */
-	// public $timestamps = false;
+	public $timestamps = false;
 
 	/**
 	 * 与模型关联的数据字段
@@ -69,5 +62,11 @@ class User extends Model
 	 */
     public function getFields() {
     	return $this->field_info;
+    }
+
+    // 补充更新时间
+    public function update(array $attributes = [], array $options = []) {
+        $attributes['updated_at'] = time();
+        parent::update($attributes, $options);
     }
 }

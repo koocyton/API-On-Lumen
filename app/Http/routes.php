@@ -47,8 +47,6 @@ $app->group(['prefix'=>'/manager', 'namespace'=>'App\Http\Controllers'], functio
 	$app->get('list', 'ManagerController@list');
 	// 管理员
 	$app->get('{id}', 'ManagerController@get');
-	// 删除管理员
-	$app->delete('{id}', 'ManagerController@delete');
 	// 管理员开关
 	$app->get('{id}/switch', 'ManagerController@switch');
 });
@@ -60,12 +58,16 @@ $app->group(['prefix'=>'/manager', 'namespace'=>'App\Http\Controllers'], functio
 */
 // 管理员的接口
 $app->group(['prefix'=>'/project', 'namespace'=>'App\Http\Controllers'], function() use ($app) {
-	// 接口文档
+	// 接口
 	$app->get('api-debug/{key}', 'ProjectController@apiDebug');
 	// 接口文档
 	$app->get('data-manage/{key}', 'ProjectController@dataManage');
-	// 软删除一条记录
-	$app->get('data-manage/{key}/{id}/switch', 'ProjectController@dataSwitch');
+    // 软删除一条记录
+    $app->get('data-manage/{key}/{id}/switch', 'ProjectController@dataSwitch');
+    // 编辑一条记录
+    $app->get('data-manage/{key}/{id}', 'ProjectController@dataEditor');
+    // 更新一条记录
+    $app->post('data-manage/{key}/{id}', 'ProjectController@dataUpdate');
 });
 
 

@@ -52,10 +52,4 @@ class Manager extends Model
     	'updated_at', 
     	'privileges'
     ];
-
-    // 补充更新时间
-    public function update(array $attributes = [], array $options = []) {
-        $attributes['updated_at'] = time();
-        parent::update($attributes, $options);
-    }
 }

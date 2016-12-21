@@ -188,25 +188,32 @@
 
 			// 弹出窗口
 		    popupLoader : function(url){
-		        if ($(".kt-popup-loader").length==0) {
-		            $(document.body).append('<div class="kt-popup-loader"><div class="kt-popup-mask"></div><div class="kt-popup-doc radius-3 shadow-3"><div style="height:100%;"><div style="top:0px;position:relative;height:43px;"></div><div style="width:100%;"><div class="scroll-container kt-popup-body" style="top:0px;position:relative;"></div></div></div><div class="kt-popup-shadow shadow-3"></div><div class="kt-popup-head"><span class="kt-popup-close" style="font-family:octicons;font-size:23px;margin-right:10px;cursor:pointer;">&#xf081;</span></div></div></div>');
+				// 判断关闭是否绑定
+				if ($(".kt-popup-close").data("click") != true) {
 					// 关闭的动画
 		            $(".kt-popup-close").bind("click", function(){
 						$(".kt-popup-doc").css({"margin-top":"5%", "opacity":"1"}).animate({"margin-top":"2%", "opacity":"0"}, "normal", function(){
 							$(".kt-popup-loader").css("display", "none");
+							$(".kt-popup-title").html("");
 						});
 					});
+					// 标注已经绑定了 click 事件，重复执行，不会在同节点上反复绑定
+					$(".kt-popup-close").data("click", true);
 		        }
 				// 加载界面
-		        $(".kt-popup-body").html("loading...").load(url,function(){$(".kt-popup-body").KTLoader()});
+		        $(".kt-popup-body").html("loading...").load(url,function(){
+					$(".kt-popup-body").KTLoader();
+					// 加载 title
+					var popup_title = $(".kt-popup-body").find(".popup-title").html();
+					$(".kt-popup-title").html(popup_title ? popup_title : "");
+		        });
 				$(".kt-popup-loader").css("display", "block").KTLoader();
 				// 弹出动画
-				$(".kt-popup-doc").css({"margin-top":"2%", "opacity":"0"})
-								.animate({"margin-top":"5%", "opacity":"1"} ,"normal", function() {
-									var parent_height = $(".kt-popup-doc").height() - 43;
-									$(".kt-popup-body").parent().height(parent_height);
-									$(document.body).KTMouseWheel();
-								});
+				$(".kt-popup-doc").css({"margin-top":"2%", "opacity":"0"}).animate({"margin-top":"5%", "opacity":"1"} ,"normal", function() {
+					var parent_height = $(".kt-popup-doc").height() - 43;
+					$(".kt-popup-body").parent().height(parent_height);
+					$(document.body).KTMouseWheel();
+				});
 		    },
 
 			// 左侧菜单被选中

@@ -74,7 +74,7 @@ class ProjectController extends BaseController
     public function dataSwitch($key, $id) {
         $class_name = "App\\Model\\".ucfirst($key);
         $model = new $class_name();
-        // 管理员列表
+        // 获得数据
         $line = $model->withTrashed()->where([ 'id'=>$id ])->first();
         // 打开或关闭
         $deleted_at = empty($line->deleted_at) ? time() : NULL;
@@ -82,5 +82,31 @@ class ProjectController extends BaseController
         $model->withTrashed()->where([ 'id'=>$id ])->update([ 'deleted_at'=>$deleted_at ]);
         // 刷新页面
         return response('<script>$(window).trigger("popstate");</script>');
+    }
+
+    /*
+     * 打开或关闭某条记录
+     */
+    public function dataEditor($key, $id) {
+        $class_name = "App\\Model\\".ucfirst($key);
+        $model = new $class_name();
+        $assign = [ 'key'=>$key, 'id'=>$id, 'data'=>[] ];
+        // 获得数据
+        $assign['data'] = $model->withTrashed()->where([ 'id'=>$id ])->first();
+        // 返回 view
+        return $this->view('project_data_editor', $assign);
+    }
+
+    /*
+     * 打开或关闭某条记录
+     */
+    public function dataUpdate($key, $id) {
+        $class_name = "App\\Model\\".ucfirst($key);
+        $model = new $class_name();
+        $assign = [ 'key'=>$key, 'id'=>$id, 'data'=>[] ];
+        // 获得数据
+        $assign['data'] = $model->withTrashed()->where([ 'id'=>$id ])->first();
+        // 返回 view
+        return $this->view('project_data_editor', $assign);
     }
 }

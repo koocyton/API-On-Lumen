@@ -63,10 +63,4 @@ class User extends Model
     public function getFields() {
     	return $this->field_info;
     }
-
-    // 补充更新时间
-    public function update(array $attributes = [], array $options = []) {
-        $attributes['updated_at'] = time();
-        parent::update($attributes, $options);
-    }
 }

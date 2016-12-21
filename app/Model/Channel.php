@@ -44,10 +44,10 @@ class Channel extends Model
 		'id' => 'ID',
 		'name' => '名称',
 		'region' => '类型',
-		'banner' => '广告条',
 		'created_at' => '创建时间',
 		'updated_at' => '最新更新',
-		'deleted_at' => '禁用时间'
+		'deleted_at' => '禁用时间',
+		'style' => '样式'
 	];
 
 	/**
@@ -57,12 +57,5 @@ class Channel extends Model
 	 */
     public function getFields() {
     	return $this->field_info;
-    }
-
-    // 补充更新时间
-    public function update(array $attributes = [], array $options = []) {
-        $attributes['updated_at'] = time();
-        print_r($attributes);exit();
-        parent::update($attributes, $options);
     }
 }

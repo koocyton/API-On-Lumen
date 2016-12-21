@@ -127,7 +127,11 @@
 											}
 										}
 										?>
-										<td><button type="button" class="button-btn" style="height:22px;line-height:22px;width:45px;">编辑</button></td>
+										<td>
+											<a href="javascript:$.KTAnchor.popupLoader('/project/data-manage/{{ $key }}/{{ $line->id }}')">
+												<button type="button" class="button-btn" style="height:22px;line-height:22px;width:45px;">编辑</button>
+											</a>
+										</td>
 									</tr>
                                     <?php }  ?>
                                 </tbody>

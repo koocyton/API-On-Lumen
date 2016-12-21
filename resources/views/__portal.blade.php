@@ -109,5 +109,30 @@
 	  </tr>
 
 	</table>
+
+
+	<div class="kt-popup-loader">
+		<div class="kt-popup-mask"></div>
+		<div class="kt-popup-doc radius-3 shadow-3">
+			<div style="height:100%;">
+				<div style="top:0px;position:relative;height:43px;"></div>
+				<div style="width:100%;">
+					<div class="scroll-container kt-popup-body" style="top:0px;position:relative;"></div>
+				</div>
+			</div>
+			<div class="kt-popup-shadow shadow-3"></div>
+			<div class="kt-popup-head">
+
+				<div class="kt-popup-title"
+					 style="color:333;font-size:23px;width:100%;height:100%;text-align:center;">Pop Window
+				</div>
+				<div class="kt-popup-close"
+					 style="position:absolute;display:block;font-family:octicons;font-size:23px;top:0px;right:0px;margin-right:10px;cursor:pointer;">
+					&#xf081;
+				</div>
+			</div>
+		</div>
+	</div>
+
   </body>
 </html>

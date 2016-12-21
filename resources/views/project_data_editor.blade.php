@@ -3,7 +3,7 @@
 		<div style="margin:16px;width:96%;">
 			<form method="post" action="">
 
-				@include('projects_data/' . $key)
+				@include('project-data/channel')
 
 			</form>
 		</div>

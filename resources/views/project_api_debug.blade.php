@@ -2,7 +2,7 @@
 				<div style="top:0px;position:relative;">
 					<div style="padding:20px;">
 
-					    @include('projects_api/' . $key)
+					    @include('project-api/' . $key)
 
 						<div style="margin-top:20px;padding:20px;border:1px solid #cccccc;">
 							<b> 返回数据 </b>

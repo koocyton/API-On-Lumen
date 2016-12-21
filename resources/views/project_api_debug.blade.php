@@ -4,7 +4,7 @@
 
 					    @include('project-api/' . $key)
 
-						<div style="margin-top:20px;padding:20px;border:1px solid #cccccc;">
+						<div class="content-body radius-5 content-border" style="padding:20px;">
 							<b> 返回数据 </b>
 							<div style="margin-top:0;padding:20px;" id="debug-response-container"></div>
 						</div>

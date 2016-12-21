@@ -10,7 +10,7 @@
 							</table>
 						</div>
 
-						<div style="margin-top:20px;padding:20px;border:1px solid #cccccc;">
+						<div class="content-body radius-5 content-border" style="padding:20px;">
 							<table class="notes-table">
     							<tbody>
                                     <tr>
@@ -58,7 +58,7 @@
 							</table>
 						</div>
 
-						<div style="margin-top:20px;padding:20px;border:1px solid #cccccc;">
+						<div class="content-body radius-5 content-border" style="padding:20px;">
 							<form action="/access-token" method="post" container="#debug-response-container">
 								<table class="notes-table">
 	    							<tbody>

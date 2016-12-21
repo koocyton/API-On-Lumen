@@ -58,16 +58,27 @@ $app->group(['prefix'=>'/manager', 'namespace'=>'App\Http\Controllers'], functio
 */
 // 管理员的接口
 $app->group(['prefix'=>'/project', 'namespace'=>'App\Http\Controllers'], function() use ($app) {
-	// 接口
-	$app->get('api-debug/{key}', 'ProjectController@apiDebug');
-	// 接口文档
-	$app->get('data-manage/{key}', 'ProjectController@dataManage');
+    // 接口
+    $app->get('api-debug/{key}', 'ProjectController@apiDebug');
+    // 接口文档
+    $app->get('data-manage/{key}', 'ProjectController@dataManage');
     // 软删除一条记录
     $app->get('data-manage/{key}/{id}/switch', 'ProjectController@dataSwitch');
     // 编辑一条记录
     $app->get('data-manage/{key}/{id}', 'ProjectController@dataEditor');
     // 更新一条记录
     $app->post('data-manage/{key}/{id}', 'ProjectController@dataUpdate');
+});
+
+/*
+|--------------------------------------------------
+| 任务 和 Debug
+|--------------------------------------------------
+*/
+// 管理员的接口
+$app->group(['prefix'=>'/task', 'namespace'=>'App\Http\Controllers'], function() use ($app) {
+    // 接口
+    $app->get('list', 'TaskController@list');
 });
 
 

@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Laravel\Lumen\Routing\Controller as BaseController;
-use Laravel\Lumen\Application;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
-use App\Facades\Lang;
 use App\Model\OperationRecord;
+use Illuminate\Http\Request;
+use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
@@ -18,19 +15,21 @@ class Controller extends BaseController
     public $auth = null;
 
     public $filter = null;
-	
+
     // 構造函數
-    public function __construct(Request $request) {
-		// 设置本地语言
-		$this->setLocale($request);
+    public function __construct(Request $request)
+    {
+        // 设置本地语言
+        $this->setLocale($request);
         // 生成重定向...
         $this->beforeFilter($request);
         // 保存操作记录
         // $this->saveOperationRecord($request);
-	}
+    }
 
     // 自定义 beforeFielter
-    private function beforeFilter($request) {
+    private function beforeFilter($request)
+    {
 
         $request_path = $request->path();
         if (preg_match("/^login/", $request_path)) {
@@ -51,31 +50,34 @@ class Controller extends BaseController
     }
 
     // 记录操作日志
-    private function saveOperationRecord($request) {
+    private function saveOperationRecord($request)
+    {
         // 忽略查看日志的操作
-        if ($request->path()!="manager/operation-list") {
+        if ($request->path() != "manager/operation-list") {
             $opteration = [
-                  'manager_id' => 1,
+                'manager_id' => 1,
                 'manager_name' => 'koocyton@gmail.com',
-                  'created_at' => time(),
-              'request_method' => $request->method(),
-                 'request_uri' => $request->path(),
-                   'post_data' => ($request->method()=="POST") ? json_encode($_POST) : ""
+                'created_at' => time(),
+                'request_method' => $request->method(),
+                'request_uri' => $request->path(),
+                'post_data' => ($request->method() == "POST") ? json_encode($_POST) : "",
             ];
             OperationRecord::create($opteration);
         }
     }
 
     // 没有 beforeFielter
-    protected function view($template, Array $assign=[]) {
+    protected function view($template, array $assign = [])
+    {
         // 多语言
         $assign['trans'] = $this->trans;
         // 输出模板
         return response(view($template, $assign));
     }
-    
+
     // 设置本地语言
-    protected function setLocale($request) {
+    protected function setLocale($request)
+    {
         // 从 Cookie 获取本地化设置
         if (!empty($request->cookie('locale'))) {
             $this->locale = $request->cookie('locale');
@@ -85,7 +87,7 @@ class Controller extends BaseController
             $this->locale = $_GET["locale"];
         }
         // 修正
-        $this->locale = in_array($this->locale, ["en", "jp", "kr", "tw" , "cn"]) ? $this->locale : "cn" ;
+        $this->locale = in_array($this->locale, ["en", "jp", "kr", "tw", "cn"]) ? $this->locale : "cn";
 
         // 设置多语言
         $this->trans = app('translator');

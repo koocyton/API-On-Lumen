@@ -1,25 +1,26 @@
 <?php
 namespace App\HttpApi\Controllers;
 
-use Illuminate\Http\Request;
-use App\HttpApi\Controllers\ApiController;
 use App\Helper\SecurityHelper;
-
+use App\HttpApi\Controllers\ApiController;
 use App\Model\User;
+use Illuminate\Http\Request;
 
 class UserController extends ApiController
 {
     /*
      * 获取 access token
      */
-    public function accessToken(Request $request) {
-    	return $this->clientAccessToken($request);
+    public function accessToken(Request $request)
+    {
+        return $this->clientAccessToken($request);
     }
 
     /*
      * 用户注册
      */
-    public function regist(Request $request) {
+    public function regist(Request $request)
+    {
         // 账号
         $account = $request->input("account");
         // 密码
@@ -35,7 +36,7 @@ class UserController extends ApiController
                 'is_action' => 'on',
                 'created_at' => time(),
                 'updated_at' => time(),
-                'privileges' => ''
+                'privileges' => '',
             ];
             User::insert($opteration);
             // 返回 access token
@@ -43,16 +44,17 @@ class UserController extends ApiController
         }
         // 用户已存在
         return response()->json([
-                'error' => 1,
-                'action' => 'showMessage',
-                'message'=>'account exist'], 405);
+            'error' => 1,
+            'action' => 'showMessage',
+            'message' => 'account exist'], 405);
     }
 
     /*
      * client access token
      */
-    private function clientAccessToken($request) {
-    	// 账号
+    private function clientAccessToken($request)
+    {
+        // 账号
         $account = $request->input("account");
         // 密码
         $password = $request->input("password");
@@ -60,12 +62,12 @@ class UserController extends ApiController
         $user = User::where('account', $account)->first();
         // 用户存在
         if (!empty($user)) {
-	        // 加密后的密码
-	        $hash_password = md5(sprintf(env("APP_ENCRYPT_SALT"), $password));
+            // 加密后的密码
+            $hash_password = md5(sprintf(env("APP_ENCRYPT_SALT"), $password));
             // 密码正确
-            if ($user->password==$hash_password) {
+            if ($user->password == $hash_password) {
                 // 更新最近登录时间
-                $update_param = [ 'updated_at'=>time() ];
+                $update_param = ['updated_at' => time()];
                 // 如果 user token 为空
                 if (empty($user->token)) {
                     $user->token = SecurityHelper::randomToken(SecurityHelper::TOKEN_LENGTH);
@@ -77,10 +79,10 @@ class UserController extends ApiController
                     $update_param['token_secret'] = $user->token_secret;
                 }
                 // 更新登录时间 和 token
-                User::where([ 'id'=>$user->id ] )->update($update_param);
+                User::where(['id' => $user->id])->update($update_param);
 
                 // 登录成功
-                return response()->json([ "user" => $user, "token" => $user->token, "token_secret" => $user->token_secret ]);
+                return response()->json(["user" => $user, "token" => $user->token, "token_secret" => $user->token_secret]);
             }
             // 密码错误
             return response()->json([
@@ -90,8 +92,8 @@ class UserController extends ApiController
         }
         // 管理员不存在
         return response()->json([
-                'error' => 1,
-                'action' => 'showMessage',
-                'message'=>'account not found'], 405);
+            'error' => 1,
+            'action' => 'showMessage',
+            'message' => 'account not found'], 405);
     }
 }

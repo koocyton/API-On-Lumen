@@ -1,5 +1,7 @@
 # phpstorm project files
 .idea
+.tags
+.tags_sorted_by_file
 
 # netbeans project files
 nbproject

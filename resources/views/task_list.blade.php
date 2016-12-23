@@ -10,11 +10,11 @@
 									</td>
 									<td class="ct-nav-right">
 										<div class="ct-nav-create dropdown-container" style="margin-right:15px;">
-											<a href="javascript:;" title="新增 Task" style="display:inline-block;">
+											<a href="javascript:;" title="新增 Task" style="display:inline-block;color:#000;">
 												<span class="octicon" style="font-size:13px;">&#xf05d;</span>
-												<span class="octicon" style="font-size:25px;">&#xf018;</span>
+												<span class="octicon" style="font-size:25px;">&#xf068;</span>
 											</a>
-											<div class="pop-layout" style="top:38px;left:-60px;display:none;">
+											<div class="pop-layout" style="top:38px;left:-51px;display:none;">
 												<b class="angle-up" style="left:67px;top:-5px;"></b>
 												<div class="content-board radius-4 shadow-3" style="width:278px;padding:20px;">
 													<form action="/manager/create" method="post">
@@ -80,10 +80,9 @@
     							</thead>
     							<tbody>
                                     <?php
-                                    foreach($tasks as $task)
-                                    {
-                                    	$status = empty($task->deleted_at) ? 'on' : 'off';
-                                    ?>
+foreach ($tasks as $task) {
+    $status = empty($task->deleted_at) ? 'on' : 'off';
+    ?>
                                     <tr>
 										<td>{{ $manager->id }}</td>
 										<td>
@@ -95,50 +94,48 @@
 										<td>{{ date("Y-m-d H:i:s", $task->created_at) }}</td>
 										<td>
 										<?php
-										if ($task->updated_at=="0000-00-00 00:00:00") {
-											echo "<span style=\"color:#bbb;\">从未登录</span>";
-										}
-										else {
-											$ut = $task->updated_at;
-											$nt = time();
-											$dt = $nt - $ut;
-											// 一个小时内，显示多少分钟前
-											if ($dt<3600) {
-												echo "<span style=\"color:red;\">".floor($dt/60)." 分钟前</span>";
-											}
-											// 一个天内，显示多少小时前
-											else if ($dt<86400) {
-												echo "<span style=\"color:red;\">".floor($dt/3600)." 小时前</span>";
-											}
-											// 一周内，显示多少天前
-											else if ($dt<603800) {
-												echo "<span style=\"color:blue;\">".floor($dt/86400)." 天前</span>";
-											}
-											// 一月内，显示多少周前
-											else if ($dt<2678400) {
-												echo "<span style=\"color:blue;\">".floor($dt/603800)." 周前</span>";
-											}
-											// 一年内，显示多少月前
-											else if ($dt<31536000) {
-												echo "<span style=\"color:green;\">".floor($dt/2678400)." 月前</span>";
-											}
-											else {
-												echo "<span style=\"color:green;\">".floor($dt/31536000)." 年前</span>";
-											}
-										}
-										?>
+if ($task->updated_at == "0000-00-00 00:00:00") {
+        echo "<span style=\"color:#bbb;\">从未登录</span>";
+    } else {
+        $ut = $task->updated_at;
+        $nt = time();
+        $dt = $nt - $ut;
+        // 一个小时内，显示多少分钟前
+        if ($dt < 3600) {
+            echo "<span style=\"color:red;\">" . floor($dt / 60) . " 分钟前</span>";
+        }
+        // 一个天内，显示多少小时前
+        else if ($dt < 86400) {
+            echo "<span style=\"color:red;\">" . floor($dt / 3600) . " 小时前</span>";
+        }
+        // 一周内，显示多少天前
+        else if ($dt < 603800) {
+            echo "<span style=\"color:blue;\">" . floor($dt / 86400) . " 天前</span>";
+        }
+        // 一月内，显示多少周前
+        else if ($dt < 2678400) {
+            echo "<span style=\"color:blue;\">" . floor($dt / 603800) . " 周前</span>";
+        }
+        // 一年内，显示多少月前
+        else if ($dt < 31536000) {
+            echo "<span style=\"color:green;\">" . floor($dt / 2678400) . " 月前</span>";
+        } else {
+            echo "<span style=\"color:green;\">" . floor($dt / 31536000) . " 年前</span>";
+        }
+    }
+    ?>
 										<span class="separator"> / </span>
 										<span>  {{ date("Y-m-d H:i:s", $task->updated_at) }}</span>
 										</td>
-										<td style="text-align:left;"><?php echo $task->privileges?></td>
+										<td style="text-align:left;"><?php echo $task->privileges; ?></td>
 									</tr>
-                                    <?php } ?>
+                                    <?php }?>
                                 </tbody>
                             </table>
                         </div>
 
                         <div style="margin-top:20px;">
-                            <div class="paging-container" style="text-align:right;" total="<?php echo $paging["total"]?>" current="<?php echo $paging["current"]?>" limit="<?php echo $paging["limit"]?>"></div>
+                            <div class="paging-container" style="text-align:right;" total="<?php echo $paging["total"]; ?>" current="<?php echo $paging["current"]; ?>" limit="<?php echo $paging["limit"]; ?>"></div>
                         </div>
 
                     </div>

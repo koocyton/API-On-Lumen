@@ -18,7 +18,7 @@
 		</td>
 		<td class="nav-right">
 		  <div class="nav-item" style="margin-right:21px;">
-            <span style="font-size:16px;"><?=$_COOKIE['auth_user']?></span>
+            <span style="font-size:16px;"><?=$_COOKIE['auth_user'];?></span>
 		  </div>
 		  <div class="nav-item dropdown-container" style="margin-right:21px;">
 			<a href="javascript:;" pushstate="no" title="设置" class="nav-item bold-medium" style="height:40px;line-height:40px;">
@@ -27,7 +27,7 @@
 			<div class="pop-layout" style="top:38px;right:-4px;">
 			  <b class="angle-up" style="right:9px;top:-5px;"></b>
 			  <div class="content-board radius-4 shadow-3">
-				<div class="dropdown-menu" style="height:84px;width:100px;">
+				<div class="dropdown-menu" style="height:111px;width:100px;">
 				  <ul>
 					<li><a class="radius-3" href="javascript:$.KTAnchor.popupLoader(null)">
 						<span style="font-family:octicons;font-size:15px;">&#xf02b;</span>
@@ -37,6 +37,10 @@
 						<span style="font-family:octicons;font-size:15px;">&#xf049;</span>
 						&nbsp;账号安全
 					</a></li>
+					<li><a class="radius-3" pushstate="no" href="javascript:$.KTAnchor.popupLoader('/sundry/icons')">
+                        <span style="font-family:octicons;font-size:15px;">&#xf0d2;</span>
+                        &nbsp;图标大全
+                    </a></li>
 					<li><a class="radius-3" pushstate="no" href="/login/signout">
                         <span style="font-family:octicons;font-size:15px;">&#xf032;</span>
                         &nbsp;退出登录

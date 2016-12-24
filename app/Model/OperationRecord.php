@@ -14,32 +14,38 @@ class OperationRecord extends Model
      */
     protected $connection = 'backend';
 
-	/**
+    /**
      * 与模型关联的数据表
      *
      * @var string
      */
     protected $table = 'operation-record';
 
-	/**
+    /**
      * 该模型是否被自动维护时间戳
      *
      * @var bool
      */
     public $timestamps = false;
 
-	/**
+    /**
      * 与模型关联的数据字段
      *
      * @var array
      */
     protected $fillable = [
-    	'id',
-    	'manager_id', 
-    	'manager_name',
-    	'request_method',
-    	'request_uri',
-    	'post_data',
-    	'created_at'
+        'id',
+        'manager_id',
+        'manager_name',
+        'request_method',
+        'request_uri',
+        'post_data',
+        'created_at',
     ];
+
+    //  field format : craeted_at
+    public function getCreatedAtAttribute($value)
+    {
+        return date("Y-m-d H:i:s", $value);
+    }
 }

@@ -40,21 +40,21 @@
 									</tr>
     							</thead>
     							<tbody>
-                                    <?php foreach($operations as $operation) {?>
+                                    <?php foreach ($operations as $operation) {?>
                                     <tr>
 										<td>{{ $operation->id }}</td>
 										<td>{{ $operation->manager_name }}</td>
-										<td>{{ date("Y-m-d H:i:s", $operation->created_at) }}</td>
+										<td>{{ $operation->created_at }}</td>
 										<td style="text-align:left;">&nbsp;{{ $operation->request_method }} /{{ $operation->request_uri }}</td>
 										<td style="text-align:left;overflow:hidden;">{{ substr($operation->post_data, 0, 200) }}</td>
 									</tr>
-                                    <?php } ?>
+                                    <?php }?>
                                 </tbody>
                             </table>
                         </div>
 
                         <div style="margin-top:20px;">
-                            <div class="paging-container" style="text-align:right;" total="<?php echo $paging["total"]?>" current="<?php echo $paging["current"]?>" limit="<?php echo $paging["limit"]?>"></div>
+                            <div class="paging-container" style="text-align:right;" total="<?php echo $paging["total"]; ?>" current="<?php echo $paging["current"]; ?>" limit="<?php echo $paging["limit"]; ?>"></div>
                         </div>
 
                     </div>

@@ -21,7 +21,7 @@
 					<table class="notes-table">
 						<tbody>
 							<tr>
-								<td style="width:80px;vertical-align:middle;padding-left:20px;">Name：</td>
+								<td style="width:80px;height:40px;vertical-align:middle;padding-left:20px;">名　　称：</td>
 								<td colspan="2">
 									<div style="width:265px;position:relative;">
 										<dl>
@@ -33,8 +33,8 @@
 								</td>
 							</tr>
 
-							<tr style="margin-top:20px;">
-								<td style="width:80px;vertical-align:middle;padding-left:20px;">频道范围：</td>
+							<tr>
+								<td style="width:80px;height:40px;vertical-align:middle;padding-left:20px;">频道范围：</td>
 								<td colspan="2">
 									<div style="width:265px;position:relative;">
 										<dl>
@@ -57,8 +57,8 @@
 								</td>
 							</tr>
 
-							<tr style="margin-top:20px;">
-								<td style="width:80px;vertical-align:middle;padding-left:20px;">创建时间：</td>
+							<tr>
+								<td style="width:80px;height:40px;vertical-align:middle;padding-left:20px;">创建时间：</td>
 								<td colspan="2">
 									<div style="width:265px;position:relative;">
 										<dl>
@@ -70,13 +70,31 @@
 								</td>
 							</tr>
 
-							<tr style="margin-top:20px;">
-								<td style="width:80px;vertical-align:middle;padding-left:20px;">更新时间：</td>
+							<tr>
+								<td style="width:80px;height:40px;vertical-align:middle;padding-left:20px;">更新时间：</td>
 								<td colspan="2">
 									<div style="width:265px;position:relative;">
 										<dl>
 											<dd>
 												<input type="datetime" class="text-input" maxlength="50" name="name" validation="/datetime:时间不能为空/" placeholder="请输入时间" value="{{ date("Y-m-d H:i:s", $data->updated_at) }}" />
+											</dd>
+										</dl>
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<td style="width:80px;height:40px;vertical-align:middle;padding-left:20px;">是否启用：</td>
+								<td colspan="2">
+									<div style="width:265px;position:relative;line-height:40px;">
+										<dl>
+											<dd>
+												<label>
+													<input type="radio" name="updated_at" class="text-input" style="width:16px;" value="{{ time() }}" /> 禁用
+												</label>
+												<label style="margin-left:10px;">
+													<input type="radio" name="updated_at" class="text-input" style="width:16px;" value="NULL" /> 启用
+												</label>
 											</dd>
 										</dl>
 									</div>

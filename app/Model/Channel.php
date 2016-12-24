@@ -36,27 +36,30 @@ class Channel extends Model
     ];
 
     /**
-     * 与模型关联的数据字段和注释
-     *
-     * @var array
-     */
-    protected $field_info = [
-        'id' => 'ID',
-        'name' => '名称',
-        'region' => '类型',
-        'created_at' => '创建时间',
-        'updated_at' => '最新更新',
-        'deleted_at' => '禁用时间',
-        'style' => '样式',
-    ];
-
-    /**
      * 获取字段信息
      *
      * @var array
      */
     public function getFields()
     {
-        return $this->field_info;
+        return [
+            'id' => 'ID',
+            'name' => '名称',
+            'region' => '类型',
+            'created_at' => '创建时间',
+            'updated_at' => '最新更新',
+            'deleted_at' => '禁用时间',
+            'style' => '样式',
+        ];
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date("Y-m-d H:i:s", $value);
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return date("Y-m-d H:i:s", $value);
     }
 }

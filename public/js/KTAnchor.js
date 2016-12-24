@@ -400,7 +400,7 @@
 
 		KTLoader: function() {
 			// 加载
-			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTDropDown().KTMouseWheel();
+			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTDropDown().KTMouseWheel().KTDateInputBind();
 		},
 
 		KTAnchor : function(success, error, begin, complete) {
@@ -660,6 +660,62 @@
 			return field_ok;
 		},
 
+		KTDateInputBind : function()
+		{
+			var date_inputs = $("input[type='date']");
+			date_inputs.each(function(key, date_input) {
+				// 判断是否已经绑定过
+				if ($(this).data("mouse-click")!=null) {
+					return null;
+				}
+				// 属性调整
+				//$(this).attr("readonly", "1");
+				$(this).data("mouse-click", "mouse-click");
+				// 绑定
+				$(this).datetimepicker({
+					 timepicker:false,
+					 lang:"ch",
+					 format:'Y-m-d'
+				});
+			});
+
+			var datetime_inputs = $("input[type='datetime']");
+			datetime_inputs.each(function(key, datetime_input) {
+				// 判断是否已经绑定过
+				if ($(this).data("mouse-click")!=null) {
+					return null;
+				}
+				// 属性调整
+				//$(this).attr("readonly", "1");
+				$(this).data("mouse-click", "mouse-click");
+				// 绑定
+				$(this).datetimepicker({
+					 timepicker:true,
+					 lang:"ch",
+					 format:'Y-m-d H:i:s'
+				});
+			});
+
+			var datetime_inputs = $("input[type='time']");
+			datetime_inputs.each(function(key, datetime_input) {
+				// 判断是否已经绑定过
+				if ($(this).data("mouse-click")!=null) {
+					return null;
+				}
+				// 属性调整
+				//$(this).attr("readonly", "1");
+				$(this).data("mouse-click", "mouse-click");
+				// 绑定
+				$(this).datetimepicker({
+					 timepicker:false,
+					 lang:"ch",
+					 format:'H:i:s'
+				});
+			});
+
+			return this;
+		},
+
 		KTPaging : function() {
 			// 从配置中获取参数配置
 			var container = $.KTAnchor.paging_container;
@@ -865,6 +921,7 @@
 				var parent_height = scroll_container.parent().height();
 				scroll_container.css({"height":parent_height, "overflow-y":"scroll"});
 			});
+			return this;
 		}
 	});
 

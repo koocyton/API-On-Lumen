@@ -4,7 +4,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="format-detection" content="telephone=no"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="white" />
+  <link rel="stylesheet" href="/js/jquery.datetimepicker.css" />
   <script src="/js/jquery-1.11.3.min.js"></script>
   <script src="/js/KTAnchor.js"></script>
   <link rel="stylesheet" href="/css/KTAnchor.css"></link>
+  <script src="/js/jquery.datetimepicker.js"></script>
 </head>

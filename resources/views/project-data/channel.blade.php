@@ -1,7 +1,7 @@
 
 		<popup-title style="display:none;" class="popup-title">频道 - {{ $data->name }} </popup-title>
 
-		<div style="margin:16px;width:96%;">
+		<div>
 			<form method="post" action="">
 
 				<div class="radius-4 ct-nav">
@@ -33,20 +33,50 @@
 								</td>
 							</tr>
 
-							<tr><td style="height:7px;"></td></tr>
-
-							<tr>
+							<tr style="margin-top:20px;">
 								<td style="width:80px;vertical-align:middle;padding-left:20px;">频道范围：</td>
 								<td colspan="2">
 									<div style="width:265px;position:relative;">
 										<dl>
 											<dd>
 												<label>
-													<input type="radio" class="text-input" style="width:36px;" />
-													全国</label>
-												<label><input type="radio" class="text-input" style="width:36px;" /> 市</label>
-												<label><input type="radio" class="text-input" style="width:36px;" /> 省</label>
-												<label><input type="radio" class="text-input" style="width:36px;" /> 县</label>
+													<input type="radio" name="region" class="text-input" style="width:16px;" /> 全国
+												</label>
+												<label style="margin-left:10px;">
+													<input type="radio" name="region" class="text-input" style="width:16px;" /> 市
+												</label>
+												<label style="margin-left:10px;">
+													<input type="radio" name="region" class="text-input" style="width:16px;" /> 省
+												</label>
+												<label style="margin-left:10px;">
+													<input type="radio" name="region" class="text-input" style="width:16px;" /> 县
+												</label>
+											</dd>
+										</dl>
+									</div>
+								</td>
+							</tr>
+
+							<tr style="margin-top:20px;">
+								<td style="width:80px;vertical-align:middle;padding-left:20px;">创建时间：</td>
+								<td colspan="2">
+									<div style="width:265px;position:relative;">
+										<dl>
+											<dd>
+												<input type="datetime" class="text-input" maxlength="50" name="name" validation="/datetime:时间不能为空/" placeholder="请输入时间" value="{{ date("Y-m-d H:i:s", $data->created_at) }}" />
+											</dd>
+										</dl>
+									</div>
+								</td>
+							</tr>
+
+							<tr style="margin-top:20px;">
+								<td style="width:80px;vertical-align:middle;padding-left:20px;">更新时间：</td>
+								<td colspan="2">
+									<div style="width:265px;position:relative;">
+										<dl>
+											<dd>
+												<input type="datetime" class="text-input" maxlength="50" name="name" validation="/datetime:时间不能为空/" placeholder="请输入时间" value="{{ date("Y-m-d H:i:s", $data->updated_at) }}" />
 											</dd>
 										</dl>
 									</div>

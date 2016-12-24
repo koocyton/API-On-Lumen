@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html>
-  <title>用户登录</title>
+  <title>API ON Lumen</title>
   @include('__header')
   <body>
 

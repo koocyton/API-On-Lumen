@@ -1,10 +1,10 @@
 
 		<popup-title style="display:none;" class="popup-title">图标大全</popup-title>
 
-		<div style="margin:16px;width:96%;">
+		<div>
 			<form method="post" action="">
 
-				<div class="content-body radius-5 content-border">
+				<div class="content-body radius-5 content-border" style="margin:0;">
 					<div class="app-icons">
 						<ul>
 							<?php foreach ($icons as $icon) {?>

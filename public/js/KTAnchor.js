@@ -897,7 +897,7 @@ $(document).ready(function(){
   $(window).bind("resize", function(){
     // 主内容的区域的高度，为浏览区域的高度，减去 40
     $("#left-container, #right-container").height($(window).height()-40);
-	$(".kt-popup-body").parent().height($(".kt-popup-doc").height() - 43);
+	$(".kt-popup-body").parent().height($(".kt-popup-doc").height() -  43);
     // 如果不是移动的浏览器
     $(document.body).KTMouseWheel();
   });

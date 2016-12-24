@@ -108,8 +108,11 @@ button {vertical-align:middle;-webkit-border-radius:4px;-khtml-border-radius:4px
 .ct-nav-left{text-align:left;}
 .ct-nav-right{text-align:right;}
 .ct-nav-right, .ct-nav-left{height:40px;line-height:40px;width:50%;}
-.ct-nav-search, .ct-nav-create {position:relative;display:inline-block;right:16px;}
-.ct-search-icon {position:absolute;top:0px;right:0px;}
+.ct-nav-search, .ct-nav-create {position:relative;display:inline-block;right:11px;}
+.ct-submit-search {position:absolute;top:2px;right:0px;}
+.ct-clean-search {position:absolute;width:16px;height:16px;top:9px;right:1px;background-color:#aaaaaa;}
+.ct-submit-search span {font-family:octicons;font-size:23px;}
+.ct-clean-search span {font-family:octicons;font-size:13px;position:relative;left:3px;top:-6px;color:#ffffff;}
 
 .content-border {border: 1px solid #ccc;}
 .content-body {margin:15px auto;padding:10px 0;position:relative;text-align:left;}

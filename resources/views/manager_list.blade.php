@@ -10,9 +10,9 @@
 									</td>
 									<td class="ct-nav-right">
 										<div class="ct-nav-create dropdown-container" style="margin-right:15px;">
-											<a href="javascript:;" title="新增管理员" style="display:inline-block;">
+											<a href="javascript:;" title="新增管理员" style="display:inline-block;color:#000;">
 												<span class="octicon" style="font-size:13px;">&#xf05d;</span>
-												<span class="octicon" style="font-size:25px;">&#xf018;</span>
+												<span class="octicon" style="font-size:25px;">&#xf037;</span>
 											</a>
 											<div class="pop-layout" style="top:38px;left:-60px;display:none;">
 												<b class="angle-up" style="left:67px;top:-5px;"></b>
@@ -50,16 +50,16 @@
 											</div>
 										</div>
 			                            <div class="ct-nav-search">
-			                                <form action="/manager" method="get">
+			                                <form action="/manager/list" method="get">
 			                                    <div class="input-box" style="width:200px;">
 			                                        <dl>
 			                                            <dd>
-			                                                <input type="text" class="text-input" name="q" validation="/!empty:请填写搜索条件/" placeholder="请填写搜索条件" value="" />
+			                                                <input type="text" class="text-input" name="q" validation="/!empty:请填写搜索条件/" placeholder="请填写搜索条件" value="{{ empty($_GET["q"]) ? "" : $_GET["q"] }}" />
 			                                            </dd>
+					                                    <dd class="ct-clean-search radius-14" style="display:{{ empty($_GET["q"]) ? "none" : "block" }};">
+					                                        <a href="/manager/list"><span>&#xf081;</span></a>
+					                                    </dd>
 			                                        </dl>
-			                                    </div>
-			                                    <div class="ct-search-icon">
-			                                        <span style="font-family:octicons;font-size:23px;">&#xf02e;</span>
 			                                    </div>
 			                                </form>
 			                            </div>
@@ -129,7 +129,7 @@ if ($manager->updated_at == "0000-00-00 00:00:00") {
 										<span class="separator"> / </span>
 										<span>  {{ $manager->updated_at }}</span>
 										</td>
-										<td style="text-align:left;"><?php echo $manager->privileges; ?></td>
+										<td style="text-align:left;">{{ $manager->privileges }}</td>
 									</tr>
                                     <?php }?>
                                 </tbody>

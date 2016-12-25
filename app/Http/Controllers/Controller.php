@@ -30,18 +30,18 @@ class Controller extends BaseController
     // 自定义 beforeFielter
     private function beforeFilter($request)
     {
-
+        // 如果是登录注册操作，继续
         $request_path = $request->path();
         if (preg_match("/^login/", $request_path)) {
             return true;
         }
-
+        // 如果 Cookie 不存在，跳转
         $session_cookie = $request->cookie('auth_user');
         if (empty($session_cookie)) {
             echo "<script>window.location='/login';</script>";
             exit();
         }
-
+        // 如果不是 Ajax 请求, 输出完整页面
         $ajax_request = $request->header('X-Requested-With');
         if (empty($ajax_request)) {
             echo view('__portal', ['trans' => $this->trans])->render();

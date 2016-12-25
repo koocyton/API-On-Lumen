@@ -71,6 +71,17 @@ $app->group(['prefix' => '/project', 'namespace' => 'App\Http\Controllers'], fun
 
 /*
 |--------------------------------------------------
+| 频道管理
+|--------------------------------------------------
+ */
+// 频道管理
+$app->group(['prefix' => '/channel-manager', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
+    // 接口
+    $app->get('list', 'ChannelManagerController@list');
+});
+
+/*
+|--------------------------------------------------
 | 任务 和 Debug
 |--------------------------------------------------
  */

@@ -71,6 +71,8 @@
                         ]}
                     ]},
                     {"text":"项目研发 · 微闻", "menus":[
+                        {"text":"频道设置", "href":"/channel-manager/list"},
+                        {"text":"项目任务", "href":"/task/list"},
                         {"text":"API 接口", "open":true, "menus":[
                             {"text":"登录 GET /access-token", "href":"/project/api-debug/access-token"},
                             {"text":"频道列表 GET /channel-menu", "href":"/project/api-debug/channel-menu"},
@@ -79,7 +81,7 @@
                             {"text":"上传新闻 POST /news", "href":"/project/api-debug/post-news"},
                             {"text":"选择地区 UPDATE /region/{id}", "href":"/project/api-debug/region/{id}"}
                         ]},
-                        {"text":"数据管理", "open":true, "menus":[
+                        {"text":"数据管理", "open":false, "menus":[
                             {"text":"频道信息", "href":"/project/data-manage/channel"},
                             {"text":"新闻列表", "href":"/project/data-manage/news"},
                             {"text":"用户管理", "href":"/project/data-manage/user"},
@@ -92,7 +94,6 @@
                             {"text":"拍照", "href":"/project/doc/5"},
                             {"text":"填写拍照信息", "href":"/project/doc/6"},
                         ]},
-                        {"text":"Task & Bugzilla", "href":"/task/list"},
                     ]},
                     {"text":"管理员", "menus":[
                         {"text":"操作日志", "href":"/operation/list"},

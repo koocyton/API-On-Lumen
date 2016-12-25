@@ -78,6 +78,8 @@ $app->group(['prefix' => '/project', 'namespace' => 'App\Http\Controllers'], fun
 $app->group(['prefix' => '/channel-manager', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
     // 接口
     $app->get('list', 'ChannelManagerController@list');
+    // 频道模版
+    $app->get('demo', 'ChannelManagerController@demo');
 });
 
 /*

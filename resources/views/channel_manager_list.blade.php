@@ -9,20 +9,6 @@
 										<b>　频道设置</b>
 									</td>
 									<td class="ct-nav-right">
-			                            <div class="ct-nav-search">
-			                                <form action="/channel-manager/list" method="get">
-			                                    <div class="input-box" style="width:200px;">
-			                                        <dl>
-			                                            <dd>
-			                                                <input type="text" class="text-input" name="q" validation="/!empty:请填写搜索条件/" placeholder="请填写搜索条件" value="{{ empty($_GET["q"]) ? "" : $_GET["q"] }}" />
-			                                            </dd>
-					                                    <dd class="ct-clean-search radius-14" style="display:{{ empty($_GET["q"]) ? "none" : "block" }};">
-					                                        <a href="/channel-manager/list"><span>&#xf081;</span></a>
-					                                    </dd>
-			                                        </dl>
-			                                    </div>
-			                                </form>
-			                            </div>
 									</td>
 								</tr>
 							</table>

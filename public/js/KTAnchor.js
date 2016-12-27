@@ -271,6 +271,14 @@
 			}
 		},
 
+		// open iframe
+		KTIframe: function(el, url){
+			var iframe = $('<iframe frameborder="0" src="" style="width:100%;height:100%;"></iframe>');
+			iframe.attr("src", url);
+			$(el).empty();
+			$(el).append(iframe);
+		},
+
 		//
 		KTPrintr: function(theObj) {
 			var retStr = '';

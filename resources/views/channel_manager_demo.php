@@ -32,6 +32,11 @@
     // 图片
     "media" : "<div class=\"wide-slide\"></div>",
   };
+
+  var channel_configure = {
+    //
+    "api" : "/channel-detail/1",
+  };
   </script>
 
   <title>-</title>

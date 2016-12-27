@@ -16,15 +16,13 @@
 
                         <div style="margin-top:20px;">
 						@foreach ($channels as $channel)
-							　<a href="/channel-manager/demo/{{ $channel->id }}" native="yes" target="channel-demo">
+							　<a href="javascript:$.KTIframe('#channel-demo', '/channel-manager/demo/{{ $channel->id }}')">
 							{{ $channel->name }}
 							</a>
 						@endforeach
                         </div>
 
-                        <div style="margin-top:20px;border:1px solid #aaa;width:460px;height:960px;">
-	                        <iframe frameborder="0" name="channel-demo" style="width:100%;height:100%;">
-	                        </iframe>
+                        <div id="channel-demo" style="margin-top:20px;border:1px solid #aaa;width:460px;height:960px;">
                         </div>
 
                     </div>

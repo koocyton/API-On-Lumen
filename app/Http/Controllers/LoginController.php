@@ -8,6 +8,12 @@ use Symfony\Component\HttpFoundation\Cookie;
 
 class LoginController extends BaseController
 {
+    // 覆盖父类 beforeFielter
+    protected function beforeFilter($request)
+    {
+        return true;
+    }
+
     /*
      * 登录表单
      */

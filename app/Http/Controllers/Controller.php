@@ -28,13 +28,8 @@ class Controller extends BaseController
     }
 
     // 自定义 beforeFielter
-    private function beforeFilter($request)
+    protected function beforeFilter($request)
     {
-        // 如果是登录注册操作，继续
-        $request_path = $request->path();
-        if (preg_match("/^login/", $request_path)) {
-            return true;
-        }
         // 如果 Cookie 不存在，跳转
         $session_cookie = $request->cookie('auth_user');
         if (empty($session_cookie)) {
@@ -66,7 +61,7 @@ class Controller extends BaseController
         }
     }
 
-    // 没有 beforeFielter
+    // 将多语言带入
     protected function view($template, array $assign = [])
     {
         // 多语言

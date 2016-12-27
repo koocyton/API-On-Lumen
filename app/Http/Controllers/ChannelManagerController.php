@@ -9,6 +9,18 @@ use App\Model\Channel;
  */
 class ChannelManagerController extends BaseController
 {
+    // 覆盖父类 beforeFielter
+    protected function beforeFilter($request)
+    {
+        // 如果是登录注册操作，继续
+        $request_path = $request->path();
+        if (preg_match("/^channel-manager\/demo/", $request_path)) {
+            return true;
+        }
+        // 父类的方法
+        return parent::beforeFilter($request);
+    }
+
     /*
      * list All the Online Channel
      */
@@ -36,9 +48,9 @@ class ChannelManagerController extends BaseController
     /*
      * 显示频道的 html5 展示
      */
-    public function demo()
+    public function demo($id)
     {
         // 显示 demo
-        return $this->view("channel_manager_demo", ['channel_id' => $request->input("id")]);
+        return $this->view("channel_manager_demo", ['channel_id' => $id]);
     }
 }

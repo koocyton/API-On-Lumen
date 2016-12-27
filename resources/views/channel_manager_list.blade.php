@@ -15,24 +15,16 @@
 						</div>
 
                         <div style="margin-top:20px;">
-                            <table class="list-table">
-    							<thead>
-    								<tr>
-										<td style="width:80px;">ID</td>
-									</tr>
-    							</thead>
-    							<tbody>
-                                    <?php foreach ($channels as $channel) {?>
-                                    <tr>
-										<td>{{ $channel->id }}</td>
-									</tr>
-                                    <?php }?>
-                                </tbody>
-                            </table>
+						@foreach ($channels as $channel)
+							　<a href="/channel-manager/demo/{{ $channel->id }}" native="yes" target="channel-demo">
+							{{ $channel->name }}
+							</a>
+						@endforeach
                         </div>
 
-                        <div style="margin-top:20px;">
-                            <div class="paging-container" style="text-align:right;" total="<?php echo $paging["total"]; ?>" current="<?php echo $paging["current"]; ?>" limit="<?php echo $paging["limit"]; ?>"></div>
+                        <div style="margin-top:20px;border:1px solid #aaa;width:460px;height:960px;">
+	                        <iframe frameborder="0" name="channel-demo" style="width:100%;height:100%;">
+	                        </iframe>
                         </div>
 
                     </div>

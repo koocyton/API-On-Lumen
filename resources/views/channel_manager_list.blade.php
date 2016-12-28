@@ -15,14 +15,22 @@
 						</div>
 
                         <div style="margin-top:20px;">
-						@foreach ($channels as $channel)
-							　<a href="javascript:$.KTIframe('#channel-demo', '/channel-manager/demo/{{ $channel->id }}')">
-							{{ $channel->name }}
-							</a>
-						@endforeach
+							<table class="ct-nav-table">
+								<tr>
+									<td class="ct-nav-left" style="width:640px;">
+										<div id="channel-demo" style="border:1px solid #aaa;width:640px;height:1136px;"></div>
+									</td>
+								</tr>
+							</table>
                         </div>
 
-                        <div id="channel-demo" style="margin-top:20px;border:1px solid #aaa;width:460px;height:960px;">
+                        <div class="content-menu radius-5 content-border">
+							@foreach ($channels as $channel)
+								<a href="javascript:$.KTIframe('#channel-demo', '/channel-manager/demo/{{ $channel->id }}')">
+									{{ $channel->name }}
+								</a>
+								<br>
+							@endforeach
                         </div>
 
                     </div>

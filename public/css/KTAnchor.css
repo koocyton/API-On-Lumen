@@ -116,6 +116,10 @@ button {vertical-align:middle;-webkit-border-radius:4px;-khtml-border-radius:4px
 
 .content-border {border: 1px solid #ccc;}
 .content-body {margin:15px auto;padding:10px 0;position:relative;text-align:left;}
+.content-menu {background-color:#fff;margin:0;padding:10px;position:fixed;right:40px;text-align:left;top:114px;width:180px;}
+.content-menu a{text-decoration: none;display:inline-block;}
+.content-menu a:hover{text-decoration: underline;}
+.content-menu div{height:20px;line-height:20px;}
 
 .kt-popup-loader {position:absolute;top:0;left:0;width:100%;height:100%;display:none;}
 .kt-popup-mask{position:absolute;top:0;left:0;width:100%;height:100%;background-color:#000;opacity:0.15;-moz-opacity:0.15;FILTER:progid:DXImageTransform.Microsoft.Alpha(opacity=15);}
@@ -125,3 +129,4 @@ button {vertical-align:middle;-webkit-border-radius:4px;-khtml-border-radius:4px
 .kt-popup-body{text-align:center;overflow:hidden;position:relative;padding:20px;}
 .kt-popup-title{color:333;font-size:23px;width:100%;height:100%;text-align:center;}
 .kt-popup-close{position:absolute;display:block;font-family:octicons;font-size:23px;top:0px;right:0px;margin-right:10px;cursor:pointer;}
+

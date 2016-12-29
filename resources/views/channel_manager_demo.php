@@ -27,10 +27,48 @@
 
         ChannelURL: "/channel-detail/<?=$id;?>",
 
+        templateHtml: function(d) {
+          var html = '';
+          // 切换跑马灯
+          if (d.type=="slide") {
+            html += "<div class=\"slide\">";
+            for(var ii=0; ii<d.data.length; ii++) {
+              html += "<img src=\"" + d.data[ii].image + "\">";
+            }
+            html += "</div>";
+          }
+          // 标题
+          else if (d.type=="title") {
+            html += "<div class=\"title\">" + d.text + "</div>";
+          }
+          // 主题
+          else if (d.type=="topic") {
+            html += "<div class=\"topic\">";
+            for(var ii=0; ii<d.data.length; ii++) {
+              html += "<img src=\"" + d.data[ii].image + "\">";
+            }
+            html += "</div>";
+          }
+          // 块
+          else if (d.type=="tile") {
+            html += "<div class=\"topic\">";
+            for(var ii=0; ii<d.data.length; ii++) {
+              html += "<img src=\"" + d.data[ii].image + "\">";
+            }
+            html += "</div>";
+          }
+          return html;
+        },
+
         begin: function(responseText) {
         },
 
-        success: function(responseText) {
+        success: function(response) {
+          if ($.type(response)=="object" && $.type(response.content)=="array"){
+            for(var ii=0; ii<response.content.length; ii++) {
+              $(document.body).append($($.MKTAnchor.templateHtml(response.content[ii])));
+            }
+          }
         },
 
         error: function(XMLHttpRequest) {
@@ -83,9 +121,31 @@
     });
 
     $.fn.extend({
+      KTAnchor : function(success, error, begin, complete) {
+        // ajax 请求，并回调
+        $.MKTAjax($.MKTAnchor.ChannelURL, $.MKTAnchor.GET, null, null,
+          // 成功
+          function(responseText){
+            $.isFunction(success) ? success(responseText) : $.MKTAnchor.success(responseText);
+          },
+          // 错误
+          function(XMLHttpRequest){
+            $.isFunction(error) ? error(XMLHttpRequest) : $.MKTAnchor.error(XMLHttpRequest);
+          },
+          // 结束 ( 成功或失败后 )
+          function(XMLHttpRequest){
+            $.isFunction(complete) ? complete(XMLHttpRequest) : $.MKTAnchor.complete(XMLHttpRequest);
+          }
+        );
+      }
     });
 
   })(jQuery);
+
+  $(document).ready(function(){
+    $(document.body).KTAnchor();
+  });
+
   </script>
 
   <style>
@@ -93,31 +153,8 @@
   html, body{width:100%;height:100%;}
   body{background:#fff;color:#292f33;font-size:14px;line-height:18px;font-size:8.75pt;}
   .slide {width:100%;height:200px;overflow:hidden;margin:0 auto;}
+  .title {overflow:hidden;margin:5px 10px;height:20px;line-height:20px;font-weight:bold;font-size:14px;}
   </style>
-
-  <script>
-  // 页面内模块
-  var tiles_template = {
-    // 幻灯片
-    "slide" : "<div class=\"slide\"></div>",
-    // 宽屏幻灯片
-    "wide-slide" : "<div class=\"wide-slide\"></div>",
-    // 主题
-    "topic" : "<div class=\"topic\"></div>",
-    // 2 个主题
-    "two-topic" : "<div class=\"topic\"><ul><li v-for=\"topic in topics\">{{ topic.icon }}</li></ul></div>",
-    // 3 个主题
-    "three-topic" : "<div class=\"topic\"><ul><li v-for=\"topic in topics\">{{ topic.icon }}</li></ul></div>",
-    // 4 个主题
-    "four-topic" : "<div class=\"topic\"><ul><li v-for=\"topic in topics\">{{ topic.icon }}</li></ul></div>",
-    // 图片
-    "media" : "<div class=\"wide-slide\"></div>",
-  };
-  </script>
-
-  <script>
-  $.MKTAjax($.MKTAnchor.ChannelURL);
-  </script>
 
   <title>-</title>
   </head>

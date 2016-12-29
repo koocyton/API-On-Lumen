@@ -79,6 +79,7 @@ a.tree-menu-open div{background: url("button_down.gif") no-repeat scroll 27px ce
 .list-table tbody td {border:1px solid #dddddd;text-align:center;}
 .notes-table thead td {background-color:#e8e8e8;border:0;text-align:left;vertical-align:top;}
 .notes-table tbody td {border:0;text-align:left;vertical-align:top;}
+.form-field td {height:35px;line-height:35px;}
 
 .paging-anchor, .paging-anchor:hover{display:inline-block;height:25px;min-width:15px;line-height:25px;text-align:center;color:#333;border:1px solid #ddd;margin:0 3px;padding:0 5px;text-decoration:none;font-size:8.75pt;}
 .paging-current-anchor, .paging-current-anchor:hover{color:#fff;background-color:#aaa;font-weight:bolder;}

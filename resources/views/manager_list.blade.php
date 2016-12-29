@@ -92,7 +92,9 @@ foreach ($managers as $manager) {
 											<img src="/image/switch_{{ $status }}.png" style="width:50px;">
 											</a>
 										</td>
-										<td><a class="normal-anchor" href="/manager/{{ $manager->id }}">{{ $manager->account }}</a></td>
+										<td>
+											<a class="normal-anchor" href="javascript:$.KTAnchor.popupLoader('/manager/{{ $manager->id }}')">{{ $manager->account }}</a>
+										</td>
 										<td>{{ $manager->created_at }}</td>
 										<td>
 										<?php

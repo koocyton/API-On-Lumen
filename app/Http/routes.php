@@ -45,7 +45,7 @@ $app->group(['prefix' => '/manager', 'namespace' => 'App\Http\Controllers'], fun
     // 管理员列表
     $app->get('list', 'ManagerController@list');
     // 管理员
-    $app->get('{id}', 'ManagerController@get');
+    $app->get('{id}', 'ManagerController@detail');
     // 管理员开关
     $app->get('{id}/switch', 'ManagerController@switch');
 });

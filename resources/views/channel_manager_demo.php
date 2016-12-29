@@ -27,6 +27,10 @@
 
         ChannelURL: "/channel-detail/<?=$id;?>",
 
+        ScreenWidth: 100,
+
+        ScreenHeight: 100,
+
         templateHtml: function(d) {
           var template_type = '$.MKTAnchor.' + d.type + 'Template';
           var template_func = eval(template_type);
@@ -36,6 +40,7 @@
           return "";
         },
 
+        // 划片
         slideTemplate: function(d) {
           var html = "<div class=\"slide\">";
           for(var ii=0; ii<d.data.length; ii++) {
@@ -44,22 +49,46 @@
           html += "</div>";
           return html;
         },
-
+        // 标题
         titleTemplate: function(d) {
           return "<div class=\"title\">" + d.text + "</div>";
         },
-
+        // 主题
         topicTemplate: function(d) {
           html = "<div class=\"topic\">";
-          for(var ii=0; ii<d.data.length; ii++) {
+          for(var ii=0; ii<d.split; ii++) {
             html += "<img src=\"" + d.data[ii].image + "\">";
           }
           html += "</div>";
           return html;
         },
-
+        // 图文
         tileTemplate: function(d) {
-          html = "<div class=\"topic\">";
+          switch (d.style) {
+            case "trip":
+              d.split = 1;
+              d.width = this.ScreenWidth;
+              d.height = this.ScreenWidth / 3;
+              break;
+            case "squaretile":
+              d.split = 1;
+              d.width = this.ScreenWidth;
+              d.height = this.ScreenWidth;
+              break;
+            case "portrait":
+              d.split = 2;
+              d.width = this.ScreenWidth / 2;
+              d.height = this.ScreenWidth / 2 * 0.62;
+              break;
+            case "landscape":
+              d.split = 2;
+              d.width = this.ScreenWidth / 2;
+              d.height = this.ScreenHeight / 2 * 1.8;
+              break;
+          }
+
+          html = "<div class=\"tile\">";
+          var nn = 1
           for(var ii=0; ii<d.data.length; ii++) {
             html += "<img src=\"" + d.data[ii].image + "\">";
           }
@@ -159,8 +188,13 @@
   *{margin:0;padding:0;text-align:left;vertical-align:middle;-webkit-overflow-scrolling:touch;}
   html, body{width:100%;height:100%;}
   body{background:#fff;color:#292f33;font-size:14px;line-height:18px;font-size:8.75pt;}
-  .slide {width:100%;height:200px;overflow:hidden;margin:0 auto;}
+  .slide {width:100%;height:200px;overflow:hidden;margin:0 auto;border-bottom:1px solid #aaa;}
+  .slide img {width:100%;height:100%;}
   .title {overflow:hidden;margin:5px 10px;height:20px;line-height:20px;font-weight:bold;font-size:14px;}
+  .topic {width:100%;height:100px;overflow:hidden;margin:0 auto;border-bottom:1px solid #aaa;}
+  .topic img {width:33.3%;height:100px;}
+  .tile {width:100%;height:100px;overflow:hidden;margin:0 auto;border-bottom:1px solid #aaa;}
+  .tile img {width:33.3%;height:100px;}
   </style>
 
   <title>-</title>

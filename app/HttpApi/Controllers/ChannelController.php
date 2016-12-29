@@ -34,10 +34,10 @@ class ChannelController extends ApiController
                 [
                     'type' => 'slide',
                     'data' => [
-                        ['image' => '', 'link' => ''],
-                        ['image' => '', 'link' => ''],
-                        ['image' => '', 'link' => ''],
-                        ['image' => '', 'link' => ''],
+                        ['image' => '/image/php.jpg', 'link' => ''],
+                        ['image' => '/image/php.jpg', 'link' => ''],
+                        ['image' => '/image/php.jpg', 'link' => ''],
+                        ['image' => '/image/php.jpg', 'link' => ''],
                     ],
                 ],
                 [

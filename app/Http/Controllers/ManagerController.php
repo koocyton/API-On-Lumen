@@ -27,6 +27,17 @@ class ManagerController extends BaseController
     }
 
     /*
+     * 管理员详细信息
+     */
+    public function detail($id)
+    {
+        // 管理员列表
+        $manager = Manager::withTrashed()->where(['id' => $id])->first();
+        // 返回 view
+        return $this->view('manager_detail', ['manager' => $manager]);
+    }
+
+    /*
      * 打开或关闭管理员
      */
     function switch ($id) {

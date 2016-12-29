@@ -51,6 +51,6 @@ class ChannelManagerController extends BaseController
     public function demo($id)
     {
         // 显示 demo
-        return $this->view("channel_manager_demo", ['channel_id' => $id]);
+        return $this->view("channel_manager_demo", ['id' => $id]);
     }
 }

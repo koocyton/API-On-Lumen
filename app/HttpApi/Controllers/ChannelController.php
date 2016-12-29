@@ -22,7 +22,34 @@ class ChannelController extends ApiController
      */
     public function detail($channel_id)
     {
+        // 获取频道信息
         $channel = Channel::where('id', $channel_id)->first();
-        return response()->json(["channel_detail" => $channel]);
+        // 返回数据
+        return response()->json([
+            'meta' => [
+                'id' => $channel->id,
+                'name' => $channel->name,
+            ],
+            'content' => [
+                [
+                    'type' => 'slide',
+                    'data' => [
+                        ['image' => '', 'link' => ''],
+                        ['image' => '', 'link' => ''],
+                        ['image' => '', 'link' => ''],
+                        ['image' => '', 'link' => ''],
+                    ],
+                ],
+                [
+                    'type' => 'tile',
+                    'data' => [
+                        ['image' => '', 'title' => '', 'summary' => '', 'link' => 'news://1'],
+                        ['image' => '', 'title' => '', 'summary' => ''],
+                        ['image' => '', 'title' => '', 'summary' => ''],
+                        ['image' => '', 'title' => '', 'summary' => ''],
+                    ],
+                ],
+            ],
+        ]);
     }
 }

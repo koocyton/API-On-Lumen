@@ -28,35 +28,42 @@
         ChannelURL: "/channel-detail/<?=$id;?>",
 
         templateHtml: function(d) {
-          var html = '';
-          // 切换跑马灯
-          if (d.type=="slide") {
-            html += "<div class=\"slide\">";
-            for(var ii=0; ii<d.data.length; ii++) {
-              html += "<img src=\"" + d.data[ii].image + "\">";
-            }
-            html += "</div>";
+          var template_type = '$.MKTAnchor.' + d.type + 'Template';
+          var template_func = eval(template_type);
+          if ($.type(template_func)=="function") {
+            return eval(template_type).apply(this, [d]);
           }
-          // 标题
-          else if (d.type=="title") {
-            html += "<div class=\"title\">" + d.text + "</div>";
+          return "";
+        },
+
+        slideTemplate: function(d) {
+          var html = "<div class=\"slide\">";
+          for(var ii=0; ii<d.data.length; ii++) {
+            html += "<img src=\"" + d.data[ii].image + "\">";
           }
-          // 主题
-          else if (d.type=="topic") {
-            html += "<div class=\"topic\">";
-            for(var ii=0; ii<d.data.length; ii++) {
-              html += "<img src=\"" + d.data[ii].image + "\">";
-            }
-            html += "</div>";
+          html += "</div>";
+          return html;
+        },
+
+        titleTemplate: function(d) {
+          return "<div class=\"title\">" + d.text + "</div>";
+        },
+
+        topicTemplate: function(d) {
+          html = "<div class=\"topic\">";
+          for(var ii=0; ii<d.data.length; ii++) {
+            html += "<img src=\"" + d.data[ii].image + "\">";
           }
-          // 块
-          else if (d.type=="tile") {
-            html += "<div class=\"topic\">";
-            for(var ii=0; ii<d.data.length; ii++) {
-              html += "<img src=\"" + d.data[ii].image + "\">";
-            }
-            html += "</div>";
+          html += "</div>";
+          return html;
+        },
+
+        tileTemplate: function(d) {
+          html = "<div class=\"topic\">";
+          for(var ii=0; ii<d.data.length; ii++) {
+            html += "<img src=\"" + d.data[ii].image + "\">";
           }
+          html += "</div>";
           return html;
         },
 

@@ -9,6 +9,26 @@
 										<b>　频道设置</b>
 									</td>
 									<td class="ct-nav-right">
+										<div class="ct-nav-create dropdown-container" style="margin-right:15px;">
+											<a href="javascript:;" title="新增 Task" style="display:inline-block;color:#000;">
+												北京
+												<span class="octicon" style="font-size:13px;">&#xf0a3;</span>
+											</a>
+											<div class="pop-layout" style="top:30px;left:-154px;display:none;">
+												<b class="angle-up" style="left:174px;top:-5px;"></b>
+												<div class="content-board radius-4 shadow-3">
+													<div class="dropdown-menu" style="height:111px;width:204px;">
+													  <ul>
+														@foreach ($channels as $channel)
+														<li><a class="radius-3" href="javascript:$.KTIframe('#channel-demo', '/channel-manager/demo/{{ $channel->id }}')">
+														{{ $channel->name }}
+														</a></li>
+														@endforeach
+													  </ul>
+													</div>
+											  	</div>
+											</div>
+										</div>
 									</td>
 								</tr>
 							</table>
@@ -22,15 +42,6 @@
 									</td>
 								</tr>
 							</table>
-                        </div>
-
-                        <div class="content-menu radius-5 content-border">
-							@foreach ($channels as $channel)
-								<a href="javascript:$.KTIframe('#channel-demo', '/channel-manager/demo/{{ $channel->id }}')">
-									{{ $channel->name }}
-								</a>
-								<br>
-							@endforeach
                         </div>
 
                     </div>

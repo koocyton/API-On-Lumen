@@ -42,7 +42,7 @@ class ChannelManagerController extends BaseController
         ];
 
         // 返回 view
-        return $this->view('channel_manager_list', ['channels' => $channels, 'paging' => $paging]);
+        return $this->display('channel_manager_list', ['channels' => $channels, 'paging' => $paging]);
     }
 
     /*
@@ -51,6 +51,6 @@ class ChannelManagerController extends BaseController
     public function demo($id)
     {
         // 显示 demo
-        return $this->view("channel_manager_demo", ['id' => $id]);
+        return $this->display("channel_manager_demo", ['id' => $id]);
     }
 }

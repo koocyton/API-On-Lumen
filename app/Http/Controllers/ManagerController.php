@@ -23,7 +23,7 @@ class ManagerController extends BaseController
             'limit' => 30,
         ];
         // 返回 view
-        return $this->view('manager_list', ['managers' => $managers, 'paging' => $paging]);
+        return $this->display('manager_list', ['managers' => $managers, 'paging' => $paging]);
     }
 
     /*
@@ -34,7 +34,7 @@ class ManagerController extends BaseController
         // 管理员列表
         $manager = Manager::withTrashed()->where(['id' => $id])->first();
         // 返回 view
-        return $this->view('manager_detail', ['manager' => $manager]);
+        return $this->display('manager_detail', ['manager' => $manager]);
     }
 
     /*
@@ -68,6 +68,6 @@ class ManagerController extends BaseController
             'limit' => 30,
         ];
         // 返回 view
-        return $this->view('operation_list', ['operations' => $operations, 'paging' => $paging]);
+        return $this->display('operation_list', ['operations' => $operations, 'paging' => $paging]);
     }
 }

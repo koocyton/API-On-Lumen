@@ -62,7 +62,7 @@ class Controller extends BaseController
     }
 
     // 将多语言带入
-    protected function view($template, array $assign = [])
+    protected function display($template, array $assign = [])
     {
         // 多语言
         $assign['trans'] = $this->trans;

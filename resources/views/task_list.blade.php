@@ -10,7 +10,7 @@
 									</td>
 									<td class="ct-nav-right">
 										<div class="ct-nav-create" style="margin-right:15px;">
-											<a href="javascript:$.KTAnchor.popupLoader('/task/new')" title="新增 Task" style="display:inline-block;color:#000;">
+											<a href="javascript:$.KTAnchor.popupLoader('/task/apply')" title="新增 Task" style="display:inline-block;color:#000;">
 												<span class="octicon" style="font-size:13px;">&#xf05d;</span>
 												<span class="octicon" style="font-size:25px;">&#xf068;</span>
 											</a>
@@ -101,7 +101,7 @@ if ($task->updated_at == "0000-00-00 00:00:00") {
                         </div>
 
                         <div style="margin-top:20px;">
-                            <div class="paging-container" style="text-align:right;" total="<?php echo $paging["total"]; ?>" current="<?php echo $paging["current"]; ?>" limit="<?php echo $paging["limit"]; ?>"></div>
+                            <div class="paging-container" style="text-align:right;" total="{{ $paging->total }}" current="{{ $paging->current }}" limit="{{ $paging->limit }}"></div>
                         </div>
 
                     </div>

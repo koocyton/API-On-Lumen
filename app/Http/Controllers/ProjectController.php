@@ -32,7 +32,7 @@ class ProjectController extends BaseController
             $assign["authorization"] = SecurityHelper::authorization($token, $token_secret, $request_url, $request_method);
         }
         // 返回 view
-        return $this->view('project_api_debug', $assign);
+        return $this->display('project_api_debug', $assign);
     }
 
     /*
@@ -63,7 +63,7 @@ class ProjectController extends BaseController
         ];
 
         // 返回 view
-        return $this->view('project_data_manage', $assign);
+        return $this->display('project_data_manage', $assign);
     }
 
     /*
@@ -94,7 +94,7 @@ class ProjectController extends BaseController
         // 获得数据
         $assign['data'] = $model->withTrashed()->where(['id' => $id])->first();
         // 返回 view
-        return $this->view('project_data_editor', $assign);
+        return $this->display('project_data_editor', $assign);
     }
 
     /*
@@ -108,6 +108,6 @@ class ProjectController extends BaseController
         // 获得数据
         $assign['data'] = $model->withTrashed()->where(['id' => $id])->first();
         // 返回 view
-        return $this->view('project_data_editor', $assign);
+        return $this->display('project_data_editor', $assign);
     }
 }

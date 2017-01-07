@@ -89,8 +89,8 @@ $app->group(['prefix' => '/channel-manager', 'namespace' => 'App\Http\Controller
  */
 // 管理员的接口
 $app->group(['prefix' => '/task', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
-    // 接口
     $app->get('list', 'TaskController@list');
+    $app->get('apply', 'TaskController@apply');
 });
 
 /*

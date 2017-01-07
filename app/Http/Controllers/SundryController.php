@@ -17,6 +17,6 @@ class SundryController extends BaseController
         // 获取 Icons
         $icons = Icons::get();
         // 返回 view
-        return $this->view('sundry_icons', ["icons" => $icons]);
+        return $this->display('sundry_icons', ["icons" => $icons]);
     }
 }

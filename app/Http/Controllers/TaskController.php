@@ -1,27 +1,53 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Helper\PagingHelper;
 use App\Http\Controllers\Controller as BaseController;
 use App\Model\Task;
+use Illuminate\Http\Request;
 
 class TaskController extends BaseController
 {
     /*
-     * 管理员列表
+     * 任务列表
      */
     function list() {
-        // 管理员列表
-        $tasks = Task::skip(0)->take(30)->orderBy('id', 'desc')->get();
         // 分页信息
-        $paging = [
-            // 当前页的起始数
-            'current' => empty($_GET['po']) ? 1 : $_GET['po'],
-            // 总数
-            'total' => Task::count(),
-            // 每页显示多少条记录
-            'limit' => 30,
-        ];
+        $paging = new PagingHelper(Task::count());
+        // 任务列表
+        $tasks = Task::skip($paging->current - 1)->take($paging->limit)->orderBy('id', 'desc')->get();
         // 返回 view
-        return $this->view('task_list', ['tasks' => $tasks, 'paging' => $paging]);
+        return $this->display('task_list', ['tasks' => $tasks, 'paging' => $paging]);
+    }
+
+    /*
+     * 新任务表单
+     */
+    public function apply()
+    {
+        // 返回 view
+        return $this->display('task_apply');
+    }
+
+    /*
+     * 保存新任务
+     */
+    public function create(Request $request)
+    {
+
+    }
+
+    /*
+     * 查看编辑任务
+     */
+    public function view($id)
+    {
+    }
+
+    /*
+     * 保存任务修改
+     */
+    public function save(Request $request)
+    {
     }
 }

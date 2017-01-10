@@ -8,14 +8,8 @@
 
     <!-- Bootstrap -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-    .body-background {height:100%;width:100%;top:0px;left:0px;position:absolute; background:rgba(0,0,0,0) url(/css/cn_bg.jpg) no-repeat scroll 0 0 / cover;}
-    .navbar-nav>li>a {padding-top:10px;padding-bottom:10px;}
-  	.navbar {min-height:40px;border-radius:0;}
-  	.modal-dialog {width:340px;left:15%;top:50%;position:absolute;}
-  	label{font-weight:normal;}
-    </style>
+    <!-- KTAnchor -->
+    <link href="/bootstrap/css/KTAnchor.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,19 +27,19 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?=$trans->get('login.Language');?>：<?=$trans->get('login.Location');?> <span class="caret"></span></a>
+              <a href="#" native="yes" class="dropdown-toggle" data-toggle="dropdown"><?=$trans->get('login.Language');?>：<?=$trans->get('login.Location');?> <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="?locale=cn">简体中文</a></li>
-                <li><a href="?locale=tw">繁體中文</a></li>
-                <li><a href="?locale=kr">한국어</a></li>
-                <li><a href="?locale=jp">日本語</a></li>
-                <li><a href="?locale=en">English</a></li>
+                <li><a native="yes" href="?locale=cn">简体中文</a></li>
+                <li><a native="yes" href="?locale=tw">繁體中文</a></li>
+                <li><a native="yes" href="?locale=kr">한국어</a></li>
+                <li><a native="yes" href="?locale=jp">日本語</a></li>
+                <li><a native="yes" href="?locale=en">English</a></li>
               </ul>
             </li>
           </ul>
-        </div>
-      </div>
-    </nav>
+        </div><!-- /#navbar -->
+      </div><!-- /.container -->
+    </nav><!-- /.navbar -->
 
   	<div class="modal-dialog">
       <form action="/login/signin" method="post">
@@ -74,5 +68,6 @@
 
     <script src="/bootstrap/js/jquery-1.11.3.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/bootstrap/js/KTAnchor.js"></script>
   </body>
 </html>

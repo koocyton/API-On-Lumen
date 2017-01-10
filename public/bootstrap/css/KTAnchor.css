@@ -1,0 +1,5 @@
+label{font-weight:normal;}
+.body-background {height:100%;width:100%;top:0px;left:0px;position:absolute; background:rgba(0,0,0,0) url(/css/cn_bg.jpg) no-repeat scroll 0 0 / cover;}
+.navbar-nav>li>a {padding-top:10px;padding-bottom:10px;}
+.navbar {min-height:40px;border-radius:0;}
+.modal-dialog {width:340px;left:15%;top:50%;position:absolute;}

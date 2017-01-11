@@ -132,3 +132,4 @@ button {vertical-align:middle;-webkit-border-radius:4px;-khtml-border-radius:4px
 .kt-popup-title{color:333;font-size:23px;width:100%;height:100%;text-align:center;}
 .kt-popup-close{position:absolute;display:block;font-family:octicons;font-size:23px;top:0px;right:0px;margin-right:10px;cursor:pointer;}
 
+.upload-image {height:200px;width:300px;position:absolute;top:0px;left:0px;opacity:0;-moz-opacity:0;FILTER:progid:DXImageTransform.Microsoft.Alpha(opacity=0);}

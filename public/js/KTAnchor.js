@@ -280,21 +280,36 @@
 		},
 
 		//
-		KTPrintr: function(theObj) {
-			var retStr = '';
-			if (typeof theObj == 'object') {
-				retStr += '<div>';
-				for (var p in theObj) {
-					if (typeof theObj[p] == 'object') {
-						retStr += '<div><b>['+p+'] => ' + typeof(theObj) + '</b></div>';
-						retStr += '<div style="padding-left:25px;">' + $.KTPrintr(theObj[p]) + '</div>';
+		KTPrintr: function(the_object) {
+			var ret_str = '';
+			if (typeof the_object == 'object') {
+				ret_str += '<div>';
+				for (var p in the_object) {
+					if (typeof the_object[p] == 'object') {
+						ret_str += '<div><b>['+p+'] => ' + typeof(the_object) + '</b></div>';
+						ret_str += '<div style="padding-left:25px;">' + $.KTPrintr(the_object[p]) + '</div>';
 					} else {
-						retStr += '<div>['+p+'] => <b>' + theObj[p] + '</b></div>';
+						ret_str += '<div>['+p+'] => <b>' + the_object[p] + '</b></div>';
 					}
 				}
-				retStr += '</div>';
+				ret_str += '</div>';
 			}
-			return retStr;
+			return ret_str;
+		},
+
+		//得到图片的完整路径
+		getInputPath: function(file) {
+		    var url = null;
+		    if (window.createObjectURL != undefined) { // basic
+		        url = window.createObjectURL(file);
+		    }
+		    else if (window.URL != undefined) { // mozilla(firefox)
+		        url = window.URL.createObjectURL(file);
+		    }
+		    else if (window.webkitURL != undefined) { // webkit or chrome
+		        url = window.webkitURL.createObjectURL(file);
+		    }
+		    return url;
 		},
 
 		// show request process
@@ -408,7 +423,7 @@
 
 		KTLoader: function() {
 			// 加载
-			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTDropDown().KTMouseWheel().KTDateInputBind();
+			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTDropDown().KTMouseWheel().KTDateInputBind().KTUploadImageInputBind();
 		},
 
 		KTAnchor : function(success, error, begin, complete) {
@@ -666,6 +681,45 @@
 				}
 			});
 			return field_ok;
+		},
+
+		//得到图片的完整路径
+		KTGetInputPath: function(ii) {
+			var file = this.context.files[ii];
+		    var url = null;
+		    if (window.createObjectURL != undefined) { // basic
+		        url = window.createObjectURL(file);
+		    }
+		    else if (window.URL != undefined) { // mozilla(firefox)
+		        url = window.URL.createObjectURL(file);
+		    }
+		    else if (window.webkitURL != undefined) { // webkit or chrome
+		        url = window.webkitURL.createObjectURL(file);
+		    }
+		    return url;
+		},
+
+		KTUploadImageInputBind: function()
+		{
+			var image_inputs = $(".upload-image");
+			image_inputs.each(function(key, date_input) {
+				image_input = $(this);
+				// 判断是否已经绑定过
+				if (image_input.data("mouse-click")!=null) {
+					return null;
+				}
+				// 绑定
+				image_input.data("mouse-click", "mouse-click");
+				// 绑定事件
+				image_input.change(function() {
+			        var image_url = $(this).KTGetInputPath(0);
+			        if (image_url) {
+			            image_input.prev().html("<img style=\"width:100%;height:100%;\" src=\"" + image_url + "\">");
+			        }
+			    });
+			});
+
+			return this;
 		},
 
 		KTDateInputBind : function()

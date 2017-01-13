@@ -74,29 +74,28 @@
 
 			showSlidMessage: function(message){
 				var alert_elt = $(".alert");
-				if (!alert_elt.exist()) {
-					$(document.body).append('<div class="alert alert-danger" style="position:relative;"></div>');
-					// 弹出窗不冒泡，避免上面的链接点了后，立刻窗口隐藏，有点怪怪的
+				if (alert_elt.data("first-click")==null) {
+					// 不冒泡
 					alert_elt.bind("click", function(e){
 						e.stopPropagation();
 					});
-					// 绑定关闭事件
-					$(document.body).bind("click touchend", function(){
-						alert_elt.animate({'bottom':'-90px'}, function(){
-							//alert(1);
-							//alert_elt.html("");
-							alert_elt.css("display","none");
+					//
+					alert_elt.data("first-click", "first-click")
+				}
+				// 弹出和弹出动画
+				$(".alert-message").html(message);
+				alert_elt.css({bottom:30,opacity:0,display:"block"}).animate({bottom:6,opacity:1}, 'fast' , function(){
+					// 绑定界面点击时关闭弹出
+					$(document.body).bind("click touchend", function(e){
+						// 关闭动画
+						alert_elt.animate({opacity: 0}, function(){
+							$(".alert-message").html(message);
+							alert_elt.css({display:"none"});
 							$(document.body).unbind("click touchend");
 						});
+						e.stopPropagation();
 					});
-				}
-				$.KTLog(alert_elt, message);
-				alert_elt.html(message);
-				alert_elt.css("bottom","0px").css("display","block").animate({"bottom":"-5px"});
-				alert_elt.bind("click", function(ev){
-					ev.stopPropagation();
-				})
-				$(document.body).bind("click touchend", $.KTAnchor.closeSlidMessage);
+				});
 			},
 
 			inputError: function(input, message){
@@ -131,7 +130,7 @@
 						window.location = responseText.url;
 					}
 					else if (responseText.action=="showMessage") {
-						$.KTAhchor.showSlidMessage(responseText.message);
+						$.KTAnchor.showSlidMessage(responseText.message);
 					}
 				}
 				else if (typeof(responseText)=="object") {
@@ -411,7 +410,7 @@
 
 		KTLoader: function() {
 			// 加载
-			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTDropDown().KTMouseWheel().KTDateInputBind();
+			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTDropDown().KTDateInputBind();
 		},
 
 		KTAnchor : function(success, error, begin, complete) {
@@ -920,19 +919,6 @@
 			});
 			// 返回 JQuery 对象
 			return this;
-		},
-
-		KTMouseWheel : function() {
-
-			// 所有的自定义滚动条层
-			var containers = this.find($.KTAnchor.scroll_container);
-			// 查询匹配的节点
-			containers.each(function(key, scroll_container) {
-				var scroll_container = $(scroll_container)
-				var parent_height = scroll_container.parent().height();
-				scroll_container.css({"height":parent_height, "overflow-y":"scroll"});
-			});
-			return this;
 		}
 	});
 
@@ -963,11 +949,7 @@ $(document).ready(function(){
 
   // 调整窗口时时，
   $(window).bind("resize", function(){
-    // 主内容的区域的高度，为浏览区域的高度，减去 40
-    $("#left-container, #right-container").height($(window).height()-40);
-	$(".kt-popup-body").parent().height($(".kt-popup-doc").height() -  43);
-    // 如果不是移动的浏览器
-    $(document.body).KTMouseWheel();
+    $(".body-content-left, .body-content-right").height($(window).height()-40);
   });
   // 手动触发一次
   $(window).trigger("resize");

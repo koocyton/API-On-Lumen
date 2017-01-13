@@ -22,19 +22,34 @@
 
     <div class="body-background"></div>
 
+    <div class="body-content">
+      <div class="body-content-left scroll-container"></div>
+      <div class="body-content-right scroll-container"></div>
+    </div>
+
     <nav class="navbar navbar-inverse" role="navigation">
       <div class="container">
+        <div class="navbar-header">
+          <a href="javascript:void(0);" class="navbar-brand"> &nbsp; AOL Manager</a>
+        </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="#" native="yes" class="dropdown-toggle" data-toggle="dropdown"><?=$trans->get('login.Language');?>：<?=$trans->get('login.Location');?> <span class="caret"></span></a>
+              <a href="#" native="yes" class="dropdown-toggle" data-toggle="dropdown" style="padding:6px;"><span class="glyphicon glyphicon-cog" style="font-size:24px;"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li class="dropdown-menu-arrow"><span class="glyphicon glyphicon-eject"></span></li>
-                <li><a native="yes" href="?locale=cn">简体中文</a></li>
-                <li><a native="yes" href="?locale=tw">繁體中文</a></li>
-                <li><a native="yes" href="?locale=kr">한국어</a></li>
-                <li><a native="yes" href="?locale=jp">日本語</a></li>
-                <li><a native="yes" href="?locale=en">English</a></li>
+                <li>
+                  <a href="javascript:$.KTAnchor.popupLoader(null)"><span class="glyphicon glyphicon-list-alt"></span> &nbsp; 问题反馈</a>
+                </li>
+                <li>
+                  <a href="javascript:$.KTAnchor.popupLoader(null)"><span class="glyphicon glyphicon-lock"></span> &nbsp; 账号安全</a>
+                </li>
+                <li>
+                  <a href="javascript:$.KTAnchor.popupLoader('/sundry/icons')"><span class="glyphicon glyphicon-th"></span> &nbsp; 图标大全</a>
+                </li>
+                <li>
+                  <a pushstate="no" href="/login/signout"><span class="glyphicon glyphicon-log-out"></span> &nbsp; 退出</a>
+                </li>
               </ul>
             </li>
           </ul>
@@ -42,30 +57,7 @@
       </div><!-- /.container -->
     </nav><!-- /.navbar -->
 
-  	<div class="modal-dialog">
-      <form action="/login/signin" method="post">
-    		<div class="modal-content">
-    			<div class="modal-body">
-    				<div class="form-group">
-    					<input type="text" name="account" class="form-control" placeholder="{{ $trans->get('login.Please enter account') }}">
-    				</div>
-    				<div class="form-group">
-    					<input type="password" name="password" class="form-control" placeholder="{{ $trans->get('login.Please enter password') }}">
-    				</div>
-    				<div>
-    					<label>
-    						<input type="checkbox"> {{ $trans->get('login.Remember me') }}
-    					</label>
-    					<span class="separator">·</span>
-    					<a href="javascript:;" native="yes" style="color:#0084b4">{{ $trans->get('login.Forgot password') }}</a>
-    				</div>
-    			</div>
-    			<div class="modal-footer">
-    				<button type="submit" class="btn btn-success">{{ $trans->get('login.Login') }}</button>
-    			</div>
-    		</div><!-- /.modal-content -->
-      </form><!-- /.modal-form -->
-  	</div><!-- /.modal-dialog -->
+
 
     <div class="alert alert-warning alert-dismissible" role="alert">
       <strong>Warning!</strong>

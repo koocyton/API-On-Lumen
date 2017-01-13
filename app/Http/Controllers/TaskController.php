@@ -34,7 +34,8 @@ class TaskController extends BaseController
      */
     public function create(Request $request)
     {
-
+        $task = [];
+        Task::create($task);
     }
 
     /*
@@ -42,12 +43,15 @@ class TaskController extends BaseController
      */
     public function view($id)
     {
+        $task = Task::where("id", $id)->first();
+        // 返回 view
+        return $this->display('task_view', ['task' => $task]);
     }
 
     /*
      * 保存任务修改
      */
-    public function save(Request $request)
+    public function update(Request $request)
     {
     }
 }

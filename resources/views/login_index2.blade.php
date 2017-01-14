@@ -42,30 +42,32 @@
       </div><!-- /.container -->
     </nav><!-- /.navbar -->
 
-  	<div class="modal-dialog">
-      <form action="/login/signin" method="post">
-    		<div class="modal-content">
-    			<div class="modal-body">
-    				<div class="form-group">
-    					<input type="text" name="account" class="form-control" placeholder="{{ $trans->get('login.Please enter account') }}">
-    				</div>
-    				<div class="form-group">
-    					<input type="password" name="password" class="form-control" placeholder="{{ $trans->get('login.Please enter password') }}">
-    				</div>
-    				<div>
-    					<label>
-    						<input type="checkbox"> {{ $trans->get('login.Remember me') }}
-    					</label>
-    					<span class="separator">·</span>
-    					<a href="javascript:;" native="yes" style="color:#0084b4">{{ $trans->get('login.Forgot password') }}</a>
-    				</div>
-    			</div>
-    			<div class="modal-footer">
-    				<button type="submit" class="btn btn-success">{{ $trans->get('login.Login') }}</button>
-    			</div>
-    		</div><!-- /.modal-content -->
-      </form><!-- /.modal-form -->
-  	</div><!-- /.modal-dialog -->
+    <div class="cn-modal-dialog">
+    	<div class="modal-dialog">
+        <form action="/login/signin" method="post">
+      		<div class="modal-content">
+      			<div class="modal-body">
+      				<div class="form-group">
+      					<input type="text" name="account" class="form-control" placeholder="{{ $trans->get('login.Please enter account') }}">
+      				</div>
+      				<div class="form-group">
+      					<input type="password" name="password" class="form-control" placeholder="{{ $trans->get('login.Please enter password') }}">
+      				</div>
+      				<div>
+      					<label>
+      						<input type="checkbox"> {{ $trans->get('login.Remember me') }}
+      					</label>
+      					<span class="separator">·</span>
+      					<a href="javascript:;" native="yes" style="color:#0084b4">{{ $trans->get('login.Forgot password') }}</a>
+      				</div>
+      			</div>
+      			<div class="modal-footer">
+      				<button type="submit" class="btn btn-success">{{ $trans->get('login.Login') }}</button>
+      			</div>
+      		</div><!-- /.modal-content -->
+        </form><!-- /.modal-form -->
+    	</div><!-- /.modal-dialog -->
+    </div>
 
     <div class="alert alert-danger" role="alert">
       <strong>Warning!</strong>

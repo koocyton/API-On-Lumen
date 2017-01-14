@@ -67,23 +67,25 @@
       <span class="alert-message"></span>
     </div><!-- /.alert -->
 
-    <div class="modal-dialog big-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-          12
-          </div>
-          <div class="modal-body scroll-container">
-          234
-          234
-          234
-          234
-          234
-          234
-          234
-          234
-          </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
+    <div class="window-modal-dialog">
+      <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+            12
+            </div>
+            <div class="modal-body scroll-container">
+            234
+            234
+            234
+            234
+            234
+            234
+            234
+            234
+            </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
 
     <script src="/bootstrap/js/jquery-1.11.3.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>

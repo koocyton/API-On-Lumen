@@ -10,7 +10,7 @@
 			version : "1.0.1",
 
 			// ajax : set default response_container
-			response_container : "#response-container",
+			response_container : ".body-content-right",
 
 			// paging : set default paging_container
 			paging_container : "#paging-container",
@@ -137,8 +137,6 @@
 					// 填充
 					$(container).empty();
 					$(container).html("{<div style=\"padding-left:20px;\">" + $.KTPrintr(responseText) + "</div>}");
-					// 关闭窗口下面滑入的错误提示信息
-					$.KTAnchor.closeSlidMessage();
 				}
 				else if (/^<script>(.+)<\/script>$/.test(responseText)) {
 					var response = responseText.match(/<script>(.+)<\/script>/);
@@ -153,8 +151,6 @@
 					$(container).KTLoader();
 					// 检查有无滚动条需要重置
 					// $(container).parent($.KTAnchor.scroll_container).ktScrollReset();
-					// 关闭窗口下面滑入的错误提示信息
-					$.KTAnchor.closeSlidMessage();
 				}
 			},
 
@@ -172,8 +168,6 @@
 					// 填充
 					$(container).empty();
 					$(container).html("{<div style=\"padding-left:20px;\">" + $.KTPrintr(XMLHttpRequest.responseJSON) + "</div>}");
-					// 关闭窗口下面滑入的错误提示信息
-					$.KTAnchor.closeSlidMessage();
 				}
 				else {
 					$.KTAnchor.showSlidMessage("Error : " + XMLHttpRequest.status);
@@ -410,7 +404,7 @@
 
 		KTLoader: function() {
 			// 加载
-			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTDropDown().KTDateInputBind();
+			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTDateInputBind();
 		},
 
 		KTAnchor : function(success, error, begin, complete) {
@@ -420,6 +414,10 @@
 				var $anchor = $(anchor);
 				// 如果是 <a href="javascript:..." 也是不能去绑定
 				if (/^javascript\:/.test($anchor.attr("href"))) return;
+				// 如果是 # 也是不能绑定
+				if ($anchor.attr("href")=="#") return;
+				// 如果特别标注 <a> 不绑定事件
+				// if ($anchor.attr("native")!=null) return;
 				// 绑定点击事件
 				$anchor.bind("click", function(){
 					// 如果有 confirm 属性
@@ -803,16 +801,16 @@
 					}
 					// 组织 html
 					if (page_list[ii]=="...") {
-						paging_html += "<span class=\""+class_name+"\" style=\"border:0;\">"+page_list[ii]+"</span>";
+						paging_html += "<li><span>...</span></li>";
 					}
 					else if (page_list[ii]==current_page){
-						paging_html += "<a href=\""+href+"\" class=\""+class_name+" "+current_class_name+"\" "+pushstate_html+">"+page_list[ii]+"</a>";
+						paging_html += '<li class="active"><a href="'+href+'" '+pushstate_html+'>'+page_list[ii]+'</a></li>';
 					}
 					else {
-						paging_html += "<a href=\""+href+"\" class=\""+class_name+"\" "+pushstate_html+">"+page_list[ii]+"</a>";
+						paging_html += '<li><a href="'+href+'" '+pushstate_html+'>'+page_list[ii]+'</a></li>';
 					}
 				}
-				$paging_elt.html(paging_html);
+				$paging_elt.html('<nav><ul class="pagination">' + paging_html + '</ul></nav>');
 			});
 			// 返回 JQuery 对象
 			return this;
@@ -926,7 +924,7 @@
 
 /* set KTAnchor default value */
 $.KTAnchor.init({
-	response_container: ".response-container", // Ajax, 设定默认 response 填充的区域
+	response_container: ".body-content-right", // Ajax, 设定默认 response 填充的区域
 	paging_container: ".paging-container", // 分页，分页的容器
 	paging_limit: 30, // 分页，默认每页 30 条记录
 	paging_symbol: "&po", // 分页，默认通过传统的 & 来分割，值通过 http.request.GET.cc 来传递
@@ -937,9 +935,9 @@ $.KTAnchor.init({
 
 // 返回按钮监听
 $(window).bind("popstate", function(){
-	$(".response-container").load(window.top.location.href, function(){
+	$(".body-content-right").load(window.top.location.href, function(){
 		$.KTAnchor.treemenuSelected(window.top.location.href);
-		$(".response-container").KTLoader();
+		$(".body-content-right").KTLoader();
 	});
 });
 
@@ -949,7 +947,7 @@ $(document).ready(function(){
 
   // 调整窗口时时，
   $(window).bind("resize", function(){
-    $(".body-content-left, .body-content-right").height($(window).height()-40);
+    $(".body-content").height($(window).height()-40);
   });
   // 手动触发一次
   $(window).trigger("resize");

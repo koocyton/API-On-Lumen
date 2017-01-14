@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Helper\PagingHelper;
 use App\Http\Controllers\Controller as BaseController;
 use App\Model\Manager;
 use App\Model\OperationRecord;
@@ -11,17 +12,10 @@ class ManagerController extends BaseController
      * 管理员列表
      */
     function list() {
-        // 管理员列表
-        $managers = Manager::withTrashed()->skip(0)->take(30)->orderBy('id', 'desc')->get();
         // 分页信息
-        $paging = [
-            // 当前页的起始数
-            'current' => empty($_GET['po']) ? 1 : $_GET['po'],
-            // 总数
-            'total' => Manager::withTrashed()->count(),
-            // 每页显示多少条记录
-            'limit' => 30,
-        ];
+        $paging = new PagingHelper(Manager::withTrashed()->count());
+        // 管理员列表
+        $managers = Manager::withTrashed()->skip($paging->current - 1)->take($paging->limit)->orderBy('id', 'desc')->get();
         // 返回 view
         return $this->display('manager_list', ['managers' => $managers, 'paging' => $paging]);
     }
@@ -56,17 +50,10 @@ class ManagerController extends BaseController
      */
     public function operationList()
     {
-        // 管理员操作的日志列表
-        $operations = OperationRecord::skip(0)->take(30)->orderBy('id', 'desc')->get();
         // 分页信息
-        $paging = [
-            // 当前页的起始数
-            'current' => empty($_GET['po']) ? 1 : $_GET['po'],
-            // 总数
-            'total' => OperationRecord::count(),
-            // 每页显示多少条记录
-            'limit' => 30,
-        ];
+        $paging = new PagingHelper(OperationRecord::count());
+        // 管理员操作的日志列表
+        $operations = OperationRecord::skip($paging->current - 1)->take($paging->limit)->orderBy('id', 'desc')->get();
         // 返回 view
         return $this->display('operation_list', ['operations' => $operations, 'paging' => $paging]);
     }

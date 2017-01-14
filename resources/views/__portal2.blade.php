@@ -23,8 +23,11 @@
     <div class="body-background"></div>
 
     <div class="body-content">
-      <div class="body-content-left scroll-container"></div>
-      <div class="body-content-right scroll-container"></div>
+      <div class="body-content-left scroll-container opacity-80">
+        <div style="top:0px;position:relative;" id="main-menu"></div>
+      </div>
+      <div class="body-content-right scroll-container opacity-95">
+      </div>
     </div>
 
     <nav class="navbar navbar-inverse" role="navigation">
@@ -35,9 +38,9 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="#" native="yes" class="dropdown-toggle" data-toggle="dropdown" style="padding:6px;"><span class="glyphicon glyphicon-cog" style="font-size:24px;"></span></a>
+              <a href="#" native="yes" class="dropdown-toggle" data-toggle="dropdown" style="padding:6px;"><span class="glyphicon glyphicon-cog" style="font-size:23px;"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li class="dropdown-menu-arrow"><span class="glyphicon glyphicon-eject"></span></li>
+                <li class="dropdown-menu-arrow"><b class="angle-up"></b></li>
                 <li>
                   <a href="javascript:$.KTAnchor.popupLoader(null)"><span class="glyphicon glyphicon-list-alt"></span> &nbsp; 问题反馈</a>
                 </li>
@@ -59,7 +62,7 @@
 
 
 
-    <div class="alert alert-warning alert-dismissible" role="alert">
+    <div class="alert alert-danger" role="alert">
       <strong>Warning!</strong>
       <span class="alert-message"></span>
     </div><!-- /.alert -->
@@ -67,5 +70,49 @@
     <script src="/bootstrap/js/jquery-1.11.3.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script src="/bootstrap/js/KTAnchor.js"></script>
+    <script>
+    var menu_data = [
+          {"text":"主控", "menus":[
+              {"text":"广告管理", "href":"/advert"},
+              {"text":"素材管理", "href":"/resouse"},
+              {"text":"联盟管理", "href":"/union"},
+              {"text":"数据统计", "open":true, "menus":[
+                  {"text":"数据简报", "href":"/bulletin"},
+                  {"text":"各项统计", "href":"/count"},
+                  {"text":"优化分析", "href":"/optimize"}
+              ]}
+          ]},
+          {"text":"项目研发 · 微闻", "menus":[
+              {"text":"频道设置", "href":"/channel-manager/list"},
+              {"text":"项目任务", "href":"/task/list"},
+              {"text":"API 接口", "open":true, "menus":[
+                  {"text":"登录 GET /access-token", "href":"/project/api-debug/access-token"},
+                  {"text":"频道列表 GET /channel-menu", "href":"/project/api-debug/channel-menu"},
+                  {"text":"频道新闻 GET /channel-detail/{id}", "href":"/project/api-debug/channel-detail"},
+                  {"text":"新闻内容 GET /news/{id}", "href":"/project/api-debug/news"},
+                  {"text":"上传新闻 POST /news", "href":"/project/api-debug/post-news"},
+                  {"text":"选择地区 UPDATE /region/{id}", "href":"/project/api-debug/region/{id}"}
+              ]},
+              {"text":"数据管理", "open":false, "menus":[
+                  {"text":"频道信息", "href":"/project/data-manage/channel"},
+                  {"text":"新闻列表", "href":"/project/data-manage/news"},
+                  {"text":"用户管理", "href":"/project/data-manage/user"},
+              ]},
+              {"text":"项目文档", "open":false, "menus":[
+                  {"text":"概叙", "href":"/project/doc/1"},
+                  {"text":"登录", "href":"/project/doc/2"},
+                  {"text":"注册", "href":"/project/doc/3"},
+                  {"text":"主界面", "href":"/project/doc/4"},
+                  {"text":"拍照", "href":"/project/doc/5"},
+                  {"text":"填写拍照信息", "href":"/project/doc/6"},
+              ]},
+          ]},
+          {"text":"管理员", "menus":[
+              {"text":"操作日志", "href":"/operation/list"},
+              {"text":"权限管理", "href":"/manager/list" }
+          ]}
+      ];
+      $("#main-menu").html($.KTTreeMenuHTML.getMenuHtml(menu_data));
+    </script>
   </body>
 </html>

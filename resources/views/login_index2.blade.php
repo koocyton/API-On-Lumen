@@ -29,7 +29,7 @@
             <li class="dropdown">
               <a href="#" native="yes" class="dropdown-toggle" data-toggle="dropdown"><?=$trans->get('login.Language');?>：<?=$trans->get('login.Location');?> <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li class="dropdown-menu-arrow"><span class="glyphicon glyphicon-eject"></span></li>
+                <li class="dropdown-menu-arrow"><b class="angle-up"></b></li>
                 <li><a native="yes" href="?locale=cn">简体中文</a></li>
                 <li><a native="yes" href="?locale=tw">繁體中文</a></li>
                 <li><a native="yes" href="?locale=kr">한국어</a></li>
@@ -67,7 +67,7 @@
       </form><!-- /.modal-form -->
   	</div><!-- /.modal-dialog -->
 
-    <div class="alert alert-warning alert-dismissible" role="alert">
+    <div class="alert alert-danger" role="alert">
       <strong>Warning!</strong>
       <span class="alert-message"></span>
     </div><!-- /.alert -->

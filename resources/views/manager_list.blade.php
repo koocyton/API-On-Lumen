@@ -46,7 +46,7 @@ foreach ($managers as $manager) {
             <td>{{ $manager->id }}</td>
             <td>
               <a href="/manager/{{ $manager->id }}/switch" pushstate="no">
-                <span class="glyphicon glyphicon-{{ $status }}" style="font-size:23px;color:#555555;"></span>
+                <span class="glyphicon glyphicon-{{ $status }}" style="font-size:20px;color:#555555;"></span>
               </a>
             </td>
             <td>

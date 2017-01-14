@@ -21,15 +21,17 @@ label{font-weight:normal;}
 .angle-up{border-bottom:10px solid #ffffff;}
 
 /* dialog 和 alert 调整样子 */
+.big-dialog {width:80%;margin:50px 10%;height:80%;}
 .modal-dialog {width:340px;left:15%;top:50%;position:absolute;}
 .alert {bottom:2px;height:80px;margin:0 23%;position:absolute;width:54%;line-height:50px;display:none;}
 /* .alert-warning {background-color:#ffff48} */
 
 /* 正文部分 和 左右内容 */
 .body-content {position:absolute;width:100%;height:100%;top:40px;left:0;}
-.body-content-left, .body-content-right {height:100%;overflow-x:hidden;overflow-y:scroll;float:left;display:inline-block;background:#ffffff no-repeat scroll 0 0 / cover;}
+.body-content-left, .body-content-right {height:100%;float:left;display:inline-block;background:#ffffff no-repeat scroll 0 0 / cover;}
 .body-content-left {width:20%;}
 .body-content-right {width:80%;}
+.scroll-container{overflow-x:hidden;overflow-y:scroll;}
 
 /* 树状菜单 */
 a.tree-menu, a.tree-select-menu {width:100%;display:block;color:#333;cursor:pointer;text-decoration:none}
@@ -42,4 +44,5 @@ a.tree-menu-2 div{padding:0 0 0 70px}
 a.tree-menu-close div{background: url("button_right.gif") no-repeat scroll 27px center rgba(0,0,0,0)}
 a.tree-menu-open div{background: url("button_down.gif") no-repeat scroll 27px center rgba(0,0,0,0)}
 
+/* 分页 */
 .pagination>.active>a, .pagination>.active>a:hover {background-color:#ccc;border-color:#ccc;color:#666;}

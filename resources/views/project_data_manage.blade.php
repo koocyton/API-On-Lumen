@@ -1,57 +1,51 @@
+    <br>
+    <div class="container">
 
-				<div style="top:0px;position:relative;">
-					<div style="padding:20px;">
+      <!-- Static navbar -->
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="javascript:;" style="margin:5px -10px;"><b>数据管理</b></a></li>
+             </ul>
 
-					    <div class="radius-4 ct-nav">
-							<table class="ct-nav-table">
-								<tr>
-									<td class="ct-nav-left">
-										<b>　数据管理</b>
-									</td>
-									<td class="ct-nav-right">
-			                            <div class="ct-nav-search">
-			                                <form action="" method="get">
-			                                    <div class="input-box" style="width:200px;">
-			                                        <dl>
-			                                            <dd>
-			                                                <input type="text" class="text-input" name="q" validation="/!empty:请填写搜索条件/" placeholder="请填写搜索条件" value="{{ empty($_GET["q"]) ? "" : $_GET["q"] }}" />
-			                                            </dd>
-					                                    <dd class="ct-clean-search radius-14" style="display:{{ empty($_GET["q"]) ? "none" : "block" }};">
-					                                        <a href="/project/data-manage/channel"><span>&#xf081;</span></a>
-					                                    </dd>
-			                                        </dl>
-			                                    </div>
-			                                </form>
-			                            </div>
-									</td>
-								</tr>
-							</table>
-						</div>
+			<form action="/manager/list" method="get" class="navbar-form navbar-right" role="search">
+				<div class="form-group has-feedback">
+					<div class="input-group">
+						<input type="text" name="search" placeholder="搜索" value="" class="form-control">
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-search"></span>
+						</span>
+					</div>
+				</div>
+			</form>
 
-                        <div style="margin-top:20px;">
-                            <table class="list-table">
-    							<thead>
-    								<tr>
-    									<?php
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+     </div>
+
+     <div class="container">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr class="active">
+<?php
 foreach ($fields as $field => $name) {
-    $td_width = "";
-    //
+    $th_width = "";
     if (in_array($field, ['updated_at', 'created_at'])) {
-        $td_width = "120px;";
+        $th_width = "120px;";
     } else if ($field == "deleted_at") {
-        $td_width = "80px;";
-        $name = "是否可用";
+        $th_width = "80px;";
+        $name = "活动的";
     }
-    ?>
-										<td style="width:{{ $td_width }};">{{ $name }}</td>
-										<?php
+    echo "<th style=\"width:{$th_width};\">{$name}</td>";
 }
 ?>
-										<td style="width:80px;">操作</td>
-									</tr>
-    							</thead>
-    							<tbody>
-                                    <?php
+          </tr>
+        </thead>
+        <tbody>
+
+<?php
 foreach ($data as $line) {
     $status = empty($line->deleted_at) ? 'on' : 'off';
     ?>
@@ -89,13 +83,13 @@ foreach ($fields as $field => $name) {
 										</td>
 									</tr>
                                     <?php }?>
-                                </tbody>
-                            </table>
-                        </div>
 
-                        <div style="margin-top:20px;">
-                            <div class="paging-container" style="text-align:right;" total="<?php echo $paging["total"]; ?>" current="<?php echo $paging["current"]; ?>" limit="<?php echo $paging["limit"]; ?>"></div>
-                        </div>
+        </tbody>
+      </table>
+    </div>
 
-                    </div>
-                </div>
+
+     <div class="container">
+       <div class="paging-container" style="text-align:right;" total="{{ $paging->total }}" current="{{ $paging->current }}" limit="{{ $paging->limit }}"></div>
+     </div>
+

@@ -27,6 +27,9 @@
 			// 如果是移动端浏览器
 			mobile_browser : !!navigator.userAgent.match(/AppleWebKit.*Mobile.*/)||!!navigator.userAgent.match(/AppleWebKit/),
 
+			// 默认进度条没有完成
+			request_process_complete : false,
+
 			/* init parment
 			 *
 			 * options.response_container
@@ -225,7 +228,34 @@
 				}
 				$(".tree-select-menu").removeClass("tree-select-menu").addClass("tree-menu");
 				menu_elt.removeClass("tree-menu").addClass("tree-select-menu");
-		    }
+		    },
+
+			// show request process
+			setRequestProcess: function(process_length){
+				// 进度的长度
+				var progress_elt = $(".request-progress");
+				// 完整进度的长度
+				var full_process_length = (this.request_process_complete==true) ? $(window).width() : $(window).width() * 0.8;
+				// 如果没有进度条则创建一个
+				if (progress_elt.length==0) {
+					progress_elt = $('<div class="request-progress"></div>').appendTo(document.body);
+				}
+				// 当前的进度条长度
+				var new_process_length = (this.request_process_complete==true) ? (process_length+1)*1.28 : process_length + 1;
+				progress_elt.css({width:new_process_length, display:'block'});
+				if (new_process_length<=full_process_length) {
+					setTimeout(function(){$.KTAnchor.setRequestProcess(new_process_length)}, 1);
+				}
+				else if (this.request_process_complete==true && new_process_length>full_process_length) {
+					progress_elt.delay(500).fadeOut("fast");
+					this.request_process_complete=false;
+				}
+			},
+
+			// remove request process
+			completeRequestProcess: function(){
+				this.request_process_complete=true;
+			},
 		},
 
 		KTDateFormat: function(ts, dt)   {
@@ -277,24 +307,10 @@
 			return retStr;
 		},
 
-		// show request process
-		showRequestProcess: function(now_process){
-			now_process = (now_process+1) * 2;
-			var full_process = $(".kt-request-progress").parent().width();
-			$(".kt-request-progress").css({"width":now_process+"px","display":"block"});
-			if (now_process<=full_process) {
-				setTimeout(function(){$.showRequestProcess(now_process)}, 10);
-			}
-		},
-
 		// http request function
 		KTAjax: function(url, method, data, headers, success, error, complete){
-
-			// 如果没有进度条则创建一个
-			if ($(".kt-request-progress").length==0) {
-				$(document.body).append('<div class="kt-request-progress"></div>');
-			}
-			this.showRequestProcess(0);
+			// 进度条开始
+			$.KTAnchor.setRequestProcess(0);
 			// stop before one ajax request
 			if (typeof(window.currentKTAjax)=="object") {
 				try{window.currentKTAjax.abort()}catch(e){;}
@@ -319,7 +335,7 @@
 					if ($.isFunction(error)) error(XMLHttpRequest);
 				},
 				"complete" : function(XMLHttpRequest) {
-					$(".kt-request-progress").delay(800).fadeOut("fast");
+					$.KTAnchor.completeRequestProcess();
 					if ($.isFunction(complete)) complete(XMLHttpRequest);
 				}
 			});

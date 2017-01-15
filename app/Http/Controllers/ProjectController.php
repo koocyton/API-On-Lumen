@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Helper\PagingHelper;
 use App\Helper\SecurityHelper;
 use App\Http\Controllers\Controller as BaseController;
 use App\Model\User;
@@ -53,14 +54,7 @@ class ProjectController extends BaseController
         }
 
         // 分页信息
-        $assign['paging'] = [
-            // 当前页的起始数
-            'current' => empty($_GET['po']) ? 1 : $_GET['po'],
-            // 总数
-            'total' => $model->withTrashed()->count(),
-            // 每页显示多少条记录
-            'limit' => 30,
-        ];
+        $assign['paging'] = new PagingHelper($model->withTrashed()->count());
 
         // 返回 view
         return $this->display('project_data_manage', $assign);

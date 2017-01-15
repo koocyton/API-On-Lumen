@@ -1,5 +1,4 @@
-
-		<popup-title style="display:none;" class="popup-title">图标大全</popup-title>
+<popup-title style="display:none;" class="popup-title">图标大全</popup-title>
 
 <div class="bs-glyphicons">
     <ul class="bs-glyphicons-list">

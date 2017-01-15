@@ -184,32 +184,16 @@
 
 			// 弹出窗口
 		    popupLoader : function(url){
-				// 判断关闭是否绑定
-				if ($(".kt-popup-close").data("click") != true) {
-					// 关闭的动画
-		            $(".kt-popup-close").bind("click", function(){
-						$(".kt-popup-doc").css({"margin-top":"5%", "opacity":"1"}).animate({"margin-top":"2%", "opacity":"0"}, "normal", function(){
-							$(".kt-popup-loader").css("display", "none");
-							$(".kt-popup-title").html("");
-						});
-					});
-					// 标注已经绑定了 click 事件，重复执行，不会在同节点上反复绑定
-					$(".kt-popup-close").data("click", true);
-		        }
-				// 加载界面
-		        $(".kt-popup-body").html("loading...").load(url,function(){
-					$(".kt-popup-body").KTLoader();
+		    	var popup_elt = $(".popup-model");
+		    	var body_elt = $(".popup-model .modal-body");
+		    	var title_elt = $(".popup-model .modal-title");
+		    	body_elt.html("loading...").load(url,function(){
+		    		popup_elt.modal('show');
+					body_elt.KTLoader();
 					// 加载 title
-					var popup_title = $(".kt-popup-body").find(".popup-title").html();
-					$(".kt-popup-title").html(popup_title ? popup_title : "");
+					var popup_title = body_elt.find(".popup-title").html();
+					title_elt.html(popup_title ? popup_title : "");
 		        });
-				$(".kt-popup-loader").css("display", "block").KTLoader();
-				// 弹出动画
-				$(".kt-popup-doc").css({"margin-top":"2%", "opacity":"0"}).animate({"margin-top":"5%", "opacity":"1"} ,"normal", function() {
-					var parent_height = $(".kt-popup-doc").height() - 43;
-					$(".kt-popup-body").parent().height(parent_height);
-					$(document.body).KTMouseWheel();
-				});
 		    },
 
 			// 左侧菜单被选中
@@ -948,7 +932,9 @@ $(document).ready(function(){
   // 调整窗口时时，
   $(window).bind("resize", function(){
     $(".body-content").height($(window).height()-40);
+    $(".popup-model .modal-body").height($(window).height()*0.85-88);
   });
+
   // 手动触发一次
   $(window).trigger("resize");
 });

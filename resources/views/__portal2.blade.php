@@ -67,22 +67,16 @@
       <span class="alert-message"></span>
     </div><!-- /.alert -->
 
-    <div class="window-modal-dialog">
+    <div class="popup-model modal fade" id="popup-modal" tabindex="-1" role="dialog" aria-labelledby="popup-modal-label">
       <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-            12
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="popup-modal-label">Modal title</h4>
             </div>
-            <div class="modal-body scroll-container">
-            234
-            234
-            234
-            234
-            234
-            234
-            234
-            234
-            </div>
+            <div class="modal-body scroll-container"></div>
           </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div>

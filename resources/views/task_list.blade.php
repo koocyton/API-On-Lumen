@@ -1,51 +1,46 @@
+    <br>
+    <div class="container">
 
-				<div style="top:0px;position:relative;">
-					<div style="padding:20px;">
+      <!-- Static navbar -->
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="javascript:;" style="margin:5px -10px;"><b>任务分配 / Bug 管理</b></a></li>
+             </ul>
 
-					    <div class="radius-4 ct-nav">
-							<table class="ct-nav-table">
-								<tr>
-									<td class="ct-nav-left">
-										<b>　任务分配 / Bug 管理</b>
-									</td>
-									<td class="ct-nav-right">
-										<div class="ct-nav-create" style="margin-right:15px;">
-											<a href="javascript:$.KTAnchor.popupLoader('/task/apply')" title="新增 Task" style="display:inline-block;color:#000;">
-												<span class="octicon" style="font-size:13px;">&#xf05d;</span>
-												<span class="octicon" style="font-size:25px;">&#xf068;</span>
-											</a>
-										</div>
-			                            <div class="ct-nav-search">
-			                                <form action="/task/list" method="get">
-			                                    <div class="input-box" style="width:200px;">
-			                                        <dl>
-			                                            <dd>
-			                                                <input type="text" class="text-input" name="q" validation="/!empty:请填写搜索条件/" placeholder="请填写搜索条件" value="{{ empty($_GET["q"]) ? "" : $_GET["q"] }}" />
-			                                            </dd>
-					                                    <dd class="ct-clean-search radius-14" style="display:{{ empty($_GET["q"]) ? "none" : "block" }};">
-					                                        <a href="/task/list"><span>&#xf081;</span></a>
-					                                    </dd>
-			                                        </dl>
-			                                    </div>
-			                                </form>
-			                            </div>
-									</td>
-								</tr>
-							</table>
-						</div>
+			<form action="/task/list" method="get" class="navbar-form navbar-right" role="search">
+				<div class="form-group has-feedback">
+					<div class="input-group" style="margin-right:40px;">
+						<button class="btn btn-success button-btn" type="button" onclick="$.KTAnchor.popupLoader('/task/apply')">New !!</button>
+					</div>
+					<div class="input-group">
+						<input type="text" name="search" placeholder="搜索" value="" class="form-control">
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-search"></span>
+						</span>
+					</div>
+				</div>
+			</form>
 
-                        <div style="margin-top:20px;">
-                            <table class="list-table">
-    							<thead>
-    								<tr>
-										<td>简述</td>
-										<td style="width:80px;">提交人</td>
-										<td style="width:80px;">完成度</td>
-										<td style="width:80px;">操作</td>
-									</tr>
-    							</thead>
-    							<tbody>
-                                    <?php
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+     </div>
+
+     <div class="container">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr class="active">
+			<th>简述</td>
+			<th style="width:80px;">提交人</td>
+			<th style="width:80px;">完成度</td>
+			<th style="width:80px;">操作</td>
+          </tr>
+        </thead>
+        <tbody>
+
+<?php
 foreach ($tasks as $task) {
     $status = empty($task->deleted_at) ? 'on' : 'off';
     ?>
@@ -96,13 +91,12 @@ if ($task->updated_at == "0000-00-00 00:00:00") {
 										<td style="text-align:left;"><?php echo $task->privileges; ?></td>
 									</tr>
                                     <?php }?>
-                                </tbody>
-                            </table>
-                        </div>
 
-                        <div style="margin-top:20px;">
-                            <div class="paging-container" style="text-align:right;" total="{{ $paging->total }}" current="{{ $paging->current }}" limit="{{ $paging->limit }}"></div>
-                        </div>
+        </tbody>
+      </table>
+    </div>
 
-                    </div>
-                </div>
+
+     <div class="container">
+       <div class="paging-container" style="text-align:right;" total="{{ $paging->total }}" current="{{ $paging->current }}" limit="{{ $paging->limit }}"></div>
+     </div>

@@ -33,7 +33,7 @@
 foreach ($fields as $field => $name) {
     $th_width = "";
     if (in_array($field, ['updated_at', 'created_at'])) {
-        $th_width = "120px;";
+        $th_width = "153px;";
     } else if ($field == "deleted_at") {
         $th_width = "80px;";
         $name = "活动的";
@@ -41,6 +41,7 @@ foreach ($fields as $field => $name) {
     echo "<th style=\"width:{$th_width};\">{$name}</td>";
 }
 ?>
+			<th style="width:80px;">操作</td>
           </tr>
         </thead>
         <tbody>
@@ -78,7 +79,7 @@ foreach ($fields as $field => $name) {
     ?>
 										<td>
 											<a href="javascript:$.KTAnchor.popupLoader('/project/data-manage/{{ $key }}/{{ $line->id }}')">
-												<button type="button" class="button-btn" style="height:22px;line-height:22px;width:45px;">编辑</button>
+												<button class="btn btn-success button-btn" type="button" style="height:25px;line-height:25px;width:60px;padding:0;">编辑</button>
 											</a>
 										</td>
 									</tr>

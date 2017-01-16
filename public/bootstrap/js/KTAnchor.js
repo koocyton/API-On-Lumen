@@ -68,13 +68,6 @@
 				}
 			},
 
-			hiddenDropdown: function(){
-				$(document.body).find($.KTAnchor.dropdown_container).each(function(key, dropdown_bar){
-					$(dropdown_bar).children().last().css("display", "none");
-				});
-				$(document.body).unbind("click", $.KTAnchor.hiddenDropdown);
-			},
-
 			showSlidMessage: function(message){
 				var alert_elt = $(".alert");
 				if (alert_elt.data("first-click")==null) {
@@ -187,15 +180,18 @@
 
 			// 弹出窗口
 		    popupLoader : function(url){
+		    	// 进度条开始
+				//$.KTAnchor.setRequestProcess(0);
 		    	var popup_elt = $(".popup-model");
-		    	var body_elt = $(".popup-model .modal-body");
-		    	var title_elt = $(".popup-model .modal-title");
-		    	body_elt.html("loading...").load(url,function(){
+		    	var body_elt = $(".popup-model .modal-body").html("");
+		    	var title_elt = $(".popup-model .modal-title").html("Loading...");
+		    	body_elt.load(url,function(){
+		    		//$.KTAnchor.completeRequestProcess();
 		    		popup_elt.modal('show');
 					body_elt.KTLoader();
 					// 加载 title
 					var popup_title = body_elt.find(".popup-title").html();
-					title_elt.html(popup_title ? popup_title : "");
+					title_elt.html(popup_title ? popup_title : 'Loading...');
 		        });
 		    },
 
@@ -865,58 +861,6 @@
 					$next_elt.setMainMenuEvent();
 				}
 			});
-		},
-
-		KTDropDown : function() {
-			// 从配置中获取参数配置
-			var container = $.KTAnchor.dropdown_container;
-			// 开始查找
-			this.find(container).each(function(key, dropdown_bar){
-				// 取节点
-				var $click_elt = $(dropdown_bar).children().first();
-				// 已经绑定了 click 事件，重复执行，不会在同节点上反复绑定
-				if ($click_elt.data("click")==true) return;
-				// 取弹窗
-				var $popup_elt = $click_elt.next();
-				// 弹窗内节点取出，如果某节点被点，弹出窗收回
-				$popup_elt.find("a").bind("click", function(e){
-					$popup_elt.fadeOut("fast");
-				});
-				// 绑定
-				$click_elt.bind("click", function(e){
-					// 不冒泡 ... ?
-					e.stopPropagation();
-					// 当前弹出窗关闭还是开启呢 ？
-					var style_display = $popup_elt.css("display");
-					// 先将弹出窗都关闭
-					$(container).each(function(key, elt) {
-						$(elt).children().last().css("display", "none");
-					});
-					// 如果本来下拉菜单已经弹出
-					if (style_display=="none") {
-						// 显示下拉菜单
-						$popup_elt.css("display","block");
-						// 绑定 document.click 事件
-						$(document.body).bind("click", $.KTAnchor.hiddenDropdown);
-						// 被点击的按钮不聚焦
-						$click_elt.blur();
-					}
-					else {
-						// 关闭下拉菜单
-						$popup_elt.css("display","none");
-						// 解绑 document.click 事件
-						$(document.body).unbind("click", $.KTAnchor.hiddenDropdown);
-					}
-				});
-				// 弹出窗不冒泡，避免上面的链接点了后，立刻窗口隐藏，有点怪怪的
-				$popup_elt.bind("click", function(e){
-					e.stopPropagation();
-				});
-				// 标注已经绑定了 click 事件，重复执行，不会在同节点上反复绑定
-				$click_elt.data("click", true);
-			});
-			// 返回 JQuery 对象
-			return this;
 		}
 	});
 

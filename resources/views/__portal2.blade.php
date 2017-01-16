@@ -48,7 +48,7 @@
                   <a href="javascript:$.KTAnchor.popupLoader(null)"><span class="glyphicon glyphicon-lock"></span> &nbsp; 账号安全</a>
                 </li>
                 <li>
-                  <a href="javascript:$.KTAnchor.popupLoader('/sundry/icons')"><span class="glyphicon glyphicon-th"></span> &nbsp; 图标大全</a>
+                  <a href="javascript:$.KTAnchor.popupLoader('/sundry/icons')"><span class="glyphicon glyphicon-th"></span> &nbsp; 图标大全 &nbsp; <span class="badge">200</span></a>
                 </li>
                 <li>
                   <a pushstate="no" href="/login/signout"><span class="glyphicon glyphicon-log-out"></span> &nbsp; 退出</a>

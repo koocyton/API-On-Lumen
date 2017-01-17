@@ -38,7 +38,7 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="#" native="yes" class="dropdown-toggle" data-toggle="dropdown" style="padding:6px;"><span class="glyphicon glyphicon-cog" style="font-size:23px;"></span></a>
+              <a href="#" native="yes" class="dropdown-toggle" data-toggle="dropdown" style="padding:8px 6px 4px 6px;"><span class="glyphicon glyphicon-cog" style="font-size:23px;"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li class="dropdown-menu-arrow"><b class="angle-up"></b></li>
                 <li>

@@ -9,19 +9,19 @@
               <li><a href="javascript:;" style="margin:5px -10px;"><b>任务分配 / Bug 管理</b></a></li>
              </ul>
 
-			<form action="/task/list" method="get" class="navbar-form navbar-right" role="search">
-				<div class="form-group has-feedback">
-					<div class="input-group" style="margin-right:40px;">
-						<button class="btn btn-success button-btn" type="button" onclick="$.KTAnchor.popupLoader('/task/apply')">New !!</button>
-					</div>
-					<div class="input-group">
-						<input type="text" name="search" placeholder="搜索" value="" class="form-control">
-						<span class="input-group-addon">
-							<span class="glyphicon glyphicon-search"></span>
-						</span>
-					</div>
-				</div>
-			</form>
+        			<form action="/task/list" method="get" class="navbar-form navbar-right" role="search">
+        				<div class="form-group has-feedback">
+        					<div class="input-group" style="margin-right:40px;">
+        						<button class="btn btn-success button-btn" type="button" onclick="$.KTAnchor.popupLoader('/task/apply')">New !!</button>
+        					</div>
+        					<div class="input-group">
+        						<input type="text" name="search" placeholder="搜索" value="" class="form-control">
+        						<span class="input-group-addon">
+        							<span class="glyphicon glyphicon-search"></span>
+        						</span>
+        					</div>
+        				</div>
+        			</form><!--/form -->
 
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

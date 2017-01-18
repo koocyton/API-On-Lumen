@@ -55,10 +55,7 @@
 				</td>
 				<td>
 					<div class="form-group">
-                        <div class="radius-5 content-border" style="font-size:0;position:relative;text-align:center;height:194px;line-height:194px;overflow:hidden;">
-							<span style="font-family:octicons;font-size:168px;color:#ddd;">&#xf05d;</span>
-                        </div>
-                        <input type="file" class="upload-image" >
+                        <div class="upload-image"><input type="file" class="upload-input" ></div>
 					</div>
 				</td>
 			</tr>

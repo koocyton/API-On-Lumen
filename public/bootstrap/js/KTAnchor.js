@@ -400,7 +400,7 @@
 
 		KTLoader: function() {
 			// 加载
-			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTDateInputBind();
+			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTDateInputBind().KTUploadImageInputBind();
 		},
 
 		KTAnchor : function(success, error, begin, complete) {
@@ -820,6 +820,44 @@
 				// 处理节点，绑定事件
 				$(treemenu_elt).setMainMenuEvent();
 			});
+			return this;
+		},
+
+		// 得到图片的完整路径
+		getInputFilePath: function() {
+			var file = this.context.files[0];
+		    var url = null;
+		    if (window.createObjectURL != undefined) { // basic
+		        url = window.createObjectURL(file);
+		    }
+		    else if (window.URL != undefined) { // mozilla(firefox)
+		        url = window.URL.createObjectURL(file);
+		    }
+		    else if (window.webkitURL != undefined) { // webkit or chrome
+		        url = window.webkitURL.createObjectURL(file);
+		    }
+		    return url;
+		},
+
+		KTUploadImageInputBind: function()
+		{
+			var input_elts = $(".upload-input");
+			input_elts.each(function(key, input_elt) {
+				input_elt = $(input_elt);
+				// 判断是否已经绑定过
+				if (input_elt.data("bind-preview")!=null) {
+					return null;
+				}
+				// 绑定
+				input_elt.data("bind-preview", "bind-preview");
+				// 绑定事件
+				input_elt.change(function() {
+					var image_elt = input_elt.parent();
+					var image_url = input_elt.getInputFilePath();
+					image_elt.css("background-image", "url(" + image_url+ ")");
+			    });
+			});
+
 			return this;
 		},
 

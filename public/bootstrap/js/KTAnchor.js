@@ -76,7 +76,7 @@
 						e.stopPropagation();
 					});
 					//
-					alert_elt.data("first-click", "first-click")
+					alert_elt.data("first-click", "first-click");
 				}
 				// 弹出和弹出动画
 				$(".alert-message").html(message);
@@ -183,7 +183,7 @@
 		    	// 进度条开始
 				//$.KTAnchor.setRequestProcess(0);
 		    	var popup_elt = $(".popup-model");
-		    	var body_elt = $(".popup-model .modal-body").html("");
+		    	var body_elt = $(".popup-model .modal-body").empty();
 		    	var title_elt = $(".popup-model .modal-title").html("Loading...");
 		    	body_elt.load(url,function(){
 		    		//$.KTAnchor.completeRequestProcess();
@@ -400,7 +400,11 @@
 
 		KTLoader: function() {
 			// 加载
-			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTDateInputBind().KTUploadImageInputBind();
+			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTInputBind();
+		},
+
+		KTInputBind: function() {
+			$(this).tagsInputBind().timeInputBind().uploadInputBind();
 		},
 
 		KTAnchor : function(success, error, begin, complete) {
@@ -487,7 +491,7 @@
 						}
 					});
 				});
-				// 将 form 绑定 submit 时间
+				// 将 form 绑定 submit 事件
 				$form.bind("submit", function(){
 					// 检查表单
 					// 自定义的错误处理
@@ -664,17 +668,9 @@
 			return field_ok;
 		},
 
-		KTDateInputBind : function()
+		timeInputBind : function()
 		{
-			var date_inputs = $("input[type='date']");
-			date_inputs.each(function(key, date_input) {
-				// 判断是否已经绑定过
-				if ($(this).data("mouse-click")!=null) {
-					return null;
-				}
-				// 属性调整
-				//$(this).attr("readonly", "1");
-				$(this).data("mouse-click", "mouse-click");
+			$(this).find("input[type='date']").each(function(key, date_input) {
 				// 绑定
 				$(this).datetimepicker({
 					 timepicker:false,
@@ -683,15 +679,7 @@
 				});
 			});
 
-			var datetime_inputs = $("input[type='datetime']");
-			datetime_inputs.each(function(key, datetime_input) {
-				// 判断是否已经绑定过
-				if ($(this).data("mouse-click")!=null) {
-					return null;
-				}
-				// 属性调整
-				//$(this).attr("readonly", "1");
-				$(this).data("mouse-click", "mouse-click");
+			$(this).find("input[type='datetime']").each(function(key, datetime_input) {
 				// 绑定
 				$(this).datetimepicker({
 					 timepicker:true,
@@ -700,15 +688,7 @@
 				});
 			});
 
-			var datetime_inputs = $("input[type='time']");
-			datetime_inputs.each(function(key, datetime_input) {
-				// 判断是否已经绑定过
-				if ($(this).data("mouse-click")!=null) {
-					return null;
-				}
-				// 属性调整
-				//$(this).attr("readonly", "1");
-				$(this).data("mouse-click", "mouse-click");
+			$(this).find("input[type='time']").each(function(key, datetime_input) {
 				// 绑定
 				$(this).datetimepicker({
 					 timepicker:false,
@@ -716,8 +696,105 @@
 					 format:'H:i:s'
 				});
 			});
+			return this;
+		},
+
+		uploadInputBind: function()
+		{
+			$(this).find("input.upload-input").each(function(key, input_elt) {
+				var upload_input = $(this);
+				var upload_frame = $("<div class=\"upload-frame\"></div>").appendTo(upload_input.parent());
+				upload_input.appendTo(upload_frame);
+				// 绑定事件
+				upload_input.change(function() {
+					var image_url = $(this).getInputFilePath();
+					upload_frame.css("background-image", "url(" + image_url+ ")");
+			    });
+			});
 
 			return this;
+		},
+
+		tagsInputBind: function()
+		{
+			$(this).find("input.tags-input").each(function(key, tags_input){
+				// insert DOM Element
+				var tags_input = $(this);
+				var tags_frame = $("<div class=\"tags-frame form-control\"><input type=\"text\" class=\"tags-enter\"></div>");
+				var tags_enter = tags_frame.children("input.tags-enter");
+				tags_enter.data("empty-data", "empty-data");
+
+				tags_frame.appendTo(tags_input.parent());
+				// init <input value="tag1,tag2,tag3..."
+				var tags_value = tags_input.val().split(",");
+				for (var ii=0; ii<tags_value.length; ii++) {
+					$(tags_frame).tagsInputInsert(tags_value[ii]);
+				}
+				// 点外框时 focus 输入框
+				$(tags_frame).click(function(){tags_enter.focus()});
+				// 输入框 focus 时，外框亮色提示
+				tags_enter.focus(function(){tags_frame.addClass("tags-frame-focus")});
+				// 输入框 blur 时，外框亮色取消
+				tags_enter.blur(function(){tags_frame.removeClass("tags-frame-focus")});
+				// 绑定事件
+				tags_enter.bind("keyup", function(e){
+					// 删除
+					if(e.keyCode === 8 && $(this).val()=="" && $(this).data("empty-data")=="empty-data"){
+						var tag_elt = $(this).parent().children("span:last");
+						if (tag_elt.exist()) {
+							tag_elt.children("p").trigger("click");
+						}
+					}
+					tags_enter.data("empty-data", ($(this).val()!="") ? null : "empty-data");
+					// 插入
+					if(e.keyCode === 13 && $(this).val()!=""){
+						$(this).parent().tagsInputInsert(tags_enter.val());
+					}
+				});
+			});
+			return this;
+		},
+
+		tagsInputInsert: function(tag_text)
+		{
+			var tags_frame = $(this);
+			var tags_spans = tags_frame.children("span");
+			var tag_exist = false;
+			tags_spans.each(function(key, tag_span){
+				var val = $(tag_span).html().split("<p>")[0];
+				if (val==tag_text) {
+					tag_exist = true;
+				}
+			});
+
+			if (tag_exist==true) {
+				return;
+			}
+
+			var tags_enter = tags_frame.children("input.tags-enter");
+			var tag_elt = $("<span class=\"radius-5\">" + tag_text + "<p>×</p></span>").insertBefore(tags_enter);
+			tags_enter.focus().val("");
+			tags_enter.data("empty-data", ($(this).val()!="") ? null : "empty-data");
+			tags_frame.tagsInputFlush();
+			tag_elt.children("p").click(function(e){
+				var tag = $(this).parent();
+				var tags_frame = tag.parent();
+				tag.empty().remove();
+				tags_frame.tagsInputFlush();
+			});
+		},
+
+		tagsInputFlush: function()
+		{
+			var tags_frame = $(this);
+			var tags_input = tags_frame.parent().children("input.tags-input");
+			var tags_spans = tags_frame.children("span");
+			var tags_val = "";
+			tags_spans.each(function(key, tag_span){
+				var val = $(tag_span).html().split("<p>")[0];
+				tags_val += (tags_val=="") ? val : "," + val;
+			});
+			tags_input.val(tags_val);
 		},
 
 		KTPaging : function() {
@@ -823,6 +900,8 @@
 			return this;
 		},
 
+		/* --------------------    tools function    ------------------ */
+
 		// 得到图片的完整路径
 		getInputFilePath: function() {
 			var file = this.context.files[0];
@@ -837,28 +916,6 @@
 		        url = window.webkitURL.createObjectURL(file);
 		    }
 		    return url;
-		},
-
-		KTUploadImageInputBind: function()
-		{
-			var input_elts = $(".upload-input");
-			input_elts.each(function(key, input_elt) {
-				input_elt = $(input_elt);
-				// 判断是否已经绑定过
-				if (input_elt.data("bind-preview")!=null) {
-					return null;
-				}
-				// 绑定
-				input_elt.data("bind-preview", "bind-preview");
-				// 绑定事件
-				input_elt.change(function() {
-					var image_elt = input_elt.parent();
-					var image_url = input_elt.getInputFilePath();
-					image_elt.css("background-image", "url(" + image_url+ ")");
-			    });
-			});
-
-			return this;
 		},
 
 		setMainMenuEvent : function(){

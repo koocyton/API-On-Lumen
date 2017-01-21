@@ -19,9 +19,9 @@
 					<div class="form-group">指派给：</div>
 				</td>
 				<td>
-					<div class="form-group" style="width:200px;">
-	  					<input type="text" name="account" class="form-control">
-	  				</div>
+					<div class="form-group" style="width:400px;">
+						<input type="text" name="target" value="Liuyi" class="tags-input">
+					</div>
 				</td>
 			</tr>
 
@@ -55,7 +55,7 @@
 				</td>
 				<td>
 					<div class="form-group">
-                        <div class="upload-image"><input type="file" class="upload-input" ></div>
+                        <input type="file" class="upload-input">
 					</div>
 				</td>
 			</tr>
@@ -65,8 +65,8 @@
 					<div class="form-group">抄　送：</div>
 				</td>
 				<td>
-					<div class="form-group">
-						<input type="text" class="form-control" name="">
+					<div class="form-group" style="width:400px;">
+						<input type="text" name="target" value="Liuyi" class="tags-input">
 					</div>
 				</td>
 			</tr>

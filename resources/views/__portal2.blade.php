@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
-
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/js/jquery.datetimepicker.css" />
     <!-- Bootstrap -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- KTAnchor -->
@@ -85,6 +86,7 @@
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script src="/bootstrap/js/bootstrap-tagsinput.js"></script>
     <script src="/bootstrap/js/KTAnchor.js"></script>
+    <script src="/js/jquery.datetimepicker.js"></script>
     <script>
     var menu_data = [
           {"text":"主控", "menus":[

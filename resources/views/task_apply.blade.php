@@ -32,8 +32,21 @@
 				<td>
 					<div class="form-group">
 						<label><input type="radio" name="catelog" value=""> 任务</label>
+						&nbsp;　&nbsp;
 						<label><input type="radio" name="catelog" value=""> Bug</label>
+						&nbsp;　&nbsp;
 						<label><input type="radio" name="catelog" value=""> 文档</label>
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<div class="form-group">时　限：</div>
+				</td>
+				<td>
+					<div class="form-group">
+						<input type="date" class="form-control" style="width:200px;font-weight:bold;">
 					</div>
 				</td>
 			</tr>

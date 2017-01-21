@@ -70,7 +70,7 @@ a.tree-menu-open div{background: url("button_down.gif") no-repeat scroll 27px ce
 .upload-frame {background:rgba(0, 0, 0, 0) url(/image/add-file.png) no-repeat scroll 0 0 / contain;border:1px solid #cccccc;}
 
 /* input tags */
-.tags-frame{width:600px;height:100%;}
+.tags-frame{width:600px;height:100%;cursor:text;}
 .tags-frame-focus {border:1px solid #56b4ef;-webkit-box-shadow:0 1px 3px rgba(0, 0, 0, 0.05) inset, 0 0 8px rgba(82, 168, 236, 0.6);-moz-box-shadow:0 1px 3px rgba(0, 0, 0, 0.05) inset, 0 0 8px rgba(82, 168, 236, 0.6);box-shadow:0 1px 3px rgba(0, 0, 0, 0.05) inset, 0 0 8px rgba(82, 168, 236, 0.6);}
 .tags-frame>span{height:25px;line-height:25px;font-size:12px;background-color:#777;padding:0 2px 0 9px;;color:#ffffff;margin:3px 4px;display:inline-block;}
 .tags-frame>span>p{display:inline-block;height:25px;line-height:25px;font-size:12px;color:#ffffff;margin-left:5px;cursor:pointer;padding:0 6px;}

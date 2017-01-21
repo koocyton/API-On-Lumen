@@ -709,7 +709,7 @@
 				upload_input.change(function() {
 					var image_url = $(this).getInputFilePath();
 					upload_frame.css("background-image", "url(" + image_url+ ")");
-			    });
+				});
 			});
 
 			return this;
@@ -743,6 +743,7 @@
 						var tag_elt = $(this).parent().children("span:last");
 						if (tag_elt.exist()) {
 							tag_elt.children("p").trigger("click");
+							return;
 						}
 					}
 					tags_enter.data("empty-data", ($(this).val()!="") ? null : "empty-data");

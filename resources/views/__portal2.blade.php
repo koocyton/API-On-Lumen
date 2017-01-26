@@ -70,7 +70,7 @@
 
     <div class="popup-model modal fade" id="popup-modal" tabindex="-1" role="dialog" aria-labelledby="popup-modal-label">
       <div class="modal-dialog">
-          <div class="modal-content">
+          <div class="modal-content radius-5 shadow-3">
             <div class="modal-header">
              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>

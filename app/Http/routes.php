@@ -91,6 +91,7 @@ $app->group(['prefix' => '/channel-manager', 'namespace' => 'App\Http\Controller
 $app->group(['prefix' => '/task', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
     $app->get('list', 'TaskController@list');
     $app->get('apply', 'TaskController@apply');
+    $app->post('create', 'TaskController@create');
 });
 
 /*

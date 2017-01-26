@@ -3,7 +3,7 @@ label{font-weight:normal;}
 
 body .container{width:100%;}
 .radius-5{-webkit-border-radius:5px;-khtml-border-radius:5px;-moz-border-radius:5px;border-radius:5px;}
-
+.shadow-3{-webkit-box-shadow:inset 0 1px 3px rgba(0,0,0,0),0 0 8px rgba(0,0,0,0.6);-moz-box-shadow:inset 0 1px 3px rgba(0,0,0,0),0 0 8px rgba(0,0,0,0.6);box-shadow:inset 0 1px 3px rgba(0,0,0,0),0 0 8px rgba(0,0,0,0.6);}
 
 /* 进度条 */
 .request-progress {position:absolute;width:100%;height:5px;background-color:#00FF33;top:0px;left:0px;display:none;}

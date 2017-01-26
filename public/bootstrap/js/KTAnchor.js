@@ -720,7 +720,7 @@
 			$(this).find("input.tags-input").each(function(key, tags_input){
 				// insert DOM Element
 				var tags_input = $(this);
-				var tags_frame = $("<div class=\"tags-frame form-control\"><input type=\"text\" class=\"tags-enter\"></div>");
+				var tags_frame = $("<div class=\"tags-frame form-control\" style=\"position:relative;\"><input type=\"text\" class=\"tags-enter\"></div>");
 				var tags_enter = tags_frame.children("input.tags-enter");
 				tags_enter.data("empty-data", "empty-data");
 
@@ -728,14 +728,34 @@
 				// init <input value="tag1,tag2,tag3..."
 				var tags_value = tags_input.val().split(",");
 				for (var ii=0; ii<tags_value.length; ii++) {
-					$(tags_frame).tagsInputInsert(tags_value[ii]);
+					if (tags_value[ii]!="") {
+						$(tags_frame).tagsInputInsert(tags_value[ii]);
+					}
 				}
+
+				// 搜索栏
+				var tags_search = $('<ul class="dropdown-menu" style="width:100%;"><li><a pushstate="no" href="/login/signout"><span class="glyphicon glyphicon-log-out"></span> &nbsp; 退出</a></li></ul>');
+				tags_search.appendTo(tags_frame);
+
 				// 点外框时 focus 输入框
 				$(tags_frame).click(function(){tags_enter.focus()});
 				// 输入框 focus 时，外框亮色提示
-				tags_enter.focus(function(){tags_frame.addClass("tags-frame-focus")});
+				tags_enter.focus(function(){
+					tags_frame.addClass("tags-frame-focus");
+					tags_search.css("display", "block");
+					// 回车键不会让 form 提交
+					$(this).parents("form").bind("keydown", function(e){
+						if(e.keyCode === 13) {
+							return false;
+						}
+					});
+				});
 				// 输入框 blur 时，外框亮色取消
-				tags_enter.blur(function(){tags_frame.removeClass("tags-frame-focus")});
+				tags_enter.blur(function(){
+					tags_frame.removeClass("tags-frame-focus");
+					tags_search.css("display", "none");
+					$(this).parents("form").unbind("keydown");
+				});
 				// 绑定事件
 				tags_enter.bind("keyup", function(e){
 					// 删除
@@ -758,6 +778,9 @@
 
 		tagsInputInsert: function(tag_text)
 		{
+			if (tag_text=="") {
+				return;
+			}
 			var tags_frame = $(this);
 			var tags_spans = tags_frame.children("span");
 			var tag_exist = false;
@@ -765,6 +788,7 @@
 				var val = $(tag_span).html().split("<p>")[0];
 				if (val==tag_text) {
 					tag_exist = true;
+					return;
 				}
 			});
 

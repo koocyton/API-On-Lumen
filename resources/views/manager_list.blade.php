@@ -11,11 +11,14 @@
 
 			<form action="/manager/list" method="get" class="navbar-form navbar-right" role="search">
 				<div class="form-group has-feedback">
+          <div class="input-group" style="margin-right:40px;">
+            <button class="btn btn-success button-btn" type="button" onclick="$.KTAnchor.popupLoader('/manager/apply')">New !!</button>
+          </div>
 					<div class="input-group">
 						<input type="text" name="search" placeholder="搜索" value="" class="form-control">
-						<span class="input-group-addon">
-							<span class="glyphicon glyphicon-search"></span>
-						</span>
+						<span class="input-group-btn">
+              <button class="btn btn-default" type="button">More</button>
+            </span>
 					</div>
 				</div>
 			</form>
@@ -88,7 +91,11 @@ if ($manager->updated_at == "0000-00-00 00:00:00") {
 										<span class="separator"> / </span>
 										<span>  {{ $manager->updated_at }}</span>
             </td>
-            <td style="text-align:left;">{{ $manager->privileges }}</td>
+            <td style="text-align:left;">
+              <a href="javascript:$.KTAnchor.popupLoader('/manager/{{ $manager->id }}/privileges')">
+                <button class="btn btn-default" type="button" style="height:25px;line-height:25px;width:60px;padding:0;">权限</button>
+              </a>
+            {{ $manager->privileges }}</td>
           </tr>
 <?php
 }

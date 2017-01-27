@@ -21,6 +21,14 @@ class ManagerController extends BaseController
     }
 
     /*
+     * 新增管理员申请
+     */
+    public function apply()
+    {
+        return $this->display('manager_apply');
+    }
+
+    /*
      * 管理员详细信息
      */
     public function detail($id)

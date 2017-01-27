@@ -734,7 +734,7 @@
 				}
 
 				// 搜索栏
-				var tags_search = $('<ul class="dropdown-menu" style="width:100%;"><li><a pushstate="no" href="/login/signout"><span class="glyphicon glyphicon-log-out"></span> &nbsp; 退出</a></li></ul>');
+				var tags_search = $('<ul class="dropdown-menu" style="width:100%;"><li>1</li></ul>');
 				tags_search.appendTo(tags_frame);
 
 				// 点外框时 focus 输入框
@@ -774,6 +774,11 @@
 				});
 			});
 			return this;
+		},
+
+		tagsAutoComplete: function()
+		{
+
 		},
 
 		tagsInputInsert: function(tag_text)

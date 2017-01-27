@@ -44,6 +44,8 @@ $app->get('/operation/list', 'ManagerController@operationList');
 $app->group(['prefix' => '/manager', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
     // 管理员列表
     $app->get('list', 'ManagerController@list');
+    // 新增管理员申请
+    $app->get('apply', 'ManagerController@apply');
     // 管理员
     $app->get('{id}', 'ManagerController@detail');
     // 管理员开关

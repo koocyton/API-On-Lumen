@@ -17,7 +17,7 @@
 					<div class="input-group">
 						<input type="text" name="search" placeholder="搜索" value="" class="form-control">
 						<span class="input-group-btn">
-              <button class="btn btn-default" type="button">More</button>
+              <button class="btn btn-default" onclick='$(".search-bar").show();alert(1);' type="button">More</button>
             </span>
 					</div>
 				</div>
@@ -26,6 +26,13 @@
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
+     </div>
+
+
+     <div class="container">
+      <div class="search-bar hidden" style="width:200px;background-color:#ccc;">
+      这是 hide class 的实例
+      </div>
      </div>
 
      <div class="container">
@@ -93,7 +100,7 @@ if ($manager->updated_at == "0000-00-00 00:00:00") {
             </td>
             <td style="text-align:left;">
               <a href="javascript:$.KTAnchor.popupLoader('/manager/{{ $manager->id }}/privileges')">
-                <button class="btn btn-default" type="button" style="height:25px;line-height:25px;width:60px;padding:0;">权限</button>
+                <button class="btn btn-default btn-xs" type="button">权限</button>
               </a>
             {{ $manager->privileges }}</td>
           </tr>

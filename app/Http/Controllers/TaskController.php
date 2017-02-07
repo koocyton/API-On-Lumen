@@ -34,7 +34,7 @@ class TaskController extends BaseController
      */
     public function create(Request $request)
     {
-        print_r($request->input("title"));
+        print_r($request->input());
         // $task = [];
         // Task::create($task);
     }

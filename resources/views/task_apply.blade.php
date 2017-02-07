@@ -69,7 +69,7 @@
 				</td>
 				<td>
 					<div class="form-group">
-                        <input type="file" class="upload-input" name="illustration">
+						<input type="file" class="upload-input" name="illustration">
 					</div>
 				</td>
 			</tr>

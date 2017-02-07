@@ -316,12 +316,16 @@
 				headers = {};
 			}
 			headers['Ajax-Request'] = "jQuery.KTAnchor";
+			var contentType = false;
+			if (method=="POST") {
+				contentType = (data instanceof FormData) ? false : "application/x-www-form-urlencoded; charset=UTF-8";
+			}
 			// set ajax request
 			window.currentKTAjax = $.ajax({
 				"url"  : url,
 				"type" : method,
 				"data" : data,
-				"contentType" : (method=="POST") ? "application/x-www-form-urlencoded" : false,
+				"contentType" : contentType,
 				"processData" : false,
 				"headers" : headers,
 				"success" : function(responseText) {
@@ -507,8 +511,7 @@
 					// 默认是 Form method 是 POST
 					var method = "POST";
 					// 获取表单数据
-					// var data = new FormData(this);
-					var data = $(this).serialize();
+					var data = $form.find("input[type='file']").exist() ? new FormData(this) : $(this).serialize();
 					// 获取返回数据将填充哪个节点
 					var container = $.KTAnchor.response_container;
 					if (typeof($form.attr("container"))!="undefined" && $form.attr("container").length>1) {

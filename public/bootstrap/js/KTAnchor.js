@@ -721,44 +721,88 @@
 		tagsInputBind: function()
 		{
 			$(this).find("input.tags-input").each(function(key, tags_input){
-				// insert DOM Element
+				/*----------------------------------------------*\
+				 |
+				 | 初始化重要值，状态，节点
+				 |
+				\*----------------------------------------------*/
+				// tags 的节点
 				var tags_input = $(this);
-				var tags_frame = $("<div class=\"tags-frame form-control\" style=\"position:relative;\"><input type=\"text\" class=\"tags-enter\"></div>");
+				// 初始的就填入的 tags
+				var initial_value = tags_input.val().split(",");
+				// tag 的数据检索的来源
+				var search_source = tags_input.attr("search-source");
+				// 搜索的数据
+				var search_data = typeof(search_source)=="string" ? search_source.split(",") : [];
+				// 是否允许输入多个 tag
+				var accept_multipart = tags_input.attr("accept-multipart");
+
+
+				/*----------------------------------------------*\
+				 |
+				 | 插入 tags 的输入系统，区分带检索和不带检索的输入系统
+				 |
+				\*----------------------------------------------*/
+				// 默认不带弹出检索层的 tag 输入系统
+				var tags_frame = $('<div class="tags-frame form-control"><input type="text" class="tags-enter"></div>');
+
+				// 如果有指定检索，就初始化弹出的检索层 
+				if (typeof(search_source)=="string") {
+					// dropup
+					// tags 操作的主体框，含输入的 input 和 检索弹出层
+					tags_frame = $('<div class="tags-frame form-control"><input type="text" data-toggle="dropdown" class="tags-enter dropdown-toggle"><ul class="dropdown-menu"></ul></div>');
+				}
+				// 插入到 input 的后面
+				tags_frame.appendTo(tags_input.parent());
+
+				// tags 检索弹出层
+				var tags_option = tags_frame.children("ul.dropdown-menu");
+				// tags 的输入框
 				var tags_enter = tags_frame.children("input.tags-enter");
+
+				// tags 输入框给一个标记，
+				// 方法比较挫，用来标记退格前，如果输入框是空，就删除最后一个已经输入的 tag
 				tags_enter.data("empty-data", "empty-data");
 
-				tags_frame.appendTo(tags_input.parent());
 				// init <input value="tag1,tag2,tag3..."
-				var tags_value = tags_input.val().split(",");
-				for (var ii=0; ii<tags_value.length; ii++) {
-					if (tags_value[ii]!="") {
-						$(tags_frame).tagsInputInsert(tags_value[ii]);
+				// 插入初始值
+				for (var ii=0; ii<initial_value.length; ii++) {
+					if (initial_value[ii]!="") {
+						tags_frame.insertEnterTag(initial_value[ii]);
 					}
 				}
 
-				// 搜索栏
-				var tags_search = $('<ul class="dropdown-menu" style="width:100%;"><li>1</li></ul>');
-				tags_search.appendTo(tags_frame);
-
+				/*----------------------------------------------*\
+				 |
+				 | 判断输入时，和 onblur 时的动作
+				 |
+				\*----------------------------------------------*/
 				// 点外框时 focus 输入框
-				$(tags_frame).click(function(){tags_enter.focus()});
+				tags_frame.click(function(){
+					tags_enter.focus();
+				});
 				// 输入框 focus 时，外框亮色提示
 				tags_enter.focus(function(){
 					tags_frame.addClass("tags-frame-focus");
-					tags_search.css("display", "block");
 					// 回车键不会让 form 提交
 					$(this).parents("form").bind("keydown", function(e){
 						if(e.keyCode === 13) {
 							return false;
 						}
 					});
+					$(this).dropdown();
 				});
 				// 输入框 blur 时，外框亮色取消
 				tags_enter.blur(function(){
 					tags_frame.removeClass("tags-frame-focus");
-					tags_search.css("display", "none");
 					$(this).parents("form").unbind("keydown");
 				});
+
+				/*----------------------------------------------*\
+				 |
+				 | 输入 tag
+				 |
+				\*----------------------------------------------*/
 				// 绑定事件
 				tags_enter.bind("keyup", function(e){
 					// 删除
@@ -772,7 +816,7 @@
 					tags_enter.data("empty-data", ($(this).val()!="") ? null : "empty-data");
 					// 插入
 					if(e.keyCode === 13 && $(this).val()!=""){
-						$(this).parent().tagsInputInsert(tags_enter.val());
+						$(this).parent().insertEnterTag(tags_enter.val());
 					}
 				});
 			});
@@ -784,7 +828,7 @@
 
 		},
 
-		tagsInputInsert: function(tag_text)
+		insertEnterTag: function(tag_text)
 		{
 			if (tag_text=="") {
 				return;

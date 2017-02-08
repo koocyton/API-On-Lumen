@@ -20,9 +20,9 @@
 					<div class="form-group">指派给：</div>
 				</td>
 				<td >
-					<div class="form-group" style="width:400px;">
-						<input type="text" name="owner" value="Liuyi" class="tags-input">
-					</div>
+					<div class="form-group" style="width:300px;">
+						<input type="text" name="owner" value="Liuyi" class="form-control">
+	  				</div>
 				</td>
 			</tr>
 
@@ -32,11 +32,18 @@
 				</td>
 				<td>
 					<div class="form-group">
-						<label><input type="radio" name="catelog" value="task"> 任务</label>
-						&nbsp;　&nbsp;
-						<label><input type="radio" name="catelog" value="bug"> Bug</label>
-						&nbsp;　&nbsp;
-						<label><input type="radio" name="catelog" value="doc"> 文档</label>
+
+						<div class="btn-group" data-toggle="buttons">
+							<label class="btn btn-default active">
+								<input type="radio" name="catelog" value="task" autocomplete="off" checked> 任务
+							</label>
+							<label class="btn btn-default">
+								<input type="radio" name="catelog" value="bug" autocomplete="off"> Bug
+							</label>
+							<label class="btn btn-default">
+								<input type="radio" name="catelog" value="doc" autocomplete="off"> 文档
+							</label>
+						</div>
 					</div>
 				</td>
 			</tr>
@@ -79,8 +86,8 @@
 					<div class="form-group">Tags：</div>
 				</td>
 				<td>
-					<div class="form-group" style="width:400px;">
-						<input type="text" name="tags" value="" class="tags-input">
+					<div class="form-group form-tags ">
+						<input type="text" name="tags" value="liuyi,bbs" search-source="aaa,bbb,ccc,ddd,eee,fff" class="tags-input">
 					</div>
 				</td>
 			</tr>
@@ -90,7 +97,7 @@
 					<div class="form-group">抄　送：</div>
 				</td>
 				<td>
-					<div class="form-group" style="width:400px;">
+					<div class="form-group form-tags">
 						<input type="text" name="subscribers" value="" class="tags-input">
 					</div>
 				</td>

@@ -797,6 +797,7 @@
 					$(document.body).bind("click touchend", function(e){
 						// 关闭动画
 						tags_options.css("display", "none");
+						$(document.body).unbind("click touchend");
 						e.stopPropagation();
 					});
 				});

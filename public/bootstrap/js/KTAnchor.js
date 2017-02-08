@@ -778,8 +778,9 @@
 				 |
 				\*----------------------------------------------*/
 				// 点外框时 focus 输入框
-				tags_frame.click(function(){
+				tags_frame.click(function(e){
 					tags_enter.focus();
+					e.stopPropagation();
 				});
 				// 输入框 focus 时，外框亮色提示
 				tags_enter.focus(function(){
@@ -792,6 +793,12 @@
 					});
 					tags_frame.tagsAutoComplete();
 					tags_options.css("display", "block");
+
+					$(document.body).bind("click touchend", function(e){
+						// 关闭动画
+						tags_options.css("display", "none");
+						e.stopPropagation();
+					});
 				});
 				// 输入框 blur 时，外框亮色取消
 				tags_enter.blur(function(){
@@ -847,23 +854,28 @@
 
 			// 目前填入的值
 			var tags_spans = tags_frame.children("span");
-			var tags_val = [];
+			var tags_val = "";
 			tags_spans.each(function(key, tag_span){
 				var val = $(tag_span).html().split("<p>")[0];
-				var ii = tags_val.length;
-				tags_val[ii] = val;
+				tags_val += "," + val;
 			});
+			tags_val = tags_val + ",";
 
 			// 搜索 自动补全
 			if (tags_options.exist()) {
 				tags_options.empty();
 				for(var ii=0; ii<search_data.length; ii++) {
 					var reg = new RegExp(tags_enter.val(),"g");
-					if (reg.test(search_data[ii])) {
+					var reg2 = new RegExp("," + search_data[ii] + ",","g");
+					// 在数据源里查找输入的字符串，并且绕过已经输入过的 tag
+					if (reg.test(search_data[ii]) && !reg2.test(tags_val)) {
 						var complete_li = $("<li><a>" + search_data[ii] + "</a></li>");
 						complete_li.appendTo(tags_options);
-						complete_li.click(function(){
-							$(this).parents(".tags-frame").insertEnterTag($(this).children().html());
+						complete_li.click(function(e){
+							var _tags_frame = $(this).parents(".tags-frame");
+							var _tags_enter = _tags_frame.children("input.tags-enter");
+							_tags_frame.insertEnterTag($(this).children().html());
+							_tags_enter.focus();
 						});
 					}
 				}

@@ -54,7 +54,7 @@
 				</td>
 				<td>
 					<div class="form-group">
-						<input type="date" name="lastdate" class="form-control" style="width:200px;font-weight:bold;">
+						<input type="text" name="lastdate" class="date form-control" style="width:200px;font-weight:bold;">
 					</div>
 				</td>
 			</tr>
@@ -87,7 +87,7 @@
 				</td>
 				<td>
 					<div class="form-group form-tags ">
-						<input type="text" name="tags" value="liuyi,bbs" search-source="aaa,bbb,ccc,ddd,eee,fff" class="tags-input">
+						<input type="text" name="tags" value="" class="tags-input dropup">
 					</div>
 				</td>
 			</tr>
@@ -98,7 +98,7 @@
 				</td>
 				<td>
 					<div class="form-group form-tags">
-						<input type="text" name="subscribers" value="" class="tags-input">
+						<input type="text" name="subscribers" value="liuyi,bbs" search-source="aaa,bbb,ccc,ddd,eee,fff,abc,,abd" class="tags-input dropup">
 					</div>
 				</td>
 			</tr>

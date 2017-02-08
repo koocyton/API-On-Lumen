@@ -673,7 +673,7 @@
 
 		timeInputBind : function()
 		{
-			$(this).find("input[type='date']").each(function(key, date_input) {
+			$(this).find("input.date").each(function(key, date_input) {
 				// 绑定
 				$(this).datetimepicker({
 					 timepicker:false,
@@ -682,7 +682,7 @@
 				});
 			});
 
-			$(this).find("input[type='datetime']").each(function(key, datetime_input) {
+			$(this).find("input.datetime").each(function(key, datetime_input) {
 				// 绑定
 				$(this).datetimepicker({
 					 timepicker:true,
@@ -691,7 +691,7 @@
 				});
 			});
 
-			$(this).find("input[type='time']").each(function(key, datetime_input) {
+			$(this).find("input.time").each(function(key, datetime_input) {
 				// 绑定
 				$(this).datetimepicker({
 					 timepicker:false,
@@ -748,15 +748,15 @@
 
 				// 如果有指定检索，就初始化弹出的检索层 
 				if (typeof(search_source)=="string") {
-					// dropup
+					var dropup = tags_input.hasClass("dropup") ? "dropup" : "";
 					// tags 操作的主体框，含输入的 input 和 检索弹出层
-					tags_frame = $('<div class="tags-frame form-control"><input type="text" data-toggle="dropdown" class="tags-enter dropdown-toggle"><ul class="dropdown-menu"></ul></div>');
+					tags_frame = $('<div class="tags-frame form-control ' + dropup + '"><input type="text" class="tags-enter"><ul class="dropdown-menu"></ul></div>');
 				}
 				// 插入到 input 的后面
 				tags_frame.appendTo(tags_input.parent());
 
 				// tags 检索弹出层
-				var tags_option = tags_frame.children("ul.dropdown-menu");
+				var tags_options = tags_frame.children("ul.dropdown-menu");
 				// tags 的输入框
 				var tags_enter = tags_frame.children("input.tags-enter");
 
@@ -790,7 +790,8 @@
 							return false;
 						}
 					});
-					$(this).dropdown();
+					tags_frame.tagsAutoComplete();
+					tags_options.css("display", "block");
 				});
 				// 输入框 blur 时，外框亮色取消
 				tags_enter.blur(function(){
@@ -818,6 +819,7 @@
 					if(e.keyCode === 13 && $(this).val()!=""){
 						$(this).parent().insertEnterTag(tags_enter.val());
 					}
+					tags_frame.tagsAutoComplete();
 				});
 			});
 			return this;
@@ -825,7 +827,47 @@
 
 		tagsAutoComplete: function()
 		{
+			/*----------------------------------------------*\
+			 |
+			 | 初始化重要值，状态，节点
+			 |
+			\*----------------------------------------------*/
+			// tags 的节点
+			var tags_input = $(this).prev();
+			// tag 的数据检索的来源
+			var search_source = tags_input.attr("search-source");
+			// 搜索的数据
+			var search_data = typeof(search_source)=="string" ? search_source.split(",") : [];
 
+			var tags_frame = $(this);
+			// tags 检索弹出层
+			var tags_options = tags_frame.children("ul.dropdown-menu");
+			// tags 的输入框
+			var tags_enter = tags_frame.children("input.tags-enter");
+
+			// 目前填入的值
+			var tags_spans = tags_frame.children("span");
+			var tags_val = [];
+			tags_spans.each(function(key, tag_span){
+				var val = $(tag_span).html().split("<p>")[0];
+				var ii = tags_val.length;
+				tags_val[ii] = val;
+			});
+
+			// 搜索 自动补全
+			if (tags_options.exist()) {
+				tags_options.empty();
+				for(var ii=0; ii<search_data.length; ii++) {
+					var reg = new RegExp(tags_enter.val(),"g");
+					if (reg.test(search_data[ii])) {
+						var complete_li = $("<li><a>" + search_data[ii] + "</a></li>");
+						complete_li.appendTo(tags_options);
+						complete_li.click(function(){
+							$(this).parents(".tags-frame").insertEnterTag($(this).children().html());
+						});
+					}
+				}
+			}
 		},
 
 		insertEnterTag: function(tag_text)

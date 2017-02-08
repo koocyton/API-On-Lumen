@@ -883,10 +883,10 @@
 						var complete_li = $("<li><a href=\"javascript:void(0);\">" + search_data[ii] + "</a></li>");
 						complete_li.appendTo(tags_options);
 						complete_li.click(function(e){
-							var _tags_frame = $(this).parents(".tags-frame");
-							var _tags_enter = _tags_frame.children("input.tags-enter");
-							_tags_frame.insertEnterTag($(this).children().html());
-							_tags_enter.focus();
+							// var _tags_frame = $(this).parents(".tags-frame");
+							// var _tags_enter = _tags_frame.children("input.tags-enter");
+							tags_frame.insertEnterTag($(this).children().html());
+							tags_enter.focus();
 						});
 					}
 				}

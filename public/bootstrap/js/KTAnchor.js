@@ -823,8 +823,19 @@
 					}
 					tags_enter.data("empty-data", ($(this).val()!="") ? null : "empty-data");
 					// 插入
-					if(e.keyCode === 13 && $(this).val()!=""){
-						$(this).parent().insertEnterTag(tags_enter.val());
+					if(e.keyCode === 13 && $(this).val()!="") {
+						if (typeof(search_source)=="string") {
+							tags_options.children("li").each(function(idx, elt){
+								var val = $(elt).children("a").html();
+								if (val==tags_enter.val()) {
+									tags_frame.insertEnterTag(val);
+									return;
+								}
+							});
+						}
+						else {
+							tags_frame.insertEnterTag($(this).val());
+						}
 					}
 					tags_frame.tagsAutoComplete();
 				});

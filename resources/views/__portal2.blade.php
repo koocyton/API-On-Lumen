@@ -104,7 +104,7 @@
           ]},
           {"text":"项目研发 · 微闻", "menus":[
               {"text":"频道设置", "href":"/channel-manager/list"},
-              {"text":"项目任务", "href":"/task/list"},
+              {"text":"项目任务　<span class=\"badge\">10</span>", "href":"/task/list"},
               {"text":"API 接口", "open":true, "menus":[
                   {"text":"登录 GET /access-token", "href":"/project/api-debug/access-token"},
                   {"text":"频道列表 GET /channel-menu", "href":"/project/api-debug/channel-menu"},

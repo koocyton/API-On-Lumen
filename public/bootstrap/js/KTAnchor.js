@@ -798,7 +798,6 @@
 						// 关闭动画
 						tags_options.css("display", "none");
 						$(document.body).unbind("click touchend");
-						e.stopPropagation();
 					});
 				});
 				// 输入框 blur 时，外框亮色取消
@@ -870,7 +869,7 @@
 					var reg2 = new RegExp("," + search_data[ii] + ",","g");
 					// 在数据源里查找输入的字符串，并且绕过已经输入过的 tag
 					if (reg.test(search_data[ii]) && !reg2.test(tags_val)) {
-						var complete_li = $("<li><a>" + search_data[ii] + "</a></li>");
+						var complete_li = $("<li><a href=\"javascript:void(0);\">" + search_data[ii] + "</a></li>");
 						complete_li.appendTo(tags_options);
 						complete_li.click(function(e){
 							var _tags_frame = $(this).parents(".tags-frame");

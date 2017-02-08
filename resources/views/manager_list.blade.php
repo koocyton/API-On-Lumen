@@ -40,7 +40,7 @@
         <thead>
           <tr class="active">
             <th style="width:70px;">ID</th>
-            <th style="width:50px;">激活</th>
+            <th style="width:60px;">激活</th>
             <th style="width:200px;">账号</th>
             <th style="width:200px;">创建时间</th>
             <th style="width:300px;">最近登录</th>
@@ -50,14 +50,12 @@
         <tbody>
 <?php
 foreach ($managers as $manager) {
-    $status = empty($manager->deleted_at) ? 'ok' : 'remove';
+    $status = empty($manager->deleted_at) ? 'on' : 'off';
     ?>
           <tr>
             <td>{{ $manager->id }}</td>
             <td>
-              <a href="/manager/{{ $manager->id }}/switch" pushstate="no">
-                <span class="glyphicon glyphicon-{{ $status }}" style="font-size:20px;color:#555555;"></span>
-              </a>
+              <a pushstate="no" href="/manager/{{ $manager->id }}/switch"><img src="/image/switch_{{ $status }}.png" style="width:46px;"></a>
             </td>
             <td>
               <a class="normal-anchor" href="javascript:$.KTAnchor.popupLoader('/manager/{{ $manager->id }}')">{{ $manager->account }}</a>

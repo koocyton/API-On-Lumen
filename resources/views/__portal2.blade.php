@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
+    <title>AOL Manager</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="/js/jquery.datetimepicker.css" />
     <!-- Bootstrap -->
@@ -38,6 +38,9 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="javascript:void(0);">koocyton@gmail.com</a>
+            </li>
             <li class="dropdown">
               <a href="#" native="yes" class="dropdown-toggle" data-toggle="dropdown" style="padding:8px 6px 4px 6px;"><span class="glyphicon glyphicon-cog" style="font-size:23px;"></span></a>
               <ul class="dropdown-menu" role="menu">

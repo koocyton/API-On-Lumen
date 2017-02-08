@@ -888,6 +888,20 @@
 				return;
 			}
 			var tags_frame = $(this);
+
+			/*----------------------------------------------*\
+			 |
+			 | 初始化重要值，状态，节点
+			 |
+			\*----------------------------------------------*/
+			// tags 的节点
+			var tags_input = tags_frame.prev();
+			// 是否允许输入多个 tag
+			var accept_multipart = tags_input.attr("accept-multipart");
+			if (typeof(accept_multipart)=="string" && accept_multipart=="no") {
+				tags_frame.children("span").remove();
+			}
+
 			var tags_spans = tags_frame.children("span");
 			var tag_exist = false;
 			tags_spans.each(function(key, tag_span){

@@ -19,10 +19,10 @@
 				<td>
 					<div class="form-group">指派给：</div>
 				</td>
-				<td >
-					<div class="form-group" style="width:300px;">
-						<input type="text" name="owner" value="Liuyi" class="form-control">
-	  				</div>
+				<td>
+					<div class="form-group form-tags">
+						<input type="text" name="owner" value="" search-source="刘毅,严峻,大毛,孙老板,德慧,姜凡" class="tags-input" accept-multipart="no" />
+					</div>
 				</td>
 			</tr>
 
@@ -98,7 +98,7 @@
 				</td>
 				<td>
 					<div class="form-group form-tags">
-						<input type="text" name="subscribers" value="liuyi,bbs" search-source="aaa,bbb,ccc,ddd,eee,fff,abc,,abd" class="tags-input dropup">
+						<input type="text" name="subscribers" value="" search-source="刘毅,严峻,大毛,孙老板,德慧,姜凡" class="tags-input dropup">
 					</div>
 				</td>
 			</tr>

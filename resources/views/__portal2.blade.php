@@ -87,7 +87,6 @@
 
     <script src="/bootstrap/js/jquery-1.11.3.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/bootstrap/js/bootstrap-tagsinput.js"></script>
     <script src="/bootstrap/js/KTAnchor.js"></script>
     <script src="/js/jquery.datetimepicker.js"></script>
     <script>

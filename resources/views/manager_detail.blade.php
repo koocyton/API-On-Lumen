@@ -1,59 +1,99 @@
+<popup-title style="display:none;" class="popup-title">管理员 {{ $manager->account }}</popup-title>
 
-		<popup-title style="display:none;" class="popup-title">管理员信息</popup-title>
+<div class="container" style="width:800px;">
+<form action="/manager/update" enctype="multipart/form-data" method="post">
+	<table class="">
+		<tbody>
 
-		<div>
-			<div class="radius-4 ct-nav">
-				<table class="ct-nav-table">
-					<tr>
-						<td class="ct-nav-left">
-							<b>　ID ： {{ $manager->id }}</b>
-						</td>
-						<td class="ct-nav-right" style="padding: 0 12px">
-							<button button-class="submit-btn" type="submit" class="submit-btn" style="width:60px;height:30px;line-height:30px;">更新</button>
-						</td>
-					</tr>
-				</table>
-			</div>
+			<tr>
+				<td style="width:80px;">
+					<div class="form-group">账　号：</div>
+				</td>
+				<td>
+					<div class="form-group">
+						{{ $manager->id }}
+					</div>
+				</td>
+			</tr>
 
-			<table class="notes-table form-field">
-				<tbody>
-					<tr>
-						<td style="width:80px;">　　主键：</td>
-						<td>{{ $manager->id }}</td>
-					</tr>
-					<tr>
-						<td style="width:80px;">　　账号：</td>
-						<td>{{ $manager->account }}</td>
-					</tr>
-					<tr>
-						<td style="width:80px;">创建时间：</td>
-						<td>
-						  <div style="width:187px;position:relative;">
-							<dl>
-							  <dd>
-								<input class="text-input" type="text" value="{{ $manager->created_at }}" readonly="readonly">
-							  </dd>
-							</dl>
-						  </div>
-						</td>
-					</tr>
-					<tr>
-						<td style="width:80px;">激活状态：</td>
-						<td>
-							<label>
-								<input type="radio" name="deleted_at" value="{{ time() }}" checked="<?php echo empty($manager->deleted_at) ? 'checked' : ''; ?>" >
-								禁用
-							</label>
-							<label>
-								<input type="radio" name="deleted_at" value="NULL" checked="<?php echo !empty($manager->deleted_at) ? 'checked' : ''; ?>" >
-								激活
-							</label>
-						</td>
-					</tr>
-					<tr>
-						<td style="width:80px;">权限设定：</td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+			<tr>
+				<td>
+					<div class="form-group">账　号：</div>
+				</td>
+				<td>
+					<div class="form-group">
+						{{ $manager->account }}
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<div class="form-group">用户名：</div>
+				</td>
+				<td>
+					<div class="form-group form-tags">
+	  					<input type="text" name="username" class="form-control" value="{{ $manager->username }}" style="width:400px">
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<div class="form-group">密　码：</div>
+				</td>
+				<td>
+					<div class="form-group">
+						<input type="text" name="password" class="form-control"  style="width:400px">
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<div class="form-group">创　建：</div>
+				</td>
+				<td>
+					<div class="form-group">
+						{{ $manager->created_at }}
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<div class="form-group">分　组：</div>
+				</td>
+				<td>
+					<div class="form-group form-tags">
+						<input type="text" name="grup" search-source="GoodNight 客户端,GoodNight 服务端,GoodNight 策划,GoodNight 美术,GoodNight 项目组" class="tags-input">
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<div class="form-group">头　像：</div>
+				</td>
+				<td>
+					<div class="form-group">
+						<input type="file" class="upload-input" name="illustration">
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<div class="form-group"></div>
+				</td>
+				<td>
+					<div class="form-group">
+						<button class="btn btn-success button-btn" style="width:120px;">保　存</button>
+					</div>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+</form>
+</div>

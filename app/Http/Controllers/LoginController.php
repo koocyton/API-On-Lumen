@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Helper\SecurityHelper;
 use App\Http\Controllers\Controller as BaseController;
 use App\Model\Manager;
 use Illuminate\Http\Request;
@@ -46,9 +47,11 @@ class LoginController extends BaseController
             if ($manager->password == $hash_password) {
                 // 更新登录时间
                 Manager::where(['id' => $manager->id])->update(['updated_at' => time()]);
+                // auth 校验
+                $request_token = SecurityHelper::getRequestToken('aaa', 'bbb', "/bb", 'GET');
                 // 登录成功
                 return response()->json(['action' => 'redirect', 'url' => '/manager/list'], 200)
-                    ->withCookie(new Cookie('auth_user', $account));
+                    ->withCookie(new Cookie('auth_user', $request_token));
             }
             // 密码错误
             return response()->json(['action' => 'showMessage', 'message' => 'password is wrond'], 404);

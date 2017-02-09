@@ -3,16 +3,19 @@ namespace App\Helper;
 
 class SecurityHelper
 {
-    public const TOKEN_LENGTH = 10;
+    // 设置 token 长度
+    const TOKEN_LENGTH = 10;
 
-    public const SECURITY_LENGTH = 18;
+    // 设置 security 长度
+    const SECURITY_LENGTH = 18;
 
-    /*
+    /**
      * 获取一个随机的字符串
      */
-    public static function randomToken($length = 32){
-        if(!isset($length) || intval($length) <= 8 ){
-          $length = 32;
+    public static function randomToken($length = 32)
+    {
+        if (!isset($length) || intval($length) <= 8) {
+            $length = 32;
         }
         if (function_exists('random_bytes')) {
             return bin2hex(random_bytes($length));
@@ -26,17 +29,43 @@ class SecurityHelper
     }
 
     /*
-     * authorization
+     * set auth
      */
-    public static function authorization($token, $token_secret, $request_url, $request_method) {
+    public static function setOAuth($token, $token_secret)
+    {
         // get config
-        $auth_config = config("auth");
+        $oauth_config = config("auth");
         // 定义
         $consumer_key = env('API_APP_ID');
         $consumer_secret = env('API_APP_KEY');
         // auth
-        $auth = new \OAuth($consumer_key, $consumer_secret, OAUTH_SIG_METHOD_HMACSHA1, OAUTH_AUTH_TYPE_AUTHORIZATION);
-        $auth->setToken($token, $token_secret);
-        return $auth->getRequestHeader($request_method, $request_url);
+        $oauth = new \OAuth($consumer_key, $consumer_secret, OAUTH_SIG_METHOD_HMACSHA1, OAUTH_AUTH_TYPE_AUTHORIZATION);
+        $oauth->setToken($token, $token_secret);
+    }
+
+    /**
+     * auth request token
+     */
+    public static function getRequestToken($token, $token_secret, $request_uri, $request_method)
+    {
+        $request_url = $request_uri;
+        if (!preg_match("/^http.+/", $request_uri)) {
+            $request_url = $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["HTTP_HOST"] . $request_uri;
+        }
+        $oauth = self::setOAuth($token, $token_secret);
+        return $oauth->getRequestHeader($request_method, $request_url);
+    }
+
+    /**
+     * authorization
+     */
+    public static function getRequestHeader($token, $token_secret, $request_uri, $request_method)
+    {
+        $request_url = $request_uri;
+        if (!preg_match("/^http.+/", $request_uri)) {
+            $request_url = $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["HTTP_HOST"] . $request_uri;
+        }
+        $oauth = self::setOAuth($token, $token_secret);
+        return $oauth->getRequestHeader($request_method, $request_url);
     }
 }

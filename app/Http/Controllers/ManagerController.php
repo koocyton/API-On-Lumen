@@ -40,6 +40,21 @@ class ManagerController extends BaseController
     }
 
     /*
+     * 保存管理员详细信息
+     */
+    public function update($id)
+    {
+        // 管理员信息
+        $manager = Manager::withTrashed()->where(['id' => $id])->first();
+        $manager->username = $request->input("username");
+        $manager->username = $request->input("password");
+        $manager->username = $request->input("group");
+        $manager->save();
+        // 刷新页面
+        return response('<script>$(window).trigger("popstate");</script>');
+    }
+
+    /*
      * 打开或关闭管理员
      */
     function switch ($id) {

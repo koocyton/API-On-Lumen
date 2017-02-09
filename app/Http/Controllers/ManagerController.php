@@ -5,6 +5,7 @@ use App\Helper\PagingHelper;
 use App\Http\Controllers\Controller as BaseController;
 use App\Model\Manager;
 use App\Model\OperationRecord;
+use Illuminate\Http\Request;
 
 class ManagerController extends BaseController
 {
@@ -42,16 +43,14 @@ class ManagerController extends BaseController
     /*
      * 保存管理员详细信息
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
         // 管理员信息
         $manager = Manager::withTrashed()->where(['id' => $id])->first();
         $manager->username = $request->input("username");
-        $manager->username = $request->input("password");
-        $manager->username = $request->input("group");
         $manager->save();
         // 刷新页面
-        return response('<script>$(window).trigger("popstate");</script>');
+        return response('<script>$("#popup-modal").modal("hide");$(window).trigger("popstate");</script>');
     }
 
     /*

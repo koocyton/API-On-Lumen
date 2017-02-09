@@ -48,6 +48,8 @@ $app->group(['prefix' => '/manager', 'namespace' => 'App\Http\Controllers'], fun
     $app->get('apply', 'ManagerController@apply');
     // 管理员
     $app->get('{id}', 'ManagerController@detail');
+    // 管理员
+    $app->post('{id}/update', 'ManagerController@update');
     // 管理员开关
     $app->get('{id}/switch', 'ManagerController@switch');
 });

@@ -12,7 +12,7 @@ class SecurityHelper
     /**
      * 获取一个随机的字符串
      */
-    public static function randomToken($length = 32)
+    public static function randomBytes($length = 32)
     {
         if (!isset($length) || intval($length) <= 8) {
             $length = 32;
@@ -29,43 +29,66 @@ class SecurityHelper
     }
 
     /*
-     * set auth
+     * get authorization token
      */
-    public static function setOAuth($token, $token_secret)
+    public static function getAuthorizationToken($authorization)
     {
-        // get config
-        $oauth_config = config("auth");
-        // 定义
-        $consumer_key = env('API_APP_ID');
-        $consumer_secret = env('API_APP_KEY');
-        // auth
+        if (preg_match('/^OAuth\s+(.*?)$/', $authorization, $matches)) {
+            // 将值提取出来
+            if (preg_match_all('/([^,]+)="([^,]+)"/', $matches[1], $parameters)) {
+                foreach ($parameters[1] as $key => $idx) {
+                    if ($idx == 'oauth_token') {
+                        return $parameters[2][$key];
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * check authorization
+     */
+    public static function checkAuthorization($authorization, $token_secret, $consumer_secret, $request_uri, $request_method)
+    {
+        $request_url = $request_uri;
+        if (!preg_match("/^http.+/", $request_uri)) {
+            $request_url = $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["HTTP_HOST"] . $request_uri;
+        }
+        if (preg_match('/^OAuth\s+(.*?)$/', $authorization, $matches)) {
+            // 将值提取出来
+            if (preg_match_all('/([^,]+)="([^,]+)"/', $matches[1], $parameters)) {
+                $param = [];
+                foreach ($parameters[1] as $key => $idx) {
+                    $param[$idx] = $parameters[2][$key];
+                }
+
+                // new oauth
+                $oauth = new \OAuth($param['oauth_consumer_key'], $consumer_secret, $param['oauth_signature_method'], OAUTH_AUTH_TYPE_AUTHORIZATION);
+                $oauth->setToken($param['oauth_token'], $token_secret);
+                $oauth->setNonce($param['oauth_nonce']);
+                $oauth->setTimestamp($param['oauth_timestamp']);
+                $oauth->setVersion($param['oauth_version']);
+
+                // return
+                return $oauth->generateSignature($request_method, $request_url) == urldecode($param['oauth_signature']);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * get authorization
+     */
+    public static function getAuthorization($token, $token_secret, $consumer_key, $consumer_secret, $request_uri, $request_method)
+    {
+        $request_url = $request_uri;
+        if (!preg_match("/^http.+/", $request_uri)) {
+            $request_url = $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["HTTP_HOST"] . $request_uri;
+        }
+        // new oauth
         $oauth = new \OAuth($consumer_key, $consumer_secret, OAUTH_SIG_METHOD_HMACSHA1, OAUTH_AUTH_TYPE_AUTHORIZATION);
         $oauth->setToken($token, $token_secret);
-    }
-
-    /**
-     * auth request token
-     */
-    public static function getRequestToken($token, $token_secret, $request_uri, $request_method)
-    {
-        $request_url = $request_uri;
-        if (!preg_match("/^http.+/", $request_uri)) {
-            $request_url = $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["HTTP_HOST"] . $request_uri;
-        }
-        $oauth = self::setOAuth($token, $token_secret);
-        return $oauth->getRequestHeader($request_method, $request_url);
-    }
-
-    /**
-     * authorization
-     */
-    public static function getRequestHeader($token, $token_secret, $request_uri, $request_method)
-    {
-        $request_url = $request_uri;
-        if (!preg_match("/^http.+/", $request_uri)) {
-            $request_url = $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["HTTP_HOST"] . $request_uri;
-        }
-        $oauth = self::setOAuth($token, $token_secret);
         return $oauth->getRequestHeader($request_method, $request_url);
     }
 }

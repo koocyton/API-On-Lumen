@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\SecurityHelper;
+use App\Model\Manager;
 use App\Model\OperationRecord;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
@@ -31,8 +33,27 @@ class Controller extends BaseController
     protected function beforeFilter($request)
     {
         // 如果 Cookie 不存在，跳转
-        $session_cookie = $request->cookie('auth_user');
-        if (empty($session_cookie)) {
+        $authorization = $request->cookie('Authorization');
+        if (empty($authorization)) {
+            echo "<script>window.location='/login';</script>";
+            exit();
+        }
+        // 获取 Token
+        $token = SecurityHelper::getAuthorizationToken($authorization);
+        if (empty($token)) {
+            echo "<script>window.location='/login';</script>";
+            exit();
+        }
+        // 获取用户
+        $manager = Manager::withTrashed()->where(['token' => $token])->first();
+        if (empty($manager) || empty($manager->token_secret)) {
+            echo "<script>window.location='/login';</script>";
+            exit();
+        }
+        // 校验 Authorization
+        $consumer_secret = env('BND_APP_ID');
+        $token_secret = $manager->token_secret;
+        if (!SecurityHelper::checkAuthorization($authorization, $token_secret, $consumer_secret, "/.*", "GET POST")) {
             echo "<script>window.location='/login';</script>";
             exit();
         }

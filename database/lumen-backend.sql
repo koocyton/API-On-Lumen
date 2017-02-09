@@ -34,7 +34,8 @@ CREATE TABLE `manager` (
   `updated_at` int(10) NOT NULL COMMENT '更新时间',
   `privileges` text NOT NULL COMMENT '权限',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `account` (`account`)
+  UNIQUE KEY `account` (`account`),
+  UNIQUE KEY `token` (`token`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

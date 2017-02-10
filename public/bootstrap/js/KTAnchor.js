@@ -405,6 +405,7 @@
 		KTLoader: function() {
 			// 加载
 			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTInputBind();
+			$(this).find("[data-toggle='tooltip']").tooltip();
 		},
 
 		KTInputBind: function() {

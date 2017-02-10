@@ -53,8 +53,9 @@
 					<div class="form-group">时　限：</div>
 				</td>
 				<td>
-					<div class="form-group">
-						<input type="text" name="lastdate" class="date form-control" style="width:200px;font-weight:bold;">
+					<div class="form-group has-feedback" style="width:200px;">
+						<input type="text" name="lastdate" class="date form-control">
+						<span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
 					</div>
 				</td>
 			</tr>

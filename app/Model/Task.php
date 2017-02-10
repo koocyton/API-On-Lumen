@@ -52,4 +52,14 @@ class Task extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date("Y-m-d H:i:s", $value);
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return date("Y-m-d H:i:s", $value);
+    }
 }

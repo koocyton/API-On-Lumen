@@ -59,7 +59,7 @@ class Controller extends BaseController
             exit();
         }
         // 获取用户
-        $manager = Manager::withTrashed()->where(['token' => $token])->first();
+        $manager = Manager::where(['token' => $token])->first();
         if (empty($manager) || empty($manager->token_secret)) {
             echo "<script>window.location='/login/signout';</script>";
             exit();

@@ -7,33 +7,119 @@
 
 			<tr>
 				<td style="width:90px;">
-					<div class="form-group">　权限：</div>
+					<div class="form-group"></div>
 				</td>
 				<td>
-					<div class="content-body" style="margin-top:5px;padding:0;">
-							<form action="/manager/update/<?php echo $manager->id; ?>" method="post">
-								<div style="height:25px;padding:0 0 0 20px;"><b>主控</b></div>
-									<div style="height:25px;padding:0 0 0 40px;"><label>添加广告 <input type="checkbox" name="limits[]" value="advert" <?php echo empty($privileges_checked["advert"]) ? "" : "checked"; ?>></label></div>
-									<div style="height:25px;padding:0 0 0 40px;"><label>添加素材 <input type="checkbox" name="limits[]" value="resouse" <?php echo empty($privileges_checked["resouse"]) ? "" : "checked"; ?>></label></div>
-									<div style="height:25px;padding:0 0 0 40px;"><label>添加联盟 <input type="checkbox" name="limits[]" value="union" <?php echo empty($privileges_checked["union"]) ? "" : "checked"; ?>></label></div>
-									<div style="height:25px;padding:0 0 0 27px;">
-										<span class="octicon" style="font-size:12px;width:10px;padding:0 0 3px 0">&#xf0a3;</span>
-										数据统计
-									</div>
-										<div style="height:25px;padding:0 0 0 60px;"><label>数据简报 <input type="checkbox" name="limits[]" value="bulletin" <?php echo empty($privileges_checked["bulletin"]) ? "" : "checked"; ?>></label></div>
-										<div style="height:25px;padding:0 0 0 60px;"><label>各项统计 <input type="checkbox" name="limits[]" value="count" <?php echo empty($privileges_checked["count"]) ? "" : "checked"; ?>></label></div>
-										<div style="height:25px;padding:0 0 0 60px;"><label>优化分析 <input type="checkbox" name="limits[]" value="optimize" <?php echo empty($privileges_checked["optimize"]) ? "" : "checked"; ?>></label></div>
-								<div style="height:25px;padding:0 0 0 20px;"><b>管理员</b></div>
-									<div style="height:25px;padding:0 0 0 40px;"><label>操作日志 <input type="checkbox" name="limits[]" value="log" <?php echo empty($privileges_checked["log"]) ? "" : "checked"; ?>></label></div>
-									<div style="height:25px;padding:0 0 0 40px;"><label>权限管理 <input type="checkbox" name="limits[]" value="manager" <?php echo empty($privileges_checked["manager"]) ? "" : "checked"; ?>></label></div>
-								<div style="height:25px;padding:0 0 0 20px;">
-									<button button-class="submit-btn" type="submit" class="submit-btn">更新权限</button>
-								</div>
-							</form>
-						</div>
-
-                    </div>
-                </div>
+<div style="top:0px;min-width:300px;position:relative;" id="main-menu">
+	<div class="treemenu-container">
+		<a href="javascript:;" class="tree-menu tree-menu-0">
+			<div>主控</div>
+		</a>
+		<div style="display: block;">
+			<a href="/advert" class="tree-menu tree-menu-1">
+				<div>广告管理</div>
+			</a>
+			<a href="/resouse" class="tree-menu tree-menu-1">
+				<div>素材管理</div>
+			</a>
+			<a href="/union" class="tree-menu tree-menu-1">
+				<div>联盟管理</div>
+			</a>
+			<a href="javascript:;" class="tree-menu tree-menu-1 tree-menu-open">
+				<div>数据统计</div>
+			</a>
+			<div style="display: block;">
+				<a href="/bulletin" class="tree-menu tree-menu-2">
+					<div>数据简报</div>
+				</a>
+				<a href="/count" class="tree-menu tree-menu-2">
+					<div>各项统计</div>
+				</a>
+				<a href="/optimize" class="tree-menu tree-menu-2">
+					<div>优化分析</div>
+				</a>
+			</div>
+		</div>
+		<a href="javascript:;" class="tree-menu tree-menu-0"><div>项目研发 · 微闻</div></a>
+		<div style="display: block;">
+			<a href="/channel-manager/list" class="tree-menu tree-menu-1">
+				<div>频道设置</div>
+			</a>
+			<a href="/task/list" class="tree-menu-1 tree-menu">
+				<div>项目任务　<span class="badge">10</span></div>
+			</a>
+			<a href="javascript:;" class="tree-menu tree-menu-1 tree-menu-open">
+				<div>API 接口</div>
+			</a>
+			<div style="display: block;">
+				<a href="/project/api-debug/access-token" class="tree-menu-2 tree-menu">
+					<div>登录 GET /access-token</div>
+				</a>
+				<a href="/project/api-debug/channel-menu" class="tree-menu-2 tree-menu">
+					<div>频道列表 GET /channel-menu</div>
+				</a>
+				<a href="/project/api-debug/channel-detail" class="tree-menu-2 tree-menu">
+					<div>频道新闻 GET /channel-detail/{id}</div>
+				</a>
+				<a href="/project/api-debug/news" class="tree-menu-2 tree-menu">
+					<div>新闻内容 GET /news/{id}</div>
+				</a>
+				<a href="/project/api-debug/post-news" class="tree-menu-2 tree-menu">
+					<div>上传新闻 POST /news</div>
+				</a>
+				<a href="/project/api-debug/region/{id}" class="tree-menu-2 tree-menu">
+					<div>选择地区 UPDATE /region/{id}</div>
+				</a>
+			</div>
+			<a href="javascript:;" class="tree-menu tree-menu-1 tree-menu-open">
+				<div>数据管理</div>
+			</a>
+			<div style="display: block;">
+				<a href="/project/data-manage/channel" class="tree-menu-2 tree-menu">
+					<div>频道信息</div>
+				</a>
+				<a href="/project/data-manage/news" class="tree-menu-2 tree-menu">
+					<div>新闻列表</div>
+				</a>
+				<a href="/project/data-manage/user" class="tree-menu-2 tree-menu">
+					<div>用户管理</div>
+				</a>
+			</div>
+			<a href="javascript:;" class="tree-menu tree-menu-1 tree-menu-close"><div>项目文档</div></a>
+			<div style="display: none;">
+				<a href="/project/doc/1" class="tree-menu-2 tree-menu">
+					<div>概叙</div>
+				</a>
+				<a href="/project/doc/2" class="tree-menu-2 tree-menu">
+					<div>登录</div>
+				</a>
+				<a href="/project/doc/3" class="tree-menu-2 tree-menu">
+					<div>注册</div>
+				</a>
+				<a href="/project/doc/4" class="tree-menu-2 tree-menu">
+					<div>主界面</div>
+				</a>
+				<a href="/project/doc/5" class="tree-menu-2 tree-menu">
+					<div>拍照</div>
+				</a>
+				<a href="/project/doc/6" class="tree-menu-2 tree-menu">
+					<div>填写拍照信息</div>
+				</a>
+			</div>
+		</div>
+		<a href="javascript:;" class="tree-menu tree-menu-0">
+			<div>管理员</div>
+		</a>
+		<div style="display: block;">
+			<a href="/operation/list" class="tree-menu-1 tree-menu">
+				<div>操作日志</div>
+			</a>
+			<a href="/manager/list" class="tree-menu-1 tree-select-menu">
+				<div>权限管理</div>
+			</a>
+		</div>
+	</div>
+</div>
 				</td>
 			</tr>
 
@@ -41,5 +127,3 @@
 	</table>
 </form>
 </div>
-
-

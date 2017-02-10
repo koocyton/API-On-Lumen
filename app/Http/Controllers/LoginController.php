@@ -24,7 +24,7 @@ class LoginController extends BaseController
         // 如果 Authorization Cookie 存在，校验 Authorization
         if (!empty($request->cookie('Authorization'))) {
             if ($this->checkAuthorization($request)) {
-                echo "<script>window.location='/manager/list';</script>";
+                echo "<script>window.location='/task/list';</script>";
                 exit();
             }
         }
@@ -68,7 +68,7 @@ class LoginController extends BaseController
                 // 如果有选择记住我，给 Cookie 标注一个时间
                 $cookie_expires = empty($remberme) ? 0 : time() + 31536000;
                 // 登录成功
-                return response()->json(['action' => 'redirect', 'url' => '/manager/list'], 200)
+                return response()->json(['action' => 'redirect', 'url' => '/task/list'], 200)
                     ->withCookie(new Cookie('Authorization', $authorization, $cookie_expires));
             }
             // 密码错误

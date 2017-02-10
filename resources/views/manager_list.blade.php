@@ -42,8 +42,8 @@
             <th style="width:70px;">ID</th>
             <th style="width:60px;">激活</th>
             <th style="width:200px;">账号</th>
-            <th style="width:200px;">创建时间</th>
-            <th style="width:300px;">最近登录</th>
+            <th style="width:150px;">创建时间</th>
+            <th style="width:230px;">最近登录</th>
             <th>权限</th>
           </tr>
         </thead>

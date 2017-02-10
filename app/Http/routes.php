@@ -52,6 +52,8 @@ $app->group(['prefix' => '/manager', 'namespace' => 'App\Http\Controllers'], fun
     $app->post('{id}/update', 'ManagerController@update');
     // 管理员开关
     $app->get('{id}/switch', 'ManagerController@switch');
+    // 权限管理
+    $app->get('{id}/privileges', 'ManagerController@privileges');
 });
 
 /*

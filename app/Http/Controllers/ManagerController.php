@@ -41,6 +41,17 @@ class ManagerController extends BaseController
     }
 
     /*
+     * 管理员权限信息
+     */
+    public function privileges($id)
+    {
+        // 管理员列表
+        $manager = Manager::withTrashed()->where(['id' => $id])->first();
+        // 返回 view
+        return $this->display('manager_privileges', ['manager' => $manager]);
+    }
+
+    /*
      * 保存管理员详细信息
      */
     public function update(Request $request, $id)

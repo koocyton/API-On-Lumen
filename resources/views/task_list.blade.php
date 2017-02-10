@@ -45,13 +45,13 @@ foreach ($tasks as $task) {
     $status = empty($task->deleted_at) ? 'on' : 'off';
     ?>
                                     <tr>
-										<td>{{ $manager->id }}</td>
+										<td>{{ $task->id }}</td>
 										<td>
 											<a href="/manager/{{ $task->id }}/switch" pushstate="no">
 											<img src="/image/switch_{{ $status }}.png" style="width:50px;">
 											</a>
 										</td>
-										<td><a class="normal-anchor" href="/manager/{{ $task->id }}">{{ $manager->account }}</a></td>
+										<td><a class="normal-anchor" href="/manager/{{ $task->id }}">{{ $task->author }}</a></td>
 										<td>{{ date("Y-m-d H:i:s", $task->created_at) }}</td>
 										<td>
 										<?php

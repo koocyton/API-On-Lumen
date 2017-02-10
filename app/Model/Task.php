@@ -13,14 +13,14 @@ class Task extends Model
      */
     protected $connection = 'backend';
 
-	/**
+    /**
      * 与模型关联的数据表
      *
      * @var string
      */
     protected $table = 'task';
 
-	/**
+    /**
      * 该模型是否被自动维护时间戳
      *
      * @var bool
@@ -34,18 +34,22 @@ class Task extends Model
      */
     // protected $dates = ['deleted_at', 'created_at', 'updated_at'];
 
-	/**
+    /**
      * 与模型关联的数据字段
      *
      * @var array
      */
-    /* protected $fillable = [
-    	'id', 
-    	'account', 
-    	'password', 
-    	'deleted_at', 
-    	'created_at', 
-    	'updated_at', 
-    	'privileges'
-    ]; */
+    protected $fillable = [
+        'id',
+        'title',
+        'category',
+        'author',
+        'owner',
+        'subscribers',
+        'description',
+        'status',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 }

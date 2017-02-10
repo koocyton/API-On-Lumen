@@ -35,13 +35,13 @@
 
 						<div class="btn-group" data-toggle="buttons">
 							<label class="btn btn-default active">
-								<input type="radio" name="catelog" value="task" autocomplete="off" checked> 任务
+								<input type="radio" name="category" value="task" autocomplete="off" checked> 任务
 							</label>
 							<label class="btn btn-default">
-								<input type="radio" name="catelog" value="bug" autocomplete="off"> Bug
+								<input type="radio" name="category" value="bug" autocomplete="off"> Bug
 							</label>
 							<label class="btn btn-default">
-								<input type="radio" name="catelog" value="doc" autocomplete="off"> 文档
+								<input type="radio" name="category" value="doc" autocomplete="off"> 文档
 							</label>
 						</div>
 					</div>

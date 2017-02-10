@@ -39,7 +39,7 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <a href="javascript:void(0);">koocyton@gmail.com</a>
+              <a href="javascript:void(0);">{{ $user }}</a>
             </li>
             <li class="dropdown">
               <a href="#" native="yes" class="dropdown-toggle" data-toggle="dropdown" style="padding:8px 6px 4px 6px;"><span class="glyphicon glyphicon-cog" style="font-size:23px;"></span></a>

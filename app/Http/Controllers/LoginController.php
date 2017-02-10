@@ -12,7 +12,6 @@ class LoginController extends BaseController
     // 覆盖父类 beforeFielter
     protected function beforeFilter($request)
     {
-        return true;
     }
 
     /*
@@ -20,7 +19,6 @@ class LoginController extends BaseController
      */
     public function index(Request $request)
     {
-
         // 如果 Authorization Cookie 存在，校验 Authorization
         if (!empty($request->cookie('Authorization'))) {
             if ($this->checkAuthorization($request)) {

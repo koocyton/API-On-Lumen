@@ -34,9 +34,18 @@ class TaskController extends BaseController
      */
     public function create(Request $request)
     {
-        print_r($request->input());
-        // $task = [];
-        // Task::create($task);
+        $task_data = [
+            'title' => $request->input("title"),
+            'category' => $request->input("category"),
+            'author' => $this->login_user_id,
+            'owner' => $request->input("owner"),
+            'description' => $request->input("description"),
+            'status' => 'process',
+            'deleted_at' => null,
+        ];
+        Task::create($task_data);
+        // 刷新页面
+        return response('<script>$("#popup-modal").modal("hide");$(window).trigger("popstate");</script>');
     }
 
     /*

@@ -12,11 +12,13 @@ class Controller extends BaseController
 {
     protected $locale = "cn";
 
+    // i18n 类
     public $trans = null;
 
-    public $auth = null;
-
-    public $filter = null;
+    // 定义用户信息
+    public $login_user_id = null;
+    public $login_user_name = null;
+    public $login_account = null;
 
     // 構造函數
     public function __construct(Request $request)
@@ -38,7 +40,7 @@ class Controller extends BaseController
         // 如果不是 Ajax 请求, 输出完整页面
         $ajax_request = $request->header('X-Requested-With');
         if (empty($ajax_request)) {
-            echo view('__portal2', ['trans' => $this->trans])->render();
+            echo view('__portal2', ['trans' => $this->trans, 'user' => $this->login_user_name])->render();
             exit();
         }
     }
@@ -64,6 +66,12 @@ class Controller extends BaseController
             echo "<script>window.location='/login/signout';</script>";
             exit();
         }
+
+        // 用户信息
+        $this->login_user_id = $manager->id;
+        $this->login_user_name = $manager->username;
+        $this->login_account = $manager->account;
+
         // 校验 Authorization
         $consumer_secret = env('BND_APP_ID');
         $token_secret = $manager->token_secret;
@@ -85,8 +93,8 @@ class Controller extends BaseController
         // 忽略查看日志的操作
         if ($request->path() != "manager/operation-list") {
             $opteration = [
-                'manager_id' => 1,
-                'manager_name' => 'koocyton@gmail.com',
+                'manager_id' => $this->login_user_id,
+                'manager_name' => $this->login_account,
                 'created_at' => time(),
                 'request_method' => $request->method(),
                 'request_uri' => $request->path(),

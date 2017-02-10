@@ -1,13 +1,13 @@
 <popup-title style="display:none;" class="popup-title">配置权限 {{ $manager->account }}</popup-title>
 
-<div class="container" style="width:800px;">
-<form action="/manager/{{ $manager->id }}/update" enctype="multipart/form-data" method="post">
+<div class="container" style="width:600px;">
+<form action="/manager/{{ $manager->id }}/_update" enctype="multipart/form-data" method="post">
 	<table class="">
 		<tbody>
 
 			<tr>
 				<td style="width:90px;">
-					<div class="form-group"></div>
+					<div class="form-group">   </div>
 				</td>
 				<td>
 <div style="top:0px;min-width:300px;position:relative;" id="main-menu">
@@ -16,110 +16,127 @@
 			<div>主控</div>
 		</a>
 		<div style="display: block;">
-			<a href="/advert" class="tree-menu tree-menu-1">
-				<div>广告管理</div>
+			<a href="javascript:;" class="tree-menu tree-menu-1">
+				<div style="color:#aaa;">
+					<span>广告管理　　</span>
+					<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privileges" value=""> 查看</label>
+					<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privileges" value=""> 增加 / 修改</label>
+				</div>
 			</a>
-			<a href="/resouse" class="tree-menu tree-menu-1">
-				<div>素材管理</div>
+			<a href="javascript:;" class="tree-menu tree-menu-1">
+				<div style="color:#aaa;">
+					<span>素材管理　　</span>
+					<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privileges" value=""> 查看</label>
+					<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privileges" value=""> 增加 / 修改</label>
+				</div>
 			</a>
-			<a href="/union" class="tree-menu tree-menu-1">
-				<div>联盟管理</div>
+			<a href="javascript:;" class="tree-menu tree-menu-1">
+				<div style="color:#aaa;">
+					<span>联盟管理　　</span>
+					<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privileges" value=""> 查看</label>
+					<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privileges" value=""> 增加 / 修改</label>
+				</div>
 			</a>
 			<a href="javascript:;" class="tree-menu tree-menu-1 tree-menu-open">
 				<div>数据统计</div>
 			</a>
 			<div style="display: block;">
-				<a href="/bulletin" class="tree-menu tree-menu-2">
-					<div>数据简报</div>
+				<a href="javascript:;" class="tree-menu tree-menu-2">
+					<div style="color:#aaa;">
+						<span>数据简报　　</span>
+						<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privileges" value=""> 查看</label>
+						<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privileges" value=""> 增加 / 修改</label>
+					</div>
 				</a>
-				<a href="/count" class="tree-menu tree-menu-2">
-					<div>各项统计</div>
+				<a href="javascript:;" class="tree-menu tree-menu-2">
+					<div style="color:#aaa;">
+						<span>各项统计　　</span>
+						<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privileges" value=""> 查看</label>
+						<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privileges" value=""> 增加 / 修改</label>
+					</div>
 				</a>
-				<a href="/optimize" class="tree-menu tree-menu-2">
-					<div>优化分析</div>
+				<a href="javascript:;" class="tree-menu tree-menu-2">
+					<div style="color:#aaa;">
+						<span>优化分析　　</span>
+						<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privileges" value=""> 查看</label>
+						<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privileges" value=""> 增加 / 修改</label>
+					</div>
 				</a>
 			</div>
 		</div>
 		<a href="javascript:;" class="tree-menu tree-menu-0"><div>项目研发 · 微闻</div></a>
 		<div style="display: block;">
-			<a href="/channel-manager/list" class="tree-menu tree-menu-1">
-				<div>频道设置</div>
+			<a href="javascript:;" class="tree-menu tree-menu-1">
+				<div style="color:#aaa;">
+					<span>频道设置　　&nbsp;</span>
+					<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privileges" value=""> 查看</label>
+					<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privileges" value=""> 增加 / 修改</label>
+				</div>
 			</a>
-			<a href="/task/list" class="tree-menu-1 tree-menu">
-				<div>项目任务　<span class="badge">10</span></div>
+			<a href="javascript:;" class="tree-menu-1 tree-menu">
+				<div>
+					<span>项目任务　　&nbsp;</span>
+					<label style="margin-left:10px;"><input type="checkbox" name="privileges" value=""> 查看</label>
+					<label style="margin-left:10px;"><input type="checkbox" name="privileges" value=""> 增加 / 修改</label>
+				</div>
 			</a>
-			<a href="javascript:;" class="tree-menu tree-menu-1 tree-menu-open">
-				<div>API 接口</div>
+			<a href="javascript:;" class="tree-menu tree-menu-1">
+				<div>
+					<span>API 接口 ...　&nbsp;</span>
+					<label style="margin-left:10px;"><input type="checkbox" name="privileges" value=""> 查看</label>
+					<label style="margin-left:10px;"><input type="checkbox" name="privileges" value=""> 更新</label>
+				</div>
 			</a>
-			<div style="display: block;">
-				<a href="/project/api-debug/access-token" class="tree-menu-2 tree-menu">
-					<div>登录 GET /access-token</div>
-				</a>
-				<a href="/project/api-debug/channel-menu" class="tree-menu-2 tree-menu">
-					<div>频道列表 GET /channel-menu</div>
-				</a>
-				<a href="/project/api-debug/channel-detail" class="tree-menu-2 tree-menu">
-					<div>频道新闻 GET /channel-detail/{id}</div>
-				</a>
-				<a href="/project/api-debug/news" class="tree-menu-2 tree-menu">
-					<div>新闻内容 GET /news/{id}</div>
-				</a>
-				<a href="/project/api-debug/post-news" class="tree-menu-2 tree-menu">
-					<div>上传新闻 POST /news</div>
-				</a>
-				<a href="/project/api-debug/region/{id}" class="tree-menu-2 tree-menu">
-					<div>选择地区 UPDATE /region/{id}</div>
-				</a>
-			</div>
-			<a href="javascript:;" class="tree-menu tree-menu-1 tree-menu-open">
-				<div>数据管理</div>
+			<a href="javascript:;" class="tree-menu tree-menu-1">
+				<div>
+					<span>数据管理 ...　&nbsp;</span>
+					<label style="margin-left:10px;"><input type="checkbox" name="privileges" value=""> 查看</label>
+					<label style="margin-left:10px;"><input type="checkbox" name="privileges" value=""> 更新</label>
+				</div>
 			</a>
-			<div style="display: block;">
-				<a href="/project/data-manage/channel" class="tree-menu-2 tree-menu">
-					<div>频道信息</div>
-				</a>
-				<a href="/project/data-manage/news" class="tree-menu-2 tree-menu">
-					<div>新闻列表</div>
-				</a>
-				<a href="/project/data-manage/user" class="tree-menu-2 tree-menu">
-					<div>用户管理</div>
-				</a>
-			</div>
-			<a href="javascript:;" class="tree-menu tree-menu-1 tree-menu-close"><div>项目文档</div></a>
-			<div style="display: none;">
-				<a href="/project/doc/1" class="tree-menu-2 tree-menu">
-					<div>概叙</div>
-				</a>
-				<a href="/project/doc/2" class="tree-menu-2 tree-menu">
-					<div>登录</div>
-				</a>
-				<a href="/project/doc/3" class="tree-menu-2 tree-menu">
-					<div>注册</div>
-				</a>
-				<a href="/project/doc/4" class="tree-menu-2 tree-menu">
-					<div>主界面</div>
-				</a>
-				<a href="/project/doc/5" class="tree-menu-2 tree-menu">
-					<div>拍照</div>
-				</a>
-				<a href="/project/doc/6" class="tree-menu-2 tree-menu">
-					<div>填写拍照信息</div>
-				</a>
-			</div>
+			<a href="javascript:;" class="tree-menu tree-menu-1">
+				<div>
+					<span>项目文档 ...　&nbsp;</span>
+					<label style="margin-left:10px;"><input type="checkbox" name="privileges" value=""> 查看</label>
+					<label style="margin-left:10px;"><input type="checkbox" name="privileges" value=""> 更新</label>
+				</div>
+			</a>
 		</div>
 		<a href="javascript:;" class="tree-menu tree-menu-0">
 			<div>管理员</div>
 		</a>
 		<div style="display: block;">
-			<a href="/operation/list" class="tree-menu-1 tree-menu">
-				<div>操作日志</div>
+			<a href="javascript:;" class="tree-menu-1 tree-menu">
+				<div>
+					<span>操作日志　　&nbsp;</span>
+					<label style="margin-left:10px;"><input type="checkbox" name="privileges" value=""> 查看自己</label>
+					<label style="margin-left:10px;"><input type="checkbox" name="privileges" value=""> 查看全部</label>
+				</div>
 			</a>
-			<a href="/manager/list" class="tree-menu-1 tree-select-menu">
-				<div>权限管理</div>
+			<a href="javascript:;" class="tree-menu-1 tree-menu">
+				<div>
+					<span>用户管理　　&nbsp;</span>
+					<label style="margin-left:10px;"><input type="checkbox" name="privileges" value=""> 查看</label>
+					<label style="margin-left:10px;"><input type="checkbox" name="privileges" value=""> 编辑</label>
+					<label style="margin-left:10px;"><input type="checkbox" name="privileges" value=""> 新增</label>
+					<label style="margin-left:10px;"><input type="checkbox" name="privileges" value=""> 修改</label>
+				</div>
 			</a>
 		</div>
 	</div>
 </div>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<div class="form-group"></div>
+				</td>
+				<td>
+					<div class="form-group">
+						<br>
+						<button class="btn btn-success button-btn" style="width:120px;">保　存</button>
+					</div>
 				</td>
 			</tr>
 

@@ -29,6 +29,23 @@ class SecurityHelper
     }
 
     /*
+     *
+     */
+    public static function getAuthorizationTime($authorization)
+    {
+        if (preg_match('/^OAuth\s+(.*?)$/', $authorization, $matches)) {
+            // 将值提取出来
+            if (preg_match_all('/([^,]+)="([^,]+)"/', $matches[1], $parameters)) {
+                foreach ($parameters[1] as $key => $idx) {
+                    if ($idx == 'oauth_timestamp') {
+                        return $parameters[2][$key];
+                    }
+                }
+            }
+        }
+    }
+
+    /*
      * get authorization token
      */
     public static function getAuthorizationToken($authorization)

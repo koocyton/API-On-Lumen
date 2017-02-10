@@ -32,6 +32,20 @@ class Controller extends BaseController
     // 自定义 beforeFielter
     protected function beforeFilter($request)
     {
+        // 校验 Authorization
+        $this->checkAuthorization($request);
+
+        // 如果不是 Ajax 请求, 输出完整页面
+        $ajax_request = $request->header('X-Requested-With');
+        if (empty($ajax_request)) {
+            echo view('__portal2', ['trans' => $this->trans])->render();
+            exit();
+        }
+    }
+
+    // 验证 Authorization
+    protected function checkAuthorization($request)
+    {
         // 如果 Cookie 不存在，跳转
         $authorization = $request->cookie('Authorization');
         if (empty($authorization)) {
@@ -41,28 +55,28 @@ class Controller extends BaseController
         // 获取 Token
         $token = SecurityHelper::getAuthorizationToken($authorization);
         if (empty($token)) {
-            echo "<script>window.location='/login';</script>";
+            echo "<script>window.location='/login/signout';</script>";
             exit();
         }
         // 获取用户
         $manager = Manager::withTrashed()->where(['token' => $token])->first();
         if (empty($manager) || empty($manager->token_secret)) {
-            echo "<script>window.location='/login';</script>";
+            echo "<script>window.location='/login/signout';</script>";
             exit();
         }
         // 校验 Authorization
         $consumer_secret = env('BND_APP_ID');
         $token_secret = $manager->token_secret;
         if (!SecurityHelper::checkAuthorization($authorization, $token_secret, $consumer_secret, "/.*", "GET POST")) {
-            echo "<script>window.location='/login';</script>";
+            echo "<script>window.location='/login/signout';</script>";
             exit();
         }
-        // 如果不是 Ajax 请求, 输出完整页面
-        $ajax_request = $request->header('X-Requested-With');
-        if (empty($ajax_request)) {
-            echo view('__portal2', ['trans' => $this->trans])->render();
+        // 校验 Authorization 的时间，不能超一周
+        if (SecurityHelper::getAuthorizationTime($authorization) < time() - 604800) {
+            echo "<script>window.location='/login/signout';</script>";
             exit();
         }
+        return true;
     }
 
     // 记录操作日志

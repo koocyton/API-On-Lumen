@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use App\Helper\PagingHelper;
 use App\Http\Controllers\Controller as BaseController;
 use App\Model\Grouping;
-use App\Model\OperationRecord;
 use Illuminate\Http\Request;
 
 class GroupingController extends BaseController
@@ -14,7 +13,7 @@ class GroupingController extends BaseController
      */
     function list() {
         // 分页信息
-        $paging = new PagingHelper(Manager::withTrashed()->count());
+        $paging = new PagingHelper(Grouping::withTrashed()->count());
         // 管理员列表
         $groupings = Grouping::withTrashed()->skip($paging->current - 1)->take($paging->limit)->orderBy('id', 'desc')->get();
         // 返回 view
@@ -22,33 +21,37 @@ class GroupingController extends BaseController
     }
 
     /*
-     * 新增管理员申请
+     * 新增分组申请
      */
     public function apply()
     {
-        return $this->display('manager_apply');
+        return $this->display('grouping_apply');
     }
 
     /*
-     * 管理员详细信息
+     * 保存新分组
+     */
+    public function create(Request $request)
+    {
+        $task_data = [
+            'title' => $request->input("title"),
+            'privileges' => ""
+            'deleted_at' => null,
+        ];
+        Grouping::create($task_data);
+        // 刷新页面
+        return response('<script>$("#popup-modal").modal("hide");$(window).trigger("popstate");</script>');
+    }
+
+    /*
+     * 分组详细信息
      */
     public function detail($id)
     {
         // 管理员列表
-        $manager = Manager::withTrashed()->where(['id' => $id])->first();
+        $grouping = Grouping::withTrashed()->where(['id' => $id])->first();
         // 返回 view
-        return $this->display('manager_detail', ['manager' => $manager]);
-    }
-
-    /*
-     * 管理员权限信息
-     */
-    public function privileges($id)
-    {
-        // 管理员列表
-        $manager = Manager::withTrashed()->where(['id' => $id])->first();
-        // 返回 view
-        return $this->display('manager_privileges', ['manager' => $manager]);
+        return $this->display('grouping_detail', ['grouping' => $grouping]);
     }
 
     /*
@@ -57,37 +60,12 @@ class GroupingController extends BaseController
     public function update(Request $request, $id)
     {
         // 管理员信息
-        $manager = Manager::withTrashed()->where(['id' => $id])->first();
-        $manager->username = $request->input("username");
-        $manager->save();
+        $grouping = Grouping::withTrashed()->where(['id' => $id])->first();
+        $grouping->title = $request->input("title");
+        $grouping->privileges = $request->input("privileges");
+        $grouping->deleted_at = empty($request->input("deleted_at")) ? null : NOW_TIME;
+        $grouping->save();
         // 刷新页面
         return response('<script>$("#popup-modal").modal("hide");$(window).trigger("popstate");</script>');
-    }
-
-    /*
-     * 打开或关闭管理员
-     */
-    function switch ($id) {
-            // 管理员列表
-            $manager = Manager::withTrashed()->where(['id' => $id])->first();
-            // 打开或关闭
-            $deleted_at = empty($manager->deleted_at) ? time() : null;
-            // 更新
-            Manager::withTrashed()->where(['id' => $id])->update(['deleted_at' => $deleted_at]);
-            // 刷新页面
-            return response('<script>$(window).trigger("popstate");</script>');
-    }
-
-    /*
-     * 管理员操作日志
-     */
-    public function operationList()
-    {
-        // 分页信息
-        $paging = new PagingHelper(OperationRecord::count());
-        // 管理员操作的日志列表
-        $operations = OperationRecord::skip($paging->current - 1)->take($paging->limit)->orderBy('id', 'desc')->get();
-        // 返回 view
-        return $this->display('operation_list', ['operations' => $operations, 'paging' => $paging]);
     }
 }

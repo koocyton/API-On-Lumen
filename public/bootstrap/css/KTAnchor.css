@@ -45,15 +45,21 @@ body .container{width:100%;}
 .body-content>.scroll-container{overflow-x:hidden;overflow-y:scroll;}
 
 /* 树状菜单 */
-a.tree-menu, a.tree-select-menu {width:100%;display:block;color:#333;cursor:pointer;text-decoration:none}
-a.tree-menu div, a.tree-select-menu div{position:relative;text-align:left;height:25px;line-height:25px;font-size:12px}
-a.tree-select-menu div{background-color:#ddd}
-a.tree-menu div:hover{background-color:#eee}
-a.tree-menu-0 div{font-weight:bold;height:25px;line-height:25px;padding:0 0 0 10px;border-bottom:1px solid #ccc}
-a.tree-menu-1 div{padding:0 0 0 40px}
-a.tree-menu-2 div{padding:0 0 0 70px}
-a.tree-menu-close div{background: url("button_right.gif") no-repeat scroll 27px center rgba(0,0,0,0)}
-a.tree-menu-open div{background: url("button_down.gif") no-repeat scroll 27px center rgba(0,0,0,0)}
+a.tree-menu {width:100%;display:block;color:#333;cursor:pointer;text-decoration:none}
+a.tree-menu>div {position:relative;text-align:left;height:25px;line-height:25px;font-size:12px}
+a.tree-menu>div:hover{background-color:#eee}
+a.tree-menu>div>span.glyphicon{float:right;margin:5px 23px;font-size:13px;display:none;}
+a.tree-menu>div:hover>span.glyphicon{display:inline;}
+a.tree-select-menu>div{background-color:#ddd;}
+a.tree-select-menu>div:hover{background-color:#ddd;}
+a.tree-select-menu>div>span.glyphicon{display:inline;}
+a.tree-menu-0>div{font-weight:bold;height:25px;line-height:25px;padding:0 0 0 10px;border-bottom:1px solid #ccc}
+a.tree-menu-1>div{padding:0 0 0 40px}
+a.tree-menu-2>div{padding:0 0 0 70px}
+a.tree-menu-close>div, a.tree-menu-open>div{background-repeat:no-repeat;background-position:27px 8px;}
+a.tree-menu-close>div{background-image: url("button_right.gif");}
+a.tree-menu-open>div{background-image: url("button_down.gif");}
+
 
 /* 分页 */
 .pagination>.active>a, .pagination>.active>a:hover {background-color:#ccc;border-color:#ccc;color:#666;}

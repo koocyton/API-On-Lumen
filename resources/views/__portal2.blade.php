@@ -103,8 +103,8 @@
           ]},
           {"text":"项目研发 · 微闻", "menus":[
               {"text":"频道设置", "href":"/channel-manager/list"},
-              {"text":"项目任务　<span class=\"badge\">10</span>", "href":"/task/list"},
-              {"text":"API 接口", "open":true, "menus":[
+              {"text":"项目任务　<span class=\"badge\">3</span>", "href":"/task/list"},
+              {"text":"API 接口 <span href=\"/project/api-config\" class=\"glyphicon glyphicon-cog\"></span>", "open":true, "menus":[
                   {"text":"登录 GET /access-token", "href":"/project/api-debug/access-token"},
                   {"text":"频道列表 GET /channel-menu", "href":"/project/api-debug/channel-menu"},
                   {"text":"频道新闻 GET /channel-detail/{id}", "href":"/project/api-debug/channel-detail"},
@@ -112,12 +112,12 @@
                   {"text":"上传新闻 POST /news", "href":"/project/api-debug/post-news"},
                   {"text":"选择地区 UPDATE /region/{id}", "href":"/project/api-debug/region/{id}"}
               ]},
-              {"text":"数据管理", "open":false, "menus":[
+              {"text":"数据管理 <span href=\"/project/data-config\" class=\"glyphicon glyphicon-cog\"></span>", "open":false, "menus":[
                   {"text":"频道信息", "href":"/project/data-manage/channel"},
                   {"text":"新闻列表", "href":"/project/data-manage/news"},
                   {"text":"用户管理", "href":"/project/data-manage/user"},
               ]},
-              {"text":"项目文档", "open":false, "menus":[
+              {"text":"项目文档 <span href=\"/project/doc-config\" class=\"glyphicon glyphicon-cog\"></span>", "open":false, "menus":[
                   {"text":"概叙", "href":"/project/doc/1"},
                   {"text":"登录", "href":"/project/doc/2"},
                   {"text":"注册", "href":"/project/doc/3"},

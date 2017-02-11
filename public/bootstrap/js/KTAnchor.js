@@ -222,8 +222,8 @@
 				if (menu_elt.parent().prev().hasClass("tree-menu-close")) {
 					menu_elt.parent().prev().trigger("click");
 				}
-				$(".tree-select-menu").removeClass("tree-select-menu").addClass("tree-menu");
-				menu_elt.removeClass("tree-menu").addClass("tree-select-menu");
+				$(".tree-select-menu").removeClass("tree-select-menu");
+				menu_elt.addClass("tree-select-menu");
 		    },
 
 			// show request process
@@ -1085,6 +1085,31 @@
 				var $next_elt = $menu_elt.next("div");
 				// 如果节点后有DIV，说明一个折叠菜单
 				if ($next_elt.exist()) {
+					$menu_elt.find("span.glyphicon").click(function(e){
+						var request_url = $(this).attr("href");
+						var container = $.KTAnchor.response_container;
+						$.KTAjax(request_url, "GET", null, null,
+							// 成功
+							function(responseText){
+								$.KTAnchor.success(container, responseText);
+							},
+							// 错误
+							function(XMLHttpRequest){
+								$.KTAnchor.error(container, XMLHttpRequest);
+							},
+							// 结束 ( 成功或失败后 )
+							function(XMLHttpRequest){
+								$.KTAnchor.complete(container, XMLHttpRequest);
+							}
+						);
+						$(".body-content-right").load(request_url, function(){
+							$(".tree-select-menu").removeClass("tree-select-menu");
+							$menu_elt.addClass("tree-select-menu");
+							// window.history.pushState(null, "", request_url);
+							$(".body-content-right").KTLoader();
+						});
+						e.stopPropagation();
+					});
 					// 绑定点击事件
 					$menu_elt.bind("click", function() {
 						// 打开菜单

@@ -64,14 +64,14 @@ $app->group(['prefix' => '/manager', 'namespace' => 'App\Http\Controllers'], fun
 $app->group(['prefix' => '/grouping', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
     // 分组列表
     $app->get('list', 'GroupingController@list');
-    // 新增分组
+    // 新增分组表单
     $app->get('apply', 'GroupingController@apply');
+    // 新增分组信息
+    $app->post('create', 'GroupingController@create');
     // 编辑分组
     $app->get('{id}', 'GroupingController@detail');
     // 更新分组信息
     $app->post('{id}/update', 'GroupingController@update');
-    // 禁用组开关
-    $app->get('{id}/switch', 'GroupingController@switch');
 });
 
 /*
@@ -111,7 +111,7 @@ $app->group(['prefix' => '/channel-manager', 'namespace' => 'App\Http\Controller
 | 任务 和 Debug
 |--------------------------------------------------
  */
-// 管理员的接口
+// 任务的接口
 $app->group(['prefix' => '/task', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
     $app->get('list', 'TaskController@list');
     $app->get('apply', 'TaskController@apply');

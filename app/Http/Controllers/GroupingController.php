@@ -34,8 +34,8 @@ class GroupingController extends BaseController
     public function create(Request $request)
     {
         $task_data = [
-            'title' => $request->input("title"),
-            'privileges' => ""
+            'name' => $request->input("name"),
+            'privileges' => "",
             'deleted_at' => null,
         ];
         Grouping::create($task_data);

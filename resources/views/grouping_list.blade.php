@@ -35,14 +35,8 @@ foreach ($groupings as $grouping) {
           <tr onclick="$.KTAnchor.popupLoader('/grouping/apply')" style="cursor:pointer;">
 						<td class="bs-callout bs-callout-danger">
 
-    <span class="label {{ $col }}" data-toggle="tooltip" data-placement="left" title="{{ $tit }}">{{ $tab }}</span>
     <span style="display:inline-block;margin:0 5px;">#{{ $grouping->id }}</span>
-            &nbsp;{{ $grouping->title }}
-
-      <div style="float:right;">
-        <span class="label {{ $status_class }}">{{ $status_title }}</span>
-        <span style="margin-left:20px;">{{ substr($grouping->created_at, 0, 10) }}</span>
-      </div>
+            &nbsp;{{ $grouping->name }}
 
     </td>
 		<td style="text-align:center;">

@@ -45,18 +45,8 @@ class Grouping extends Model
      */
     protected $fillable = [
         'id',
-        'title',
+        'name',
         'deleted_at',
         'privileges',
     ];
-
-    public function getCreatedAtAttribute($value)
-    {
-        return date("Y-m-d H:i:s", $value);
-    }
-
-    public function getUpdatedAtAttribute($value)
-    {
-        return date("Y-m-d H:i:s", $value);
-    }
 }

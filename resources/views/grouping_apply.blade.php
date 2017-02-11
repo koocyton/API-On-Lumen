@@ -1,7 +1,7 @@
 <popup-title style="display:none;" class="popup-title">添加新分组</popup-title>
 
 <div class="container" style="width:900px;">
-<form action="/task/create" enctype="multipart/form-data" method="post">
+<form action="/grouping/create" enctype="multipart/form-data" method="post">
 	<table class="">
 		<tbody>
 			<tr>
@@ -10,19 +10,8 @@
 				</td>
 				<td>
 					<div class="form-group">
-	  					<input type="text" name="title" class="form-control">
+	  					<input type="text" name="name" class="form-control">
 	  				</div>
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					<div class="form-group">抄　送：</div>
-				</td>
-				<td>
-					<div class="form-group form-tags">
-						<input type="text" name="subscribers" value="" search-source="刘毅,严峻,大毛,孙老板,德慧,姜凡" class="tags-input dropup">
-					</div>
 				</td>
 			</tr>
 

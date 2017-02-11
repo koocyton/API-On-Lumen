@@ -8,6 +8,8 @@ use App\Model\OperationRecord;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
+define("NOW_TIME", time());
+
 class Controller extends BaseController
 {
     protected $locale = "cn";

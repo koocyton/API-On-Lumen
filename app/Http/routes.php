@@ -58,6 +58,24 @@ $app->group(['prefix' => '/manager', 'namespace' => 'App\Http\Controllers'], fun
 
 /*
 |--------------------------------------------------
+|分组管理
+|--------------------------------------------------
+ */
+$app->group(['prefix' => '/grouping', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
+    // 分组列表
+    $app->get('list', 'GroupingController@list');
+    // 新增分组
+    $app->get('apply', 'GroupingController@apply');
+    // 编辑分组
+    $app->get('{id}', 'GroupingController@detail');
+    // 更新分组信息
+    $app->post('{id}/update', 'GroupingController@update');
+    // 禁用组开关
+    $app->get('{id}/switch', 'GroupingController@switch');
+});
+
+/*
+|--------------------------------------------------
 | 项目操作
 |--------------------------------------------------
  */

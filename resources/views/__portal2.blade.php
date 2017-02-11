@@ -42,7 +42,7 @@
               <a href="javascript:void(0);">{{ $user }}</a>
             </li>
             <li class="dropdown">
-              <a href="#" native="yes" class="dropdown-toggle" data-toggle="dropdown" style="padding:8px 6px 4px 6px;"><span class="glyphicon glyphicon-cog" style="font-size:23px;"></span></a>
+              <a href="javascript:;"  class="dropdown-toggle" data-toggle="dropdown" style="padding:8px 6px 4px 6px;"><span class="glyphicon glyphicon-cog" style="font-size:23px;"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li class="dropdown-menu-arrow"><b class="angle-up"></b></li>
                 <li>
@@ -91,7 +91,7 @@
     <script src="/js/jquery.datetimepicker.js"></script>
     <script>
     var menu_data = [
-          {"text":"主控", "menus":[
+          {"text":"运营 · 发行", "menus":[
               {"text":"广告管理", "href":"/advert"},
               {"text":"素材管理", "href":"/resouse"},
               {"text":"联盟管理", "href":"/union"},
@@ -102,7 +102,6 @@
               ]}
           ]},
           {"text":"项目研发 · 微闻", "menus":[
-              {"text":"频道设置", "href":"/channel-manager/list"},
               {"text":"项目任务　<span class=\"badge\">3</span>", "href":"/task/list"},
               {"text":"API 接口 <span href=\"/project/api-config\" class=\"glyphicon glyphicon-cog\"></span>", "open":true, "menus":[
                   {"text":"登录 GET /access-token", "href":"/project/api-debug/access-token"},
@@ -128,7 +127,8 @@
           ]},
           {"text":"管理员", "menus":[
               {"text":"操作日志", "href":"/operation/list"},
-              {"text":"权限管理", "href":"/manager/list" }
+              {"text":"权限管理", "href":"/manager/list" },
+              {"text":"分组管理", "href":"/grouping/list" }
           ]}
       ];
       $("#main-menu").html($.KTTreeMenuHTML.getMenuHtml(menu_data));

@@ -41,6 +41,8 @@ class TaskController extends BaseController
             'owner' => $request->input("owner"),
             'description' => $request->input("description"),
             'status' => 'process',
+            'created_at' => NOW_TIME,
+            'updated_at' => NOW_TIME,
             'deleted_at' => null,
         ];
         Task::create($task_data);

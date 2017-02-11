@@ -171,11 +171,11 @@
 			},
 
 			begin: function(){
-				$.KTLog("JQuery.KTAnchor.begin");
+				// $.KTLog("JQuery.KTAnchor.begin");
 			},
 
 			complete: function(container, XMLHttpRequest){
-				$.KTLog("JQuery.KTAnchor.complete : " + container);
+				// $.KTLog("JQuery.KTAnchor.complete : " + container);
 			},
 
 			// 弹出窗口

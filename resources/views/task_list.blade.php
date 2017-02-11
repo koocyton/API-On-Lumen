@@ -4,24 +4,18 @@
       <!-- Static navbar -->
       <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
-          <div id="navbar" class="navbar-collapse collapse">
+          <div>
             <ul class="nav navbar-nav">
               <li><a href="javascript:;" style="margin:5px -10px;"><b>任务分配 / Bug 管理</b></a></li>
              </ul>
 
-        			<form action="/task/list" method="get" class="navbar-form navbar-right" role="search">
-        				<div class="form-group has-feedback">
-        					<div class="input-group" style="margin-right:40px;">
-        						<button class="btn btn-success button-btn" type="button" onclick="$.KTAnchor.popupLoader('/task/apply')">New !!</button>
-        					</div>
-        					<div class="input-group">
-        						<input type="text" name="search" placeholder="搜索" value="" class="form-control">
-        						<span class="input-group-addon">
-        							<span class="glyphicon glyphicon-search"></span>
-        						</span>
-        					</div>
-        				</div>
-        			</form><!--/form -->
+      			<form action="/task/list" method="get" class="navbar-form navbar-right" role="search">
+              <div class="form-group has-feedback" style="width:200px;">
+                <input type="text" name="search" class="form-control">
+                <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+              </div>
+              <button class="btn btn-success btn-sm" style="margin-left:20px;" type="button" onclick="$.KTAnchor.popupLoader('/task/apply')">New !!</button>
+      			</form><!--/form -->
 
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -32,8 +26,10 @@
       <table class="table table-hover table-bordered">
         <thead>
           <tr class="active">
-      			<th>简述</td>
-      			<th style="width:80px;text-align:center;">指给</td>
+      			<th>
+              简述
+            </td>
+      			<th style="width:80px;text-align:center;">指派</td>
           </tr>
         </thead>
         <tbody>
@@ -42,39 +38,63 @@
 foreach ($tasks as $task) {
     $status = empty($task->deleted_at) ? 'on' : 'off';
     ?>
-          <tr onclick="$.KTAnchor.popupLoader('/task/apply')">
+          <tr onclick="$.KTAnchor.popupLoader('/task/apply')" style="cursor:pointer;">
 						<td class="bs-callout bs-callout-danger">
               <?php
-/*
-    if ($task->status == "process") {
-    echo '<span class="label label-primary">进行中</span>';
-    } else if ($task->status == "resolve") {
-    echo '<span class="label label-success">完成</span>';
-    } else if ($task->status == "discard") {
-    echo '<span class="label label-warning">抛弃</span>';
-    } else {
-    echo '';
-    }
-     */
 
+    $tit = "";
+    $tab = "";
+    $col = "";
     if ($task->category == "bug") {
-        echo '<span class="label label-danger" data-toggle="tooltip" data-placement="left" title="Bug">B</span>';
+        $tit = "Bug";
+        $tab = "B";
+        $col = "label-danger";
     } else if ($task->category == "task") {
-        echo '<span class="label label-primary" data-toggle="tooltip" data-placement="left" title="任务">T</span>';
+        $tit = "任务";
+        $tab = "T";
+        $col = "label-primary";
     } else if ($task->category == "doc") {
-        echo '<span class="label label-success" data-toggle="tooltip" data-placement="left" title="文档">D</span>';
-    } else {
-        echo '<span class="label label-default" data-toggle="tooltip" data-placement="left" title="未知">F</span>';
+        $tit = "文档";
+        $tab = "D";
+        $col = "label-success";
+    }
+
+    $status_class = "";
+    $status_title = "";
+    if ($task->status == "process") {
+        $status_class = "label-info";
+        $status_title = "新增";
+    } else if ($task->status == "resolve") {
+        $status_class = "label-info";
+        $status_title = "待处理";
+    } else if ($task->status == "resolve") {
+        $status_class = "label-warning";
+        $status_title = "打回";
+    } else if ($task->status == "resolve1") {
+        $status_class = "label-success";
+        $status_title = "解决";
+    } else if ($task->status == "discard") {
+        $status_class = "label-default";
+        $status_title = "丢弃";
+    } else if ($task->status == "discard") {
+        $status_class = "label-default";
+        $status_title = "验收";
     }
     ?>
+    <span class="label {{ $col }}" data-toggle="tooltip" data-placement="left" title="{{ $tit }}">{{ $tab }}</span>
+    <span style="display:inline-block;margin:0 5px;">#{{ $task->id }}</span>
             &nbsp;{{ $task->title }}
 
-            <div style="float:right;">{{ substr($task->created_at, 0, 10) }}</div>
-            </td>
-						<td style="text-align:center;">
-							{{ $task->owner }}
-						</td>
-					</tr>
+      <div style="float:right;">
+        <span class="label {{ $status_class }}">{{ $status_title }}</span>
+        <span style="margin-left:20px;">{{ substr($task->created_at, 0, 10) }}</span>
+      </div>
+
+    </td>
+		<td style="text-align:center;">
+			{{ $task->owner }}
+		</td>
+	</tr>
 <?php }?>
 
         </tbody>

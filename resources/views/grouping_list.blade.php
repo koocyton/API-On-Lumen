@@ -11,7 +11,7 @@
             <div class="navbar-form navbar-right">
               <form action="/grouping/create" method="post" confirm="增加新分组 ?">
                 <button class="btn btn-success btn-sm" style="margin-left:20px;" type="submit">
-                  <span class="glyphicon glyphicon-plus"></span> 分组
+                  New !!
                 </button>
               </form>
             </div>

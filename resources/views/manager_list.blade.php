@@ -1,27 +1,20 @@
     <br>
     <div class="container">
-
       <!-- Static navbar -->
       <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
-          <div id="navbar" class="navbar-collapse collapse">
+          <div>
             <ul class="nav navbar-nav">
-              <li><a href="javascript:;" style="margin:5px -10px;"><b>权限管理</b></a></li>
+              <li><a href="javascript:;" style="margin:5px -10px;"><b>用户管理</b></a></li>
              </ul>
 
-			<form action="/manager/list" method="get" class="navbar-form navbar-right" role="search">
-				<div class="form-group has-feedback">
-          <div class="input-group" style="margin-right:40px;">
-            <button class="btn btn-success button-btn" type="button" onclick="$.KTAnchor.popupLoader('/manager/apply')">New !!</button>
-          </div>
-					<div class="input-group">
-						<input type="text" name="search" placeholder="搜索" value="" class="form-control">
-						<span class="input-group-btn">
-              <button class="btn btn-default" onclick='$(".search-bar").show();alert(1);' type="button">More</button>
-            </span>
-					</div>
-				</div>
-			</form>
+            <form action="/manager/list" method="get" class="navbar-form navbar-right" role="search">
+              <div class="form-group has-feedback" style="width:200px;">
+                <input type="text" name="search" class="form-control">
+                <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+              </div>
+              <button class="btn btn-success btn-sm" style="margin-left:20px;" type="button" onclick="$.KTAnchor.popupLoader('/manager/apply')">New !!</button>
+            </form><!--/form -->
 
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -39,29 +32,35 @@
       <table class="table table-hover table-bordered">
         <thead>
           <tr class="active">
-            <th style="width:70px;">ID</th>
-            <th style="width:60px;">激活</th>
-            <th style="width:200px;">账号</th>
-            <th style="width:150px;">创建时间</th>
-            <th style="width:230px;">最近登录</th>
-            <th>权限</th>
+            <th>
+              #ID　账号
+              <div style="float:right;">
+                权限组　最近登录
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
 <?php
 foreach ($managers as $manager) {
-    $status = empty($manager->deleted_at) ? 'on' : 'off';
+    $text_color = "#bbb";
+    $text_decoration = "line-through";
+    if (empty($manager->deleted_at)) {
+        $text_color = "";
+        $text_decoration = "";
+    }
     ?>
-          <tr>
-            <td>{{ $manager->id }}</td>
+          <tr onclick="$.KTAnchor.popupLoader('/manager/{{ $manager->id }}')" style="cursor:pointer;overflow:hidden;">
             <td>
-              <a pushstate="no" href="/manager/{{ $manager->id }}/switch"><img src="/image/switch_{{ $status }}.png" style="width:46px;"></a>
-            </td>
-            <td>
-              <a class="normal-anchor" href="javascript:$.KTAnchor.popupLoader('/manager/{{ $manager->id }}')">{{ $manager->account }}</a>
-            </td>
-            <td>{{ $manager->created_at }}</td>
-            <td>
+              <span style="display:inline-block;margin:0 5px;">#{{ $manager->id }}</span>
+              <span style="color:{{ $text_color  }};text-decoration:{{ $text_decoration }}">
+                {{ $manager->account }}
+              </span>
+
+              <div style="float:right;">
+                <span style="margin-right:5px;">{{ $manager->groupings }}</span>
+                <span data-toggle="tooltip" data-placement="left" title="{{ $manager->updated_at }}">
+
 <?php
 if ($manager->updated_at == "0000-00-00 00:00:00") {
         echo "<span style=\"color:#bbb;\">从未登录</span>";
@@ -93,14 +92,8 @@ if ($manager->updated_at == "0000-00-00 00:00:00") {
         }
     }
     ?>
-										<span class="separator"> / </span>
-										<span>  {{ $manager->updated_at }}</span>
-            </td>
-            <td style="text-align:left;">
-              <a href="javascript:$.KTAnchor.popupLoader('/manager/{{ $manager->id }}/privileges')">
-                <button class="btn btn-default btn-xs" type="button">权限</button>
-              </a>
-            {{ $manager->privileges }}</td>
+                </span>
+              </div>
           </tr>
 <?php
 }

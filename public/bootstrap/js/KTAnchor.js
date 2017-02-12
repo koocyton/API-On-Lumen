@@ -521,18 +521,18 @@
 						// 检查表单
 						// 自定义的错误处理
 						if ($.isFunction(inputError)) {
-							if (!$(this).checkInputs(inputError)) return false;
+							if (!$form.checkInputs(inputError)) return false;
 						}
 						// 默认的错误处理，会输出到浏览器的控制台
 						else {
-							if (!$(this).checkInputs($.KTAnchor.inputError)) return false;
+							if (!$form.checkInputs($.KTAnchor.inputError)) return false;
 						}
 						// 获取 url
 						var request_url = $form.attr("action");
 						// 默认是 Form method 是 POST
 						var method = "POST";
 						// 获取表单数据
-						var data = $form.find("input[type='file']").exist() ? new FormData(this) : $(this).serialize();
+						var data = $form.find("input[type='file']").exist() ? new FormData($form.context) : $form.serialize();
 						// 获取返回数据将填充哪个节点
 						var container = $.KTAnchor.response_container;
 						if (typeof($form.attr("container"))!="undefined" && $form.attr("container").length>1) {
@@ -595,7 +595,7 @@
 						$.confirm($form.attr("confirm"), submit_action);
 						return false;
 					}
-					submit_action;
+					submit_action();
 					// 禁止表单继续提交
 					return false;
 				});

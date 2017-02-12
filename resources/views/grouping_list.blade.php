@@ -6,10 +6,14 @@
         <div class="container-fluid">
           <div>
             <ul class="nav navbar-nav">
-              <li><a href="javascript:;" style="margin:5px -10px;"><b>任务分配 / Bug 管理</b></a></li>
+              <li><a href="javascript:;" style="margin:5px -10px;"><b>权限分组管理</b></a></li>
              </ul>
             <div class="navbar-form navbar-right">
-              <button class="btn btn-success btn-sm" style="margin-left:20px;" type="button" onclick="$.KTAnchor.popupLoader('/grouping/apply')"><span class="glyphicon glyphicon-plus"></span> 分组</button>
+              <form action="/grouping/create" method="post">
+                <button class="btn btn-success btn-sm" style="margin-left:20px;" type="submit">
+                  <span class="glyphicon glyphicon-plus"></span> 分组
+                </button>
+              </form>
             </div>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -18,31 +22,23 @@
 
      <div class="container">
       <table class="table table-hover table-bordered">
-        <thead>
-          <tr class="active">
-      			<th>
-              组名
-            </td>
-      			<th style="width:80px;text-align:center;">开启</td>
-          </tr>
-        </thead>
         <tbody>
 
 <?php
 foreach ($groupings as $grouping) {
-    $status = empty($grouping->deleted_at) ? 'on' : 'off';
+    $text_color = "#bbb";
+    $text_decoration = "line-through";
+    if (empty($grouping->deleted_at)) {
+        $text_color = "";
+        $text_decoration = "";
+    }
     ?>
-          <tr onclick="$.KTAnchor.popupLoader('/grouping/apply')" style="cursor:pointer;">
+          <tr onclick="$.KTAnchor.popupLoader('/grouping/{{ $grouping->id }}')" style="cursor:pointer;">
 						<td class="bs-callout bs-callout-danger">
-
-    <span style="display:inline-block;margin:0 5px;">#{{ $grouping->id }}</span>
-            &nbsp;{{ $grouping->name }}
-
-    </td>
-		<td style="text-align:center;">
-			{{ $grouping->owner }}
-		</td>
-	</tr>
+              <span style="display:inline-block;margin:0 5px;">#{{ $grouping->id }}</span>
+              <span style="color:{{ $text_color  }};text-decoration:{{ $text_decoration }}">&nbsp;{{ $grouping->name }}</span>
+            </td>
+          </tr>
 <?php }?>
 
         </tbody>

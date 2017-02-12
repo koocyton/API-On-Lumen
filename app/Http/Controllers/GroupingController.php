@@ -21,20 +21,13 @@ class GroupingController extends BaseController
     }
 
     /*
-     * 新增分组申请
-     */
-    public function apply()
-    {
-        return $this->display('grouping_apply');
-    }
-
-    /*
      * 保存新分组
      */
     public function create(Request $request)
     {
+        // 新权限组的数据
         $task_data = [
-            'name' => $request->input("name"),
+            'name' => '新权限组#' . mt_rand(11111, 99999),
             'privileges' => "",
             'deleted_at' => null,
         ];
@@ -59,11 +52,16 @@ class GroupingController extends BaseController
      */
     public function update(Request $request, $id)
     {
+        // 获取权限
+        $privileges = "";
+        if (!empty($request->input("privilege")) && count($request->input("privilege")) > 0) {
+            $privileges = implode(",", array_filter($request->input("privilege")));
+        }
         // 管理员信息
         $grouping = Grouping::withTrashed()->where(['id' => $id])->first();
-        $grouping->title = $request->input("title");
-        $grouping->privileges = $request->input("privileges");
-        $grouping->deleted_at = empty($request->input("deleted_at")) ? null : NOW_TIME;
+        $grouping->name = $request->input("name");
+        $grouping->privileges = $privileges;
+        $grouping->deleted_at = empty($request->input("status")) ? null : NOW_TIME;
         $grouping->save();
         // 刷新页面
         return response('<script>$("#popup-modal").modal("hide");$(window).trigger("popstate");</script>');

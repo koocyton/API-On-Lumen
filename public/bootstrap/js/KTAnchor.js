@@ -270,7 +270,19 @@
 		// confirm
 		confirm : function(message, success) {
 			var confirm_elt = $(".confirm-modal");
+			var success_btn = confirm_elt.find(".btn-success");
+			var body_elt = confirm_elt.find(".modal-body");
+			$(body_elt).html(message);
 			confirm_elt.modal('show');
+			if ($(success_btn).data("click-event")!="click-event") {
+				$(success_btn).data("click-event", "click-event");
+				$(success_btn).on("click", function(e){
+					if($.isFunction(success)) {
+						success();
+					}
+					confirm_elt.modal('hide');
+				});
+			}
 		},
 
 		// print_r arguments
@@ -430,7 +442,7 @@
 				// 如果特别标注 <a> 不绑定事件
 				// if ($anchor.attr("native")!=null) return;
 				// 绑定点击事件
-				$anchor.bind("click", function(){
+				$anchor.on("click", function(){
 					// 如果有 confirm 属性
 					if (typeof($anchor.attr("confirm"))!="undefined" && $anchor.attr("confirm").length>1) {
 						if (!confirm($anchor.attr("confirm"))) {
@@ -503,84 +515,87 @@
 					});
 				});
 				// 将 form 绑定 submit 事件
-				$form.bind("submit", function(){
+				$form.on("submit", function(){
+					// 函数
+					var submit_action = function(){
+						// 检查表单
+						// 自定义的错误处理
+						if ($.isFunction(inputError)) {
+							if (!$(this).checkInputs(inputError)) return false;
+						}
+						// 默认的错误处理，会输出到浏览器的控制台
+						else {
+							if (!$(this).checkInputs($.KTAnchor.inputError)) return false;
+						}
+						// 获取 url
+						var request_url = $form.attr("action");
+						// 默认是 Form method 是 POST
+						var method = "POST";
+						// 获取表单数据
+						var data = $form.find("input[type='file']").exist() ? new FormData(this) : $(this).serialize();
+						// 获取返回数据将填充哪个节点
+						var container = $.KTAnchor.response_container;
+						if (typeof($form.attr("container"))!="undefined" && $form.attr("container").length>1) {
+							container = $form.attr("container");
+						}
+						// 开始
+						$.isFunction(begin) ? begin() : $.KTAnchor.begin();
+
+						var on_success = $form.attr("success");
+						if (typeof(on_success)=="string" && on_success.length>0) {
+							success = function(container, responseText) {
+								
+							}
+						}
+
+						// 如果 form 是 GET, 适合用来搜索
+						if ($form.attr("method")=="get") {
+							// 将字段拼接在 action 后
+							$form.find("input").each(function(key, input_elt){
+								input_elt = $(input_elt);
+								if (input_elt.attr("name").length>0 && input_elt.val().length>0) {
+									if (/\?/.test(request_url)) {
+										request_url = request_url + "&" + input_elt.attr("name") + "=" + encodeURI(input_elt.val());
+									}
+									else {
+										request_url = request_url + "?" + input_elt.attr("name") + "=" + encodeURI(input_elt.val());
+									}
+								}
+							});
+							method = "GET";
+							data = null;
+							// 如果设置了  <a pushstate="no" ... > 那么不做 url pushState
+							if (typeof($form.attr("pushstate"))=="undefined" || $form.attr("pushstate")!="no") {
+								window.history.pushState(null, "", request_url);
+							}
+						}
+						// set header
+						var header = null;
+						if ($.type($form.attr("header"))=="string") {
+							header = $.parseJSON($form.attr("header"));
+						}
+						// ajax 请求，并回调
+						$.KTAjax(request_url, method, data, header,
+							// 成功
+							function(responseText){
+								$.isFunction(success) ? success(container, responseText) : $.KTAnchor.success(container, responseText);
+							},
+							// 错误
+							function(XMLHttpRequest){
+								$.isFunction(error) ? error(container, XMLHttpRequest) : $.KTAnchor.error(container, XMLHttpRequest);
+							},
+							// 结束 ( 成功或失败后 )
+							function(XMLHttpRequest){
+								$.isFunction(complete) ? complete(container, XMLHttpRequest) : $.KTAnchor.complete(container, XMLHttpRequest);
+							}
+						);
+					}
 					// 如果有 confirm 属性
 					if (typeof($form.attr("confirm"))!="undefined" && $form.attr("confirm").length>1) {
-						if (!$.confirm($form.attr("confirm"))) {
-							return false;
-						}
+						$.confirm($form.attr("confirm"), submit_action);
+						return false;
 					}
-					// 检查表单
-					// 自定义的错误处理
-					if ($.isFunction(inputError)) {
-						if (!$(this).checkInputs(inputError)) return false;
-					}
-					// 默认的错误处理，会输出到浏览器的控制台
-					else {
-						if (!$(this).checkInputs($.KTAnchor.inputError)) return false;
-					}
-					// 获取 url
-					var request_url = $form.attr("action");
-					// 默认是 Form method 是 POST
-					var method = "POST";
-					// 获取表单数据
-					var data = $form.find("input[type='file']").exist() ? new FormData(this) : $(this).serialize();
-					// 获取返回数据将填充哪个节点
-					var container = $.KTAnchor.response_container;
-					if (typeof($form.attr("container"))!="undefined" && $form.attr("container").length>1) {
-						container = $form.attr("container");
-					}
-					// 开始
-					$.isFunction(begin) ? begin() : $.KTAnchor.begin();
-
-					var on_success = $form.attr("success");
-					if (typeof(on_success)=="string" && on_success.length>0) {
-						success = function(container, responseText) {
-							
-						}
-					}
-
-					// 如果 form 是 GET, 适合用来搜索
-					if ($form.attr("method")=="get") {
-						// 将字段拼接在 action 后
-						$form.find("input").each(function(key, input_elt){
-							input_elt = $(input_elt);
-							if (input_elt.attr("name").length>0 && input_elt.val().length>0) {
-								if (/\?/.test(request_url)) {
-									request_url = request_url + "&" + input_elt.attr("name") + "=" + encodeURI(input_elt.val());
-								}
-								else {
-									request_url = request_url + "?" + input_elt.attr("name") + "=" + encodeURI(input_elt.val());
-								}
-							}
-						});
-						method = "GET";
-						data = null;
-						// 如果设置了  <a pushstate="no" ... > 那么不做 url pushState
-						if (typeof($form.attr("pushstate"))=="undefined" || $form.attr("pushstate")!="no") {
-							window.history.pushState(null, "", request_url);
-						}
-					}
-					// set header
-					var header = null;
-					if ($.type($form.attr("header"))=="string") {
-						header = $.parseJSON($form.attr("header"));
-					}
-					// ajax 请求，并回调
-					$.KTAjax(request_url, method, data, header,
-						// 成功
-						function(responseText){
-							$.isFunction(success) ? success(container, responseText) : $.KTAnchor.success(container, responseText);
-						},
-						// 错误
-						function(XMLHttpRequest){
-							$.isFunction(error) ? error(container, XMLHttpRequest) : $.KTAnchor.error(container, XMLHttpRequest);
-						},
-						// 结束 ( 成功或失败后 )
-						function(XMLHttpRequest){
-							$.isFunction(complete) ? complete(container, XMLHttpRequest) : $.KTAnchor.complete(container, XMLHttpRequest);
-						}
-					);
+					submit_action;
 					// 禁止表单继续提交
 					return false;
 				});

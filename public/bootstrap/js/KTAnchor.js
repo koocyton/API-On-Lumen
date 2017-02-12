@@ -182,9 +182,9 @@
 		    popupLoader : function(url){
 		    	// 进度条开始
 				//$.KTAnchor.setRequestProcess(0);
-		    	var popup_elt = $(".popup-model");
-		    	var body_elt = $(".popup-model .modal-body").empty();
-		    	var title_elt = $(".popup-model .modal-title").html("Loading...");
+		    	var popup_elt = $(".popup-modal");
+		    	var body_elt = $(".popup-modal .modal-body").empty();
+		    	var title_elt = $(".popup-modal .modal-title").html("Loading...");
 		    	body_elt.load(url,function(){
 		    		//$.KTAnchor.completeRequestProcess();
 		    		popup_elt.modal('show');
@@ -265,6 +265,12 @@
 			var nowDate = y + "-" + m + "-" + d;
 			var nowDatetime = nowDate + " " + h + ":" + i + ":" + s;
 			return (dt) ? nowDatetime : nowDate;
+		},
+
+		// confirm
+		confirm : function(message, success) {
+			var confirm_elt = $(".confirm-modal");
+			confirm_elt.modal('show');
 		},
 
 		// print_r arguments
@@ -498,6 +504,12 @@
 				});
 				// 将 form 绑定 submit 事件
 				$form.bind("submit", function(){
+					// 如果有 confirm 属性
+					if (typeof($form.attr("confirm"))!="undefined" && $form.attr("confirm").length>1) {
+						if (!$.confirm($form.attr("confirm"))) {
+							return false;
+						}
+					}
 					// 检查表单
 					// 自定义的错误处理
 					if ($.isFunction(inputError)) {
@@ -1169,7 +1181,7 @@ $(document).ready(function(){
   // 调整窗口时时，
   $(window).bind("resize", function(){
     $(".body-content").height($(window).height()-40);
-    $(".popup-model .modal-body").height($(window).height()*0.85-88);
+    $(".popup-modal .modal-body").height($(window).height()*0.85-88);
   });
 
   // 手动触发一次

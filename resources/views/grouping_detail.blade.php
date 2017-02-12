@@ -45,6 +45,9 @@
 			<tr>
 				<td style="width:80px;">
 					<div class="form-group" style="height:100%;">权　限：</div>
+<?php
+$pl = explode(",", $grouping->privileges);
+?>
 				</td>
 				<td>
 				<br>
@@ -52,39 +55,48 @@
 	<div class="treemenu-container">
 		<a href="javascript:;" class="tree-menu tree-menu-0"><div>项目研发 · 微闻</div></a>
 		<div style="display: block;">
-			<a href="javascript:;" class="tree-menu tree-menu-1">
-				<div style="color:#aaa;">
-					<span>频道设置　　&nbsp;</span>
-					<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privilege[]" value=""> 查看</label>
-					<label style="margin-left:10px;"><input type="checkbox" disabled="disabled" name="privilege[]" value=""> 增加 / 修改</label>
-				</div>
-			</a>
 			<a href="javascript:;" class="tree-menu-1 tree-menu">
 				<div>
 					<span>项目任务　　&nbsp;</span>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value=""> 查看</label>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value=""> 增加 / 修改</label>
+					<label style="margin-left:10px;">
+						<input type="checkbox" name="privilege[]" value="/task/list,/task/detail" <?=(in_array("/task/list", $pl) && in_array("/task/detail", $pl)) ? 'checked' : '';?>> 浏览 / 查看
+					</label>
+					<label style="margin-left:10px;">
+						<input type="checkbox" name="privilege[]" value="/task/create,/task/update,/task/apply" <?=(in_array("/task/create", $pl) && in_array("/task/update", $pl)) ? 'checked' : '';?>> 增加 / 修改
+					</label>
 				</div>
 			</a>
 			<a href="javascript:;" class="tree-menu tree-menu-1">
 				<div>
 					<span>API 接口 ...　&nbsp;</span>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value=""> 查看</label>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value=""> 更新</label>
+					<label style="margin-left:10px;">
+						<input type="checkbox" name="privilege[]" value="/project/api-list,/project/api-detail" <?=(in_array("/project/api-list", $pl) && in_array("/project/api-detail", $pl)) ? 'checked' : '';?>> 浏览 / 查看
+					</label>
+					<label style="margin-left:10px;">
+						<input type="checkbox" name="privilege[]" value="/project/api-create,/project/api-update,/project/api-apply" <?=(in_array("/project/api-create", $pl) && in_array("/project/api-update", $pl)) ? 'checked' : '';?>> 增加 / 修改
+					</label>
 				</div>
 			</a>
 			<a href="javascript:;" class="tree-menu tree-menu-1">
 				<div>
 					<span>数据管理 ...　&nbsp;</span>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value=""> 查看</label>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value=""> 更新</label>
+					<label style="margin-left:10px;">
+						<input type="checkbox" name="privilege[]" value="/project/data-list,/project/data-detail" <?=(in_array("/project/data-list", $pl) && in_array("/project/data-detail", $pl)) ? 'checked' : '';?>> 浏览 / 查看
+					</label>
+					<label style="margin-left:10px;">
+						<input type="checkbox" name="privilege[]" value="/project/data-create,/project/data-update,/project/data-apply" <?=(in_array("/project/data-create", $pl) && in_array("/project/data-update", $pl)) ? 'checked' : '';?>> 增加 / 修改
+					</label>
 				</div>
 			</a>
 			<a href="javascript:;" class="tree-menu tree-menu-1">
 				<div>
 					<span>项目文档 ...　&nbsp;</span>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value=""> 查看</label>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value=""> 更新</label>
+					<label style="margin-left:10px;">
+						<input type="checkbox" name="privilege[]" value="/project/doc-list,/project/doc-detail" <?=(in_array("/project/doc-list", $pl) && in_array("/project/doc-detail", $pl)) ? 'checked' : '';?>> 浏览 / 查看
+					</label>
+					<label style="margin-left:10px;">
+						<input type="checkbox" name="privilege[]" value="/project/doc-create,/project/doc-update,/project/doc-apply" <?=(in_array("/project/doc-create", $pl) && in_array("/project/doc-update", $pl)) ? 'checked' : '';?>> 增加 / 修改
+					</label>
 				</div>
 			</a>
 		</div>
@@ -95,25 +107,30 @@
 			<a href="javascript:;" class="tree-menu-1 tree-menu">
 				<div>
 					<span>操作日志　　&nbsp;</span>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value=""> 查看自己</label>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value=""> 查看全部</label>
+					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value="/operation/me" <?=in_array("/operation/me", $pl) ? 'checked' : '';?>> 查看自己</label>
+					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value="/operation/list" <?=in_array("/operation/list", $pl) ? 'checked' : '';?>> 查看全部</label>
 				</div>
 			</a>
 			<a href="javascript:;" class="tree-menu-1 tree-menu">
 				<div>
 					<span>权限管理　　&nbsp;</span>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value=""> 查看</label>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value=""> 编辑</label>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value=""> 新增</label>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value=""> 修改</label>
+					<label style="margin-left:10px;">
+						<input type="checkbox" name="privilege[]" value="/manager/list,/manager/detail,/manager/apply" <?=(in_array("/manager/list", $pl) && in_array("/manager/detail", $pl)) ? 'checked' : '';?>> 浏览 / 查看
+					</label>
+					<label style="margin-left:10px;">
+						<input type="checkbox" name="privilege[]" value="/manager/create,/manager/update" <?=(in_array("/manager/create", $pl) && in_array("/manager/update", $pl)) ? 'checked' : '';?>> 增加 / 修改
+					</label>
 				</div>
 			</a>
 			<a href="javascript:;" class="tree-menu-1 tree-menu">
 				<div>
 					<span>分组管理　　&nbsp;</span>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value="/grouping/list,/grouping/detail"> 查看</label>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value="/grouping/create"> 新增</label>
-					<label style="margin-left:10px;"><input type="checkbox" name="privilege[]" value="/grouping/update"> 修改</label>
+					<label style="margin-left:10px;">
+						<input type="checkbox" name="privilege[]" value="/grouping/list,/grouping/detail" <?=(in_array("/grouping/list", $pl) && in_array("/grouping/detail", $pl)) ? 'checked' : '';?>> 浏览 / 查看
+					</label>
+					<label style="margin-left:10px;">
+						<input type="checkbox" name="privilege[]" value="/grouping/create,/grouping/update" <?=(in_array("/grouping/create", $pl) && in_array("/grouping/update", $pl)) ? 'checked' : '';?>> 增加 / 修改
+					</label>
 				</div>
 			</a>
 		</div>

@@ -9,7 +9,7 @@
               <li><a href="javascript:;" style="margin:5px -10px;"><b>权限分组管理</b></a></li>
              </ul>
             <div class="navbar-form navbar-right">
-              <form action="/grouping/create" method="post">
+              <form action="/grouping/create" method="post" confirm="增加新分组 ?">
                 <button class="btn btn-success btn-sm" style="margin-left:20px;" type="submit">
                   <span class="glyphicon glyphicon-plus"></span> 分组
                 </button>
@@ -33,10 +33,14 @@ foreach ($groupings as $grouping) {
         $text_decoration = "";
     }
     ?>
-          <tr onclick="$.KTAnchor.popupLoader('/grouping/{{ $grouping->id }}')" style="cursor:pointer;">
+          <tr onclick="$.KTAnchor.popupLoader('/grouping/{{ $grouping->id }}')" style="cursor:pointer;overflow:hidden;">
 						<td class="bs-callout bs-callout-danger">
               <span style="display:inline-block;margin:0 5px;">#{{ $grouping->id }}</span>
               <span style="color:{{ $text_color  }};text-decoration:{{ $text_decoration }}">&nbsp;{{ $grouping->name }}</span>
+
+              <div style="float:right;">
+              </div>
+
             </td>
           </tr>
 <?php }?>

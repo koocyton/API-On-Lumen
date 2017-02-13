@@ -1,82 +1,82 @@
-<?php
-use App\Facades\Lang;
-?>
-<!DOCTYPE HTML>
-<html>
-  <title>用户登录</title>
-  @include('__header')
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+
+    <!-- Bootstrap -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- KTAnchor -->
+    <link href="/bootstrap/css/KTAnchor.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
   <body>
-	<table class="body-table" style="background:rgba(0,0,0,0) url(/css/<?=$trans->getLocale();?>_bg.jpg) no-repeat scroll 0 0 / cover;">
-      <tr>
-		<td class="nav-left">
-		  <div class="nav-item dropdown-container" style="margin-left:21px;">
-			<a href="javascript:;" pushstate="no" class="nav-item bold-medium" style="height:40px;line-height:40px;">
-			  <?=$trans->get('login.Language');?>：<?=$trans->get('login.Location');?> &nbsp;
-			  <span class="octicon" style="font-size:13px;">&#xf0a3;</span>
-			</a>
-			<div class="pop-layout" style="top:38px;left:-7px;">
-			  <b class="angle-up" style="left:32%;top:-5px;"></b>
-			  <div class="content-board radius-4 shadow-3">
-				<div class="dropdown-menu" style="height:85px;width:204px;">
-				  <ul>
-					<li><a class="radius-3" native="yes" href="?locale=cn">简体中文</a></li>
-					<li><a class="radius-3" native="yes" href="?locale=tw">繁體中文</a></li>
-					<li><a class="radius-3" native="yes" href="?locale=kr">한국어</a></li>
-					<li><a class="radius-3" native="yes" href="?locale=jp">日本語</a></li>
-					<li><a class="radius-3" native="yes" href="?locale=en">English</a></li>
-				  </ul>
-				</div>
-			  </div>
-			</div>
-		  </div>
-		</td>
-		<td class="nav-right"></td>
-      </tr>
-      <tr>
-		<td class="body-right" colspan="2">
-		  <div class="content-board radius-4 login-form" style="position:absolute;left:15%;top:50%;">
-			<!-- Login Form [begin] //-->
-			<form action="/login/signin" method="post">
-			<input type="hidden" name="_token" value="" />
-			  <div style="width:265px;position:relative;">
-				<dl>
-				  <dd>
-					<input type="text" class="text-input" maxlength="50" name="account" validation="/email:<?=$trans->get('login.Please enter account')?>/" placeholder="<?=$trans->get('login.Please enter account')?>" value="" />
-				  </dd>
-				</dl>
-			  </div>
-			  <table style="margin:6px 0;">
-				<tbody>
-				  <tr>
-					<td style="width:99%;">
-					  <div style="width:187px;position:relative;">
-						<dl>
-						  <dd>
-							<input type="password" class="text-input" maxlength="50" name="password" validation="/!empty:<?=$trans->get('login.Please enter password')?>/" placeholder="<?=$trans->get('login.Please enter password')?>" value="" />
-						  </dd>
-						</dl>
-					  </div>
-					</td><td style="width:1%;">
-					  <div>
-						<button type="submit" class="disable-btn" style="width:70px;"><?=$trans->get('login.Login')?></button>
-					  </div>
-					</td>
-				  </tr>
-				</tbody>
-			  </table>
-			  <div style="height:22px;line-height:22px;">
-				<label style="color:#8899a6">
-				  <input type="checkbox" name="rember" value="1">
-				  <span><?=$trans->get('login.Remember me')?></span>
-				</label>
-				<span class="separator">·</span>
-				<span><a href="javascript:$.KTAnchor.showSlidMessage('send mail to koocyton(AT)gmail.com');" native="yes" style="color:#0084b4"><?=$trans->get('login.Forgot password')?></a></span>
-			  </div>
-			</form>
-			<!-- Login Form [End] //-->
-		  </div>
-		</td>
-      </tr>
-    </table>
+
+    <div class="body-background"></div>
+
+    <nav class="navbar navbar-inverse" role="navigation">
+      <div class="container">
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" native="yes" class="dropdown-toggle" data-toggle="dropdown"><?=$trans->get('login.Language');?>：<?=$trans->get('login.Location');?> <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li class="dropdown-menu-arrow"><b class="angle-up"></b></li>
+                <li><a native="yes" href="?locale=cn">简体中文</a></li>
+                <li><a native="yes" href="?locale=tw">繁體中文</a></li>
+                <li><a native="yes" href="?locale=kr">한국어</a></li>
+                <li><a native="yes" href="?locale=jp">日本語</a></li>
+                <li><a native="yes" href="?locale=en">English</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /#navbar -->
+      </div><!-- /.container -->
+    </nav><!-- /.navbar -->
+
+    <div class="cn-modal-dialog">
+    	<div class="modal-dialog">
+        <form action="/login/signin" method="post">
+          <input type="password" style="position:absolute;top:-999px;"/>
+      		<div class="modal-content">
+      			<div class="modal-body">
+      				<div class="form-group">
+      					<input type="text" name="_account" class="form-control" autocomplete="off" placeholder="{{ $trans->get('login.Please enter account') }}">
+      				</div>
+      				<div class="form-group">
+      					<input type="password" name="_password" class="form-control" autocomplete="off" placeholder="{{ $trans->get('login.Please enter password') }}">
+      				</div>
+      				<div>
+      					<label>
+      						<input type="checkbox" name="_remberme" value="1"> {{ $trans->get('login.Remember me') }}
+      					</label>
+      					<span class="separator">·</span>
+      					<a href="javascript:;" native="yes" style="color:#0084b4">{{ $trans->get('login.Forgot password') }}</a>
+      				</div>
+      			</div>
+      			<div class="modal-footer">
+      				<button type="submit" class="btn btn-success">{{ $trans->get('login.Login') }}</button>
+      			</div>
+      		</div><!-- /.modal-content -->
+        </form><!-- /.modal-form -->
+    	</div><!-- /.modal-dialog -->
+    </div>
+
+    <div class="alert alert-danger" role="alert">
+      <strong>Warning!</strong>
+      <span class="alert-message"></span>
+    </div><!-- /.alert -->
+
+    <script src="/bootstrap/js/jquery-1.11.3.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/bootstrap/js/KTAnchor.js"></script>
   </body>
 </html>

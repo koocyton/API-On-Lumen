@@ -8,15 +8,15 @@
             <ul class="nav navbar-nav">
               <li><a href="javascript:;" style="margin:5px -10px;"><b>操作日志</b></a></li>
              </ul>
-
-            <form action="/operation/list" method="get" class="navbar-form navbar-right" role="search">
+          </div>
+          <div class="navbar-form navbar-right">
+            <form action="/operation/list" method="get" role="search">
               <div class="form-group has-feedback" style="width:200px;">
                 <input type="text" name="search" class="form-control">
                 <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
               </div>
             </form><!--/form -->
-
-          </div><!--/.nav-collapse -->
+          </div><!-- navbar-right -->
         </div><!--/.container-fluid -->
       </nav>
      </div>

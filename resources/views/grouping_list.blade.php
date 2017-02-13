@@ -1,21 +1,21 @@
     <br>
-    <div class="container">
 
+    <div class="container">
       <!-- Static navbar -->
       <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
           <div>
             <ul class="nav navbar-nav">
               <li><a href="javascript:;" style="margin:5px -10px;"><b>权限分组管理</b></a></li>
-             </ul>
-            <div class="navbar-form navbar-right">
-              <form action="/grouping/create" method="post" confirm="增加新分组 ?">
-                <button class="btn btn-success btn-sm" style="margin-left:20px;" type="submit">
-                  New !!
-                </button>
-              </form>
-            </div>
-          </div><!--/.nav-collapse -->
+            </ul>
+          </div>
+          <div class="navbar-form navbar-right">
+            <form action="/grouping/create" method="post" confirm="增加新分组 ?">
+              <button class="btn btn-success btn-sm" style="margin-left:20px;" type="submit">
+                New !!
+              </button>
+            </form>
+          </div>
         </div><!--/.container-fluid -->
       </nav>
      </div>

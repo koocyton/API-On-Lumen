@@ -11,6 +11,7 @@
 				</td>
 				<td>
 					<div class="form-group">
+						<input type="password" style="position:absolute;top:-999px;"/>
 						{{ $manager->id }}
 					</div>
 				</td>
@@ -60,7 +61,7 @@
 				</td>
 				<td>
 					<div class="form-group">
-						<input type="password" name="password" class="form-control" autocomplete="off" style="width:400px">
+						<input type="password" name="_password" class="form-control" autocomplete="off" style="width:400px">
 					</div>
 				</td>
 			</tr>

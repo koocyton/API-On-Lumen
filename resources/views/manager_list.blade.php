@@ -1,4 +1,5 @@
     <br>
+
     <div class="container">
       <!-- Static navbar -->
       <nav class="navbar navbar-default" role="navigation">
@@ -7,15 +8,15 @@
             <ul class="nav navbar-nav">
               <li><a href="javascript:;" style="margin:5px -10px;"><b>用户管理</b></a></li>
              </ul>
-
-            <form action="/manager/list" method="get" class="navbar-form navbar-right" role="search">
+          </div>
+          <div class="navbar-form navbar-right">
+            <form action="/manager/list" method="get" role="search">
               <div class="form-group has-feedback" style="width:200px;">
                 <input type="text" name="search" class="form-control">
                 <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
               </div>
               <button class="btn btn-success btn-sm" style="margin-left:20px;" type="button" onclick="$.KTAnchor.popupLoader('/manager/apply')">New !!</button>
             </form><!--/form -->
-
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>

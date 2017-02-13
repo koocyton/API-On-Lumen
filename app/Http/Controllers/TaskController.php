@@ -53,11 +53,11 @@ class TaskController extends BaseController
     /*
      * 查看编辑任务
      */
-    public function view($id)
+    public function detail($id)
     {
         $task = Task::where("id", $id)->first();
         // 返回 view
-        return $this->display('task_view', ['task' => $task]);
+        return $this->display('task_detail', ['task' => $task]);
     }
 
     /*

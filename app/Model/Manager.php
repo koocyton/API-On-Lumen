@@ -46,11 +46,14 @@ class Manager extends Model
     protected $fillable = [
         'id',
         'account',
+        'username',
         'password',
+        'token',
+        'token_secret',
         'deleted_at',
         'created_at',
         'updated_at',
-        'privileges',
+        'groupings',
     ];
 
     public function getCreatedAtAttribute($value)

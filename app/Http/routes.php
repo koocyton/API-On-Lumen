@@ -74,6 +74,25 @@ $app->group(['prefix' => '/grouping', 'namespace' => 'App\Http\Controllers'], fu
 
 /*
 |--------------------------------------------------
+| 任务 和 Debug
+|--------------------------------------------------
+ */
+// 任务的接口
+$app->group(['prefix' => '/task', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
+    // 任务列表
+    $app->get('list', 'TaskController@list');
+    // 新增任务申请
+    $app->get('apply', 'TaskController@apply');
+    // 新增任务
+    $app->post('create', 'TaskController@create');
+    // 编辑任务
+    $app->get('{id}', 'TaskController@detail');
+    // 更新任务信息
+    $app->post('{id}/update', 'TaskController@update');
+});
+
+/*
+|--------------------------------------------------
 | 项目操作
 |--------------------------------------------------
  */
@@ -102,18 +121,6 @@ $app->group(['prefix' => '/channel-manager', 'namespace' => 'App\Http\Controller
     $app->get('list', 'ChannelManagerController@list');
     // 频道模版
     $app->get('demo/{id}', 'ChannelManagerController@demo');
-});
-
-/*
-|--------------------------------------------------
-| 任务 和 Debug
-|--------------------------------------------------
- */
-// 任务的接口
-$app->group(['prefix' => '/task', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
-    $app->get('list', 'TaskController@list');
-    $app->get('apply', 'TaskController@apply');
-    $app->post('create', 'TaskController@create');
 });
 
 /*

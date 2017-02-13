@@ -30,7 +30,7 @@ class LoginController extends BaseController
         // 发送 cookie
         $with_cookie = new Cookie('locale', $this->locale);
         // 返回 view
-        return $this->display('login_index2')->withCookie($with_cookie);
+        return $this->display('login_index')->withCookie($with_cookie);
     }
 
     /*

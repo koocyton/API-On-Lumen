@@ -1,23 +1,22 @@
     <br>
-    <div class="container">
 
-      <!-- Static navbar -->
+    <div class="container">
       <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
           <div>
             <ul class="nav navbar-nav">
               <li><a href="javascript:;" style="margin:5px -10px;"><b>任务分配 / Bug 管理</b></a></li>
              </ul>
-
-      			<form action="/task/list" method="get" class="navbar-form navbar-right" role="search">
+          </div>
+          <div class="navbar-form navbar-right">
+      			<form action="/task/list" method="get" role="search">
               <div class="form-group has-feedback" style="width:200px;">
                 <input type="text" name="search" class="form-control">
                 <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
               </div>
               <button class="btn btn-success btn-sm" style="margin-left:20px;" type="button" onclick="$.KTAnchor.popupLoader('/task/apply')">New !!</button>
       			</form><!--/form -->
-
-          </div><!--/.nav-collapse -->
+          </div>
         </div><!--/.container-fluid -->
       </nav>
      </div>
@@ -38,7 +37,7 @@
 foreach ($tasks as $task) {
     $status = empty($task->deleted_at) ? 'on' : 'off';
     ?>
-          <tr onclick="$.KTAnchor.popupLoader('/task/apply')" style="cursor:pointer;">
+          <tr onclick="$.KTAnchor.popupLoader('/task/detail')" style="cursor:pointer;">
 						<td class="bs-callout bs-callout-danger">
               <?php
 

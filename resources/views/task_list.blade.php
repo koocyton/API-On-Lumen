@@ -37,7 +37,7 @@
 foreach ($tasks as $task) {
     $status = empty($task->deleted_at) ? 'on' : 'off';
     ?>
-          <tr onclick="$.KTAnchor.popupLoader('/task/detail')" style="cursor:pointer;">
+          <tr onclick="$.KTAnchor.ajaxLoader('/task/{{ $task->id }}')" style="cursor:pointer;">
 						<td class="bs-callout bs-callout-danger">
               <?php
 

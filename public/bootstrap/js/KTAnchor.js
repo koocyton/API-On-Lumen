@@ -178,6 +178,29 @@
 				// $.KTLog("JQuery.KTAnchor.complete : " + container);
 			},
 
+			// 加载界面
+			ajaxLoader : function(url){
+				var container = $.KTAnchor.response_container;
+				window.history.pushState(null, "", url);
+				$.KTAnchor.begin();
+				// ajax 请求，并回调
+				$.KTAjax(url, "GET", null, null,
+					// 成功
+					function(responseText){
+						$.KTAnchor.success(container, responseText);
+					},
+					// 错误
+					function(XMLHttpRequest){
+						$.KTAnchor.error(container, XMLHttpRequest);
+					},
+					// 结束 ( 成功或失败后 )
+					function(XMLHttpRequest){
+						$.KTAnchor.complete(container, XMLHttpRequest);
+						$.KTAnchor.treemenuSelected(url);
+					}
+				);
+			},
+
 			// 弹出窗口
 		    popupLoader : function(url){
 		    	// 进度条开始
@@ -423,6 +446,7 @@
 		KTLoader: function() {
 			// 加载
 			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTInputBind();
+			// bootrap 的 tooltip 需要手动激活
 			$(this).find("[data-toggle='tooltip']").tooltip();
 		},
 
@@ -442,52 +466,55 @@
 				// 如果特别标注 <a> 不绑定事件
 				// if ($anchor.attr("native")!=null) return;
 				// 绑定点击事件
-				$anchor.on("click", function(){
+				$anchor.on("click", function() {
+					//
+					var anchor_action = function() {
+						// 聚焦会使得点击处框上虚线
+						anchor.blur();
+						// 获取要请求的地址
+						var request_url = $anchor.attr("href");
+						// 获取当前的地址
+						var request_ref = window.location.href;
+						// 如果设置了  <a pushstate="no" ... > 那么不做 url pushState
+						if (typeof($anchor.attr("pushstate"))=="undefined" || $anchor.attr("pushstate")!="no") {
+							window.history.pushState(null, "", request_url);
+						}
+						var container = $.KTAnchor.response_container;
+						if (typeof($anchor.attr("container"))!="undefined" && $anchor.attr("container").length>1) {
+							container = $anchor.attr("container");
+						}
+						// 开始
+						$.isFunction(begin) ? begin() : $.KTAnchor.begin();
+						// set header
+						var header = null;
+						if ($.type($anchor.attr("header"))=="string") {
+							header = $.parseJSON($anchor.attr("header"));
+						}
+						// ajax 请求，并回调
+						$.KTAjax(request_url, "GET", null, header,
+							// 成功
+							function(responseText){
+								$.isFunction(success) ? success(container, responseText) : $.KTAnchor.success(container, responseText);
+							},
+							// 错误
+							function(XMLHttpRequest){
+								$.isFunction(error) ? error(container, XMLHttpRequest) : $.KTAnchor.error(container, XMLHttpRequest);
+							},
+							// 结束 ( 成功或失败后 )
+							function(XMLHttpRequest){
+								$.isFunction(complete) ? complete(container, XMLHttpRequest) : $.KTAnchor.complete(container, XMLHttpRequest);
+								if (typeof($anchor.attr("pushstate"))=="undefined" || $anchor.attr("pushstate")!="no") {
+									$.KTAnchor.treemenuSelected(request_url);
+								}
+							}
+						);
+					}
 					// 如果有 confirm 属性
 					if (typeof($anchor.attr("confirm"))!="undefined" && $anchor.attr("confirm").length>1) {
-						if (!confirm($anchor.attr("confirm"))) {
-							return false;
-						}
+						$.confirm($anchor.attr("confirm"), anchor_action);
+						return false;
 					}
-					// 聚焦会使得点击处框上虚线
-					anchor.blur();
-					// 获取要请求的地址
-					var request_url = $anchor.attr("href");
-					// 获取当前的地址
-					var request_ref = window.location.href;
-					// 如果设置了  <a pushstate="no" ... > 那么不做 url pushState
-					if (typeof($anchor.attr("pushstate"))=="undefined" || $anchor.attr("pushstate")!="no") {
-						window.history.pushState(null, "", request_url);
-					}
-					var container = $.KTAnchor.response_container;
-					if (typeof($anchor.attr("container"))!="undefined" && $anchor.attr("container").length>1) {
-						container = $anchor.attr("container");
-					}
-					// 开始
-					$.isFunction(begin) ? begin() : $.KTAnchor.begin();
-					// set header
-					var header = null;
-					if ($.type($anchor.attr("header"))=="string") {
-						header = $.parseJSON($anchor.attr("header"));
-					}
-					// ajax 请求，并回调
-					$.KTAjax(request_url, "GET", null, header,
-						// 成功
-						function(responseText){
-							$.isFunction(success) ? success(container, responseText) : $.KTAnchor.success(container, responseText);
-						},
-						// 错误
-						function(XMLHttpRequest){
-							$.isFunction(error) ? error(container, XMLHttpRequest) : $.KTAnchor.error(container, XMLHttpRequest);
-						},
-						// 结束 ( 成功或失败后 )
-						function(XMLHttpRequest){
-							$.isFunction(complete) ? complete(container, XMLHttpRequest) : $.KTAnchor.complete(container, XMLHttpRequest);
-							if (typeof($anchor.attr("pushstate"))=="undefined" || $anchor.attr("pushstate")!="no") {
-								$.KTAnchor.treemenuSelected(request_url);
-							}
-						}
-					);
+					anchor_action();
 					// 防止链接点击生效
 					return false;
 				});

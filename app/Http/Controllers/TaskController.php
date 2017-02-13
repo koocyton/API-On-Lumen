@@ -55,7 +55,7 @@ class TaskController extends BaseController
      */
     public function detail($id)
     {
-        $task = Task::where("id", $id)->first();
+        $task = Task::where(['id' => $id])->first();
         // 返回 view
         return $this->display('task_detail', ['task' => $task]);
     }

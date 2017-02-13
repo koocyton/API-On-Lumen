@@ -2,7 +2,9 @@
 namespace App\Http\Controllers;
 
 use App\Helper\PagingHelper;
+use App\Helper\SecurityHelper;
 use App\Http\Controllers\Controller as BaseController;
+use App\Model\Grouping;
 use App\Model\Manager;
 use App\Model\OperationRecord;
 use Illuminate\Http\Request;
@@ -36,19 +38,14 @@ class ManagerController extends BaseController
     {
         // 管理员列表
         $manager = Manager::withTrashed()->where(['id' => $id])->first();
+        // 列出 Grouping
+        $groupings = Grouping::get();
+        $grouping_list = "";
+        foreach ($groupings as $idx => $grouping) {
+            $grouping_list .= empty($grouping_list) ? $grouping->name : "," . $grouping->name;
+        }
         // 返回 view
-        return $this->display('manager_detail', ['manager' => $manager]);
-    }
-
-    /*
-     * 管理员权限信息
-     */
-    public function privileges($id)
-    {
-        // 管理员列表
-        $manager = Manager::withTrashed()->where(['id' => $id])->first();
-        // 返回 view
-        return $this->display('manager_privileges', ['manager' => $manager]);
+        return $this->display('manager_detail', ['manager' => $manager, 'grouping_list' => $grouping_list]);
     }
 
     /*
@@ -59,23 +56,23 @@ class ManagerController extends BaseController
         // 管理员信息
         $manager = Manager::withTrashed()->where(['id' => $id])->first();
         $manager->username = $request->input("username");
+        // 组
+        $manager->groupings = $request->input("groupings");
+        // 更新密码
+        if (!empty($request->input("password"))) {
+            $manager->password = md5(sprintf(env("APP_ENCRYPT_SALT"), $request->input("password")));
+        }
+        // 更新 token
+        if (!empty($request->input("re_token")) || !empty($request->input("password"))) {
+            $manager->token = SecurityHelper::randomBytes(SecurityHelper::TOKEN_LENGTH);
+            $manager->token_secret = SecurityHelper::randomBytes(SecurityHelper::SECURITY_LENGTH);
+        }
+        // 更新状态
+        $manager->deleted_at = empty($request->input("status")) ? null : NOW_TIME;
+        // 保存
         $manager->save();
         // 刷新页面
         return response('<script>$("#popup-modal").modal("hide");$(window).trigger("popstate");</script>');
-    }
-
-    /*
-     * 打开或关闭管理员
-     */
-    function switch ($id) {
-            // 管理员列表
-            $manager = Manager::withTrashed()->where(['id' => $id])->first();
-            // 打开或关闭
-            $deleted_at = empty($manager->deleted_at) ? time() : null;
-            // 更新
-            Manager::withTrashed()->where(['id' => $id])->update(['deleted_at' => $deleted_at]);
-            // 刷新页面
-            return response('<script>$(window).trigger("popstate");</script>');
     }
 
     /*

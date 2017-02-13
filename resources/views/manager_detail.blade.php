@@ -39,6 +39,22 @@
 			</tr>
 
 			<tr>
+				<td style="width:80px;">
+					<div class="form-group">状　态：</div>
+				</td>
+				<td>
+					<div class="form-group btn-group" data-toggle="buttons">
+						<label class="btn btn-sm btn-default <?=empty($manager->deleted_at) ? 'active' : '';?>">
+							<input type="radio" name="status" value="0" autocomplete="off" <?=empty($manager->deleted_at) ? 'checked' : '';?>> 激活
+						</label>
+						<label class="btn btn-sm btn-default <?=!empty($manager->deleted_at) ? 'active' : '';?>">
+							<input type="radio" name="status" value="1" autocomplete="off" <?=!empty($manager->deleted_at) ? 'checked' : '';?>> 禁用
+						</label>
+					</div>
+				</td>
+			</tr>
+
+			<tr>
 				<td>
 					<div class="form-group">密　码：</div>
 				</td>
@@ -55,7 +71,7 @@
 				</td>
 				<td>
 					<div class="form-group form-tags">
-						<input type="text" name="grup" search-source="GoodNight 客户端,GoodNight 服务端,GoodNight 策划,GoodNight 美术,GoodNight 项目组" autocomplete="off" class="tags-input">
+						<input type="text" name="groupings" value="{{ $manager->groupings }}" search-source="{{ $grouping_list }}" autocomplete="off" class="tags-input">
 					</div>
 				</td>
 			</tr>
@@ -100,6 +116,20 @@
 				<td>
 					<div class="form-group">
 						{{ $manager->token_secret }}
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<div class="form-group"></div>
+				</td>
+				<td>
+					<div class="form-group">
+						<label>
+      						<input type="checkbox" name="re_token" value="1"> 更新 Token 和 Secret
+      						，此用户会退出，需要重新登录
+      					</label>
 					</div>
 				</td>
 			</tr>

@@ -54,7 +54,10 @@ foreach ($managers as $manager) {
             <td>
               <span style="display:inline-block;margin:0 5px;">#{{ $manager->id }}</span>
               <span style="color:{{ $text_color  }};text-decoration:{{ $text_decoration }}">
-                {{ $manager->account }}
+                {{ $manager->username }}
+              </span>
+              <span style="color:{{ $text_color  }};text-decoration:{{ $text_decoration }}">
+                < {{ $manager->account }} >
               </span>
 
               <div style="float:right;">

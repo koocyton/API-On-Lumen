@@ -46,14 +46,12 @@ $app->group(['prefix' => '/manager', 'namespace' => 'App\Http\Controllers'], fun
     $app->get('list', 'ManagerController@list');
     // 新增管理员申请
     $app->get('apply', 'ManagerController@apply');
+    // 新增管理员
+    $app->post('create', 'ManagerController@create');
     // 管理员
     $app->get('{id}', 'ManagerController@detail');
     // 管理员
     $app->post('{id}/update', 'ManagerController@update');
-    // 管理员开关
-    $app->get('{id}/switch', 'ManagerController@switch');
-    // 权限管理
-    $app->get('{id}/privileges', 'ManagerController@privileges');
 });
 
 /*

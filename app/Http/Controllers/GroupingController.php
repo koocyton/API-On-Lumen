@@ -59,9 +59,12 @@ class GroupingController extends BaseController
         }
         // 管理员信息
         $grouping = Grouping::withTrashed()->where(['id' => $id])->first();
-        $grouping->name = $request->input("name");
-        $grouping->privileges = $privileges;
         $grouping->deleted_at = empty($request->input("status")) ? null : NOW_TIME;
+        if (preg_match("/#\d{5}$/", $grouping->name)) {
+            $grouping->name = $request->input("name");
+            $grouping->deleted_at = NOW_TIME;
+        }
+        $grouping->privileges = $privileges;
         $grouping->save();
         // 刷新页面
         return response('<script>$("#popup-modal").modal("hide");$(window).trigger("popstate");</script>');

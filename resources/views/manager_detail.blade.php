@@ -1,7 +1,7 @@
 <popup-title style="display:none;" class="popup-title">管理员 {{ $manager->account }}</popup-title>
 
 <div class="container" style="width:800px;">
-<form action="/manager/{{ $manager->id }}/update" enctype="multipart/form-data" method="post">
+<form action="/manager/{{ $manager->id }}/update" enctype="application/x-www-form-urlencoded" method="post">
 	<table class="">
 		<tbody>
 
@@ -71,7 +71,7 @@
 				</td>
 				<td>
 					<div class="form-group form-tags">
-						<input type="text" name="groupings" value="{{ $manager->groupings }}" search-source="{{ $grouping_list }}" autocomplete="off" class="tags-input">
+						<input type="text" name="groupings" value="{{ $manager->groupings }}" search-source="{{ $groupings }}" autocomplete="off" class="tags-input">
 					</div>
 				</td>
 			</tr>

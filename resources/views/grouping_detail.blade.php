@@ -1,7 +1,7 @@
 <popup-title style="display:none;" class="popup-title">编辑 {{ $grouping->name }}</popup-title>
 
 <div class="container" style="width:520px;">
-<form action="/grouping/{{ $grouping->id }}/update" enctype="multipart/form-data" method="post">
+<form action="/grouping/{{ $grouping->id }}/update" enctype="application/x-www-form-urlencoded" method="post">
 	<table class="">
 		<tbody>
 			<tr>
@@ -21,7 +21,12 @@
 				</td>
 				<td>
 					<div class="form-group">
+					@if (preg_match("/#\d{5}$/", $grouping->name))
 						<input type="text" name="name" class="form-control" value="{{ $grouping->name }}">
+						可以改名一次
+					@else
+					    {{ $grouping->name }}
+					@endif
 					</div>
 				</td>
 			</tr>
@@ -31,11 +36,11 @@
 					<div class="form-group">状　态：</div>
 				</td>
 				<td>
-					<div class="btn-group" data-toggle="buttons">
-						<label class="btn btn-default <?=empty($grouping->deleted_at) ? 'active' : '';?>">
+					<div class="form-group btn-group" data-toggle="buttons">
+						<label class="btn btn-sm btn-default <?=empty($grouping->deleted_at) ? 'active' : '';?>">
 							<input type="radio" name="status" value="0" autocomplete="off" <?=empty($grouping->deleted_at) ? 'checked' : '';?>> 激活
 						</label>
-						<label class="btn btn-default <?=!empty($grouping->deleted_at) ? 'active' : '';?>">
+						<label class="btn btn-sm btn-default <?=!empty($grouping->deleted_at) ? 'active' : '';?>">
 							<input type="radio" name="status" value="1" autocomplete="off" <?=!empty($grouping->deleted_at) ? 'checked' : '';?>> 禁用
 						</label>
 					</div>
@@ -50,7 +55,6 @@ $pl = explode(",", $grouping->privileges);
 ?>
 				</td>
 				<td>
-				<br>
 <div class="form-group" id="main-menu">
 	<div class="treemenu-container">
 		<a href="javascript:;" class="tree-menu tree-menu-0"><div>项目研发 · 微闻</div></a>

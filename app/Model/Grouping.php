@@ -49,4 +49,30 @@ class Grouping extends Model
         'deleted_at',
         'privileges',
     ];
+
+    /*
+     *
+     */
+    public static function getNames($in_names = [])
+    {
+        $groupings = self::get();
+        $names = [];
+        foreach ($groupings as $grouping) {
+            $names[] = $grouping->name;
+        }
+        return $names;
+    }
+
+    /*
+     *
+     */
+    public static function getAllNames($in_names = [])
+    {
+        $groupings = self::withTrashed()->get();
+        $names = [];
+        foreach ($groupings as $grouping) {
+            $names[] = $grouping->name;
+        }
+        return $names;
+    }
 }

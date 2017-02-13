@@ -28,7 +28,29 @@ class ManagerController extends BaseController
      */
     public function apply()
     {
-        return $this->display('manager_apply');
+        // 列出 Grouping
+        $groupings = implode(",", Grouping::getNames());
+        return $this->display('manager_apply', ['groupings' => $groupings]);
+    }
+
+    /*
+     * 新增管理员
+     */
+    public function create(Request $request)
+    {
+        // 新权限组的数据
+        $manager_data = [
+            'account' => $request->input("account"),
+            'username' => $request->input("username"),
+            'password' => md5(sprintf(env("APP_ENCRYPT_SALT"), $request->input("_password"))),
+            'groupings' => $request->input("groupings"),
+            'created_at' => NOW_TIME,
+            'updated_at' => NOW_TIME,
+            'deleted_at' => null,
+        ];
+        Manager::create($manager_data);
+        // 刷新页面
+        return response('<script>$("#popup-modal").modal("hide");$(window).trigger("popstate");</script>');
     }
 
     /*
@@ -39,13 +61,11 @@ class ManagerController extends BaseController
         // 管理员列表
         $manager = Manager::withTrashed()->where(['id' => $id])->first();
         // 列出 Grouping
-        $groupings = Grouping::get();
-        $grouping_list = "";
-        foreach ($groupings as $idx => $grouping) {
-            $grouping_list .= empty($grouping_list) ? $grouping->name : "," . $grouping->name;
-        }
+        $groupings = implode(",", Grouping::getNames());
+        // 列出 Grouping
+        $manager->groupings = implode(",", array_intersect(Grouping::getNames(), explode(",", $manager->groupings)));
         // 返回 view
-        return $this->display('manager_detail', ['manager' => $manager, 'grouping_list' => $grouping_list]);
+        return $this->display('manager_detail', ['manager' => $manager, 'groupings' => $groupings]);
     }
 
     /*

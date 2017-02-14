@@ -70,7 +70,7 @@ class SecurityHelper
     {
         $request_url = $request_uri;
         if (!preg_match("/^http.+/", $request_uri)) {
-            $request_url = $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["HTTP_HOST"] . $request_uri;
+            $request_url = "http://" . $_SERVER["HTTP_HOST"] . $request_uri;
         }
         if (preg_match('/^OAuth\s+(.*?)$/', $authorization, $matches)) {
             // 将值提取出来

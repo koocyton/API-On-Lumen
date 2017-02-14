@@ -101,7 +101,7 @@ class SecurityHelper
     {
         $request_url = $request_uri;
         if (!preg_match("/^http.+/", $request_uri)) {
-            $request_url = $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["HTTP_HOST"] . $request_uri;
+            $request_url = "http://" . $_SERVER["HTTP_HOST"] . $request_uri;
         }
         // new oauth
         $oauth = new \OAuth($consumer_key, $consumer_secret, OAUTH_SIG_METHOD_HMACSHA1, OAUTH_AUTH_TYPE_AUTHORIZATION);

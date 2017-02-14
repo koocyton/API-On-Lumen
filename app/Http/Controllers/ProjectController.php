@@ -39,7 +39,7 @@ class ProjectController extends BaseController
     /*
      * 数据管理
      */
-    public function dataManage($key)
+    public function data($key)
     {
         // 预定义变量
         $assign = ['key' => $key];
@@ -58,6 +58,14 @@ class ProjectController extends BaseController
 
         // 返回 view
         return $this->display('project_data_manage', $assign);
+    }
+
+    /*
+     * 数据管理
+     */
+    public function dataManage()
+    {
+        echo "123";exit();
     }
 
     /*

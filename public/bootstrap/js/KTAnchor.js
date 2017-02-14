@@ -393,6 +393,10 @@
 			},
 
 			getMenuFolderHtml: function(menu_item, menu_level) {
+				if (typeof(menu_item.href)=="string") {
+					var icon = typeof(menu_item.icon)=="string" ? menu_item.icon : "cog";
+					menu_item.text += "<span href=\"" + menu_item.href + "\" class=\"glyphicon glyphicon-" + icon + "\"></span>";
+				}
 				if (menu_level=="0") {
 					return '<a href="javascript:;" class="tree-menu tree-menu-0"><div>'+menu_item.text+'</div></a>';
 				}
@@ -512,9 +516,10 @@
 					// 如果有 confirm 属性
 					if (typeof($anchor.attr("confirm"))!="undefined" && $anchor.attr("confirm").length>1) {
 						$.confirm($anchor.attr("confirm"), anchor_action);
-						return false;
 					}
-					anchor_action();
+					else {
+						anchor_action();
+					}
 					// 防止链接点击生效
 					return false;
 				});
@@ -1159,7 +1164,7 @@
 						$(".body-content-right").load(request_url, function(){
 							$(".tree-select-menu").removeClass("tree-select-menu");
 							$menu_elt.addClass("tree-select-menu");
-							// window.history.pushState(null, "", request_url);
+							window.history.pushState(null, "", request_url);
 							$(".body-content-right").KTLoader();
 						});
 						e.stopPropagation();

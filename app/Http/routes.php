@@ -100,14 +100,16 @@ $app->group(['prefix' => '/task', 'namespace' => 'App\Http\Controllers'], functi
 $app->group(['prefix' => '/project', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
     // 接口
     $app->get('api-debug/{key}', 'ProjectController@apiDebug');
-    // 接口文档
-    $app->get('data-manage/{key}', 'ProjectController@dataManage');
+    // 数据管理
+    $app->get('data-manage', 'ProjectController@dataManage');
+    // 数据
+    $app->get('data/{key}', 'ProjectController@data');
     // 软删除一条记录
-    $app->get('data-manage/{key}/{id}/switch', 'ProjectController@dataSwitch');
+    $app->get('data/{key}/{id}/switch', 'ProjectController@dataSwitch');
     // 编辑一条记录
-    $app->get('data-manage/{key}/{id}', 'ProjectController@dataEditor');
+    $app->get('data/{key}/{id}', 'ProjectController@dataEditor');
     // 更新一条记录
-    $app->post('data-manage/{key}/{id}', 'ProjectController@dataUpdate');
+    $app->post('data/{key}/{id}', 'ProjectController@dataUpdate');
 });
 
 /*

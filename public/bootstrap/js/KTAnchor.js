@@ -233,16 +233,27 @@
 				}
 				// 从长到短获取节点
 				var menu_elt = $($.KTAnchor.treemenu_container + " a[href='" + url_match[1] + url_match[2] + url_match[3] + url_match[4] + "']");
-				if (!menu_elt.exist()) {
+				var span_elt = $($.KTAnchor.treemenu_container + " span[href='" + url_match[1] + url_match[2] + url_match[3] + url_match[4] + "']");
+
+				if (!menu_elt.exist() && !span_elt.exist()) {
 					menu_elt = $($.KTAnchor.treemenu_container + " a[href='" + url_match[1] + url_match[2] + url_match[3] + "']");
+					span_elt = $($.KTAnchor.treemenu_container + " span[href='" + url_match[1] + url_match[2] + url_match[3] + "']");
 				}
-				if (!menu_elt.exist()) {
+
+				if (!menu_elt.exist() && !span_elt.exist()) {
 					menu_elt = $($.KTAnchor.treemenu_container + " a[href='" + url_match[1] + url_match[2] + "']");
+					span_elt = $($.KTAnchor.treemenu_container + " span[href='" + url_match[1] + url_match[2] + "']");
 				}
-				if (!menu_elt.exist()) {
+
+				if (!menu_elt.exist() && !span_elt.exist()) {
 					menu_elt = $($.KTAnchor.treemenu_container + " a[href^='" + url_match[1] + "']");
+					span_elt = $($.KTAnchor.treemenu_container + " span[href='" + url_match[1] + "']");
 				}
-				if (menu_elt.parent().prev().hasClass("tree-menu-close")) {
+
+				if (span_elt.exist()) {
+					menu_elt = span_elt.parents("a.tree-menu");
+				}
+				else if (menu_elt.parent().prev().hasClass("tree-menu-close")) {
 					menu_elt.parent().prev().trigger("click");
 				}
 				$(".tree-select-menu").removeClass("tree-select-menu");
@@ -1144,29 +1155,8 @@
 				var $next_elt = $menu_elt.next("div");
 				// 如果节点后有DIV，说明一个折叠菜单
 				if ($next_elt.exist()) {
-					$menu_elt.find("span.glyphicon").click(function(e){
-						var request_url = $(this).attr("href");
-						var container = $.KTAnchor.response_container;
-						$.KTAjax(request_url, "GET", null, null,
-							// 成功
-							function(responseText){
-								$.KTAnchor.success(container, responseText);
-							},
-							// 错误
-							function(XMLHttpRequest){
-								$.KTAnchor.error(container, XMLHttpRequest);
-							},
-							// 结束 ( 成功或失败后 )
-							function(XMLHttpRequest){
-								$.KTAnchor.complete(container, XMLHttpRequest);
-							}
-						);
-						$(".body-content-right").load(request_url, function(){
-							$(".tree-select-menu").removeClass("tree-select-menu");
-							$menu_elt.addClass("tree-select-menu");
-							window.history.pushState(null, "", request_url);
-							$(".body-content-right").KTLoader();
-						});
+					$menu_elt.find("span[href]").click(function(e){
+						$.KTAnchor.ajaxLoader($(this).attr("href"))
 						e.stopPropagation();
 					});
 					// 绑定点击事件

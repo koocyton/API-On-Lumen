@@ -98,10 +98,15 @@ $app->group(['prefix' => '/task', 'namespace' => 'App\Http\Controllers'], functi
  */
 // 管理员的接口
 $app->group(['prefix' => '/project', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
-    // 接口
-    $app->get('api-debug/{key}', 'ProjectController@apiDebug');
+    // 数据管理
+    $app->get('api-manage', 'ProjectController@apiManage');
     // 数据管理
     $app->get('data-manage', 'ProjectController@dataManage');
+    // 数据管理
+    $app->get('doc-manage', 'ProjectController@docManage');
+
+    // 接口
+    $app->get('api-debug/{key}', 'ProjectController@apiDebug');
     // 数据
     $app->get('data/{key}', 'ProjectController@data');
     // 软删除一条记录

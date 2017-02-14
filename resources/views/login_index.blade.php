@@ -17,6 +17,11 @@
       <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script src="/bootstrap/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/jquery.datetimepicker.js"></script>
+    <script src="/bootstrap/js/KTAnchor.js"></script>
+
   </head>
   <body>
 
@@ -75,8 +80,6 @@
       <span class="alert-message"></span>
     </div><!-- /.alert -->
 
-    <script src="/bootstrap/js/jquery-1.11.3.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/bootstrap/js/KTAnchor.js"></script>
   </body>
 </html>

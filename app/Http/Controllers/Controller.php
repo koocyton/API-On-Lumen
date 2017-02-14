@@ -42,7 +42,7 @@ class Controller extends BaseController
         // 如果不是 Ajax 请求, 输出完整页面
         $ajax_request = $request->header('X-Requested-With');
         if (empty($ajax_request)) {
-            echo view('__portal2', ['trans' => $this->trans, 'user' => $this->login_user_name])->render();
+            echo view('__portal', ['trans' => $this->trans, 'user' => $this->login_user_name])->render();
             exit();
         }
     }

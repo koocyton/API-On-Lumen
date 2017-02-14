@@ -4,7 +4,7 @@
       <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
       <ul class="nav navbar-nav">
-        <li><a href="/task/list" style="margin:5px -10px;"><b> 数据管理 </b></a></li>
+        <li><a href="/task/list" style="margin:5px -10px;"><b> API 管理 </b></a></li>
       </ul>
         </div><!--/.container-fluid -->
       </nav>

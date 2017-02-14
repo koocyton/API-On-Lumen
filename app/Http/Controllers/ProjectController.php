@@ -10,6 +10,30 @@ use Illuminate\Http\Response;
 class ProjectController extends BaseController
 {
     /*
+     * API 管理
+     */
+    public function apiManage()
+    {
+        return $this->display('project_api_manage');
+    }
+
+    /*
+     * 数据管理
+     */
+    public function dataManage()
+    {
+        return $this->display('project_data_manage');
+    }
+
+    /*
+     * 文档管理
+     */
+    public function docManage()
+    {
+        return $this->display('project_doc_manage');
+    }
+
+    /*
      * 接口调试界面
      */
     public function apiDebug($key)
@@ -57,15 +81,7 @@ class ProjectController extends BaseController
         $assign['paging'] = new PagingHelper($model->withTrashed()->count());
 
         // 返回 view
-        return $this->display('project_data_manage', $assign);
-    }
-
-    /*
-     * 数据管理
-     */
-    public function dataManage()
-    {
-        echo "123";exit();
+        return $this->display('project_data_detail', $assign);
     }
 
     /*

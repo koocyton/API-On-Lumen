@@ -13,41 +13,66 @@
     </div>
 
     <div class="container">
-		<div class="media">
-			<div class="media-left">
-				<a href="#">
-					<span class="glyphicon glyphicon-user" style="font-size:40px;"></span>
-				</a>
-			</div>
-			<div class="media-body">
-				<h4 class="media-heading">#{{ $task->id }} {{ $task->title }}</h4>
-				<pre>{{ $task->description }}</pre>
-			</div>
-		</div>
 
 
-		<div class="media">
-			<div class="media-left">
-				<a href="#">
-					<span class="glyphicon glyphicon-user" style="font-size:40px;"></span>
-				</a>
-			</div>
-			<div class="media-body">
-				<h4 class="media-heading">#{{ $task->id }} {{ $task->title }}</h4>
-				<pre>{{ $task->description }}</pre>
-			</div>
-		</div>
+		<table style="width:100%;">
+
+			<tr>
+				<td style="width:80px;vertical-align:top;padding:5px;text-align:center;">
+					<span class="glyphicon glyphicon-user" style="font-size:60px;"></span>
+					<div>{{ $task->author }}</div>
+				</td>
+				<td>
+					<div class="panel panel-default">
+						<div class="panel-heading">#{{ $task->id }} {{ $task->title }}</div>
+						<div class="panel-body">
+							{{ $task->description }}
+						</div>
+					</div>
+				</td>
+				<td rowspan="100" style="width:250px;vertical-align:top;padding-left:20px;">
+					<div class="panel panel-default">
+					  <div class="panel-body">
+					    发起：{{ $task->author }}<br><br>
+
+					    时间：{{ $task->created_at }}<br><br>
+
+					    状态：{{ $task->created_at }}<br><br>
+
+					    重要：{{ $task->created_at }}<br><br>
+
+					    指派：{{ $task->owner }}<br>
+					  </div>
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:80px;vertical-align:top;padding:5px;text-align:center;">
+					<span class="glyphicon glyphicon-user" style="font-size:60px;"></span>
+					<div>{{ $task->author }}</div>
+				</td>
+				<td>
+					<div class="panel panel-default">
+						<div class="panel-heading">#{{ $task->id }} {{ $task->title }}</div>
+						<div class="panel-body">
+							{{ $task->description }}
+						</div>
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td colspan="2">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							{{ $task->description }}
+						</div>
+					</div>
+				</td>
+			</tr>
+
+		</table>
 
 
-		<div class="media">
-			<div class="media-left">
-				<a href="#">
-					<span class="glyphicon glyphicon-user" style="font-size:40px;"></span>
-				</a>
-			</div>
-			<div class="media-body">
-				<h4 class="media-heading">#{{ $task->id }} {{ $task->title }}</h4>
-				<pre>{{ $task->description }}</pre>
-			</div>
-		</div>
     </div>

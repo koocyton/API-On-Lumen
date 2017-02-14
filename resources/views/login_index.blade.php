@@ -5,11 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
-
+    <!-- Datetimepicker -->
+    <link rel="stylesheet" href="/js/jquery.datetimepicker.css" />
     <!-- Bootstrap -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- KTAnchor -->
-    <link href="/bootstrap/css/KTAnchor.css" rel="stylesheet">
+    <link href="/css/KTAnchor.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -18,9 +19,9 @@
       <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="/bootstrap/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/jquery-1.11.3.min.js"></script>
     <script src="/js/jquery.datetimepicker.js"></script>
-    <script src="/bootstrap/js/KTAnchor.js"></script>
+    <script src="/js/KTAnchor.js"></script>
 
   </head>
   <body>

@@ -10,7 +10,7 @@
 			version : "1.0.1",
 
 			// ajax : set default response_container
-			response_container : "#response-container",
+			response_container : ".body-content-right",
 
 			// paging : set default paging_container
 			paging_container : "#paging-container",
@@ -26,6 +26,9 @@
 
 			// 如果是移动端浏览器
 			mobile_browser : !!navigator.userAgent.match(/AppleWebKit.*Mobile.*/)||!!navigator.userAgent.match(/AppleWebKit/),
+
+			// 默认进度条没有完成
+			request_process_complete : false,
 
 			/* init parment
 			 *
@@ -65,35 +68,30 @@
 				}
 			},
 
-			hiddenDropdown: function(){
-				$(document.body).find($.KTAnchor.dropdown_container).each(function(key, dropdown_bar){
-					$(dropdown_bar).children().last().css("display", "none");
-				});
-				$(document.body).unbind("click", $.KTAnchor.hiddenDropdown);
-			},
-
 			showSlidMessage: function(message){
-				if ($(".kt-message-pop").length==0) {
-					$(document.body).append('<div class="shadow-3 radius-4 kt-message-pop"></div>');
-				}
-				$(".kt-message-pop").html(message);
-				$(".kt-message-pop").css("bottom","-90px").css("display","block").animate({"bottom":"-5px"});
-				$(".kt-message-pop").bind("click", function(ev){
-					ev.stopPropagation();
-				})
-				$(document.body).bind("click touchend", $.KTAnchor.closeSlidMessage);
-			},
-
-			// 关闭最下面滑入的错误提示信息
-			closeSlidMessage: function(){
-				if ($(".kt-message-pop").css("display")!=="none")
-				{
-					$('.kt-message-pop').animate({'bottom':'-90px'}, function(){
-						$(".kt-message-pop").html("");
-						$(".kt-message-pop").css("display","none");
-						$(document.body).unbind("click touchend", $.KTAnchor.closeSlidMessage);
+				var alert_elt = $(".alert");
+				if (alert_elt.data("first-click")==null) {
+					// 不冒泡
+					alert_elt.bind("click", function(e){
+						e.stopPropagation();
 					});
+					//
+					alert_elt.data("first-click", "first-click");
 				}
+				// 弹出和弹出动画
+				$(".alert-message").html(message);
+				alert_elt.css({bottom:30,opacity:0,display:"block"}).animate({bottom:6,opacity:1}, 'fast' , function(){
+					// 绑定界面点击时关闭弹出
+					$(document.body).bind("click touchend", function(e){
+						// 关闭动画
+						alert_elt.animate({opacity: 0}, function(){
+							$(".alert-message").html(message);
+							alert_elt.css({display:"none"});
+							$(document.body).unbind("click touchend");
+						});
+						e.stopPropagation();
+					});
+				});
 			},
 
 			inputError: function(input, message){
@@ -128,15 +126,13 @@
 						window.location = responseText.url;
 					}
 					else if (responseText.action=="showMessage") {
-						$.KTAhchor.showSlidMessage(responseText.message);
+						$.KTAnchor.showSlidMessage(responseText.message);
 					}
 				}
 				else if (typeof(responseText)=="object") {
 					// 填充
 					$(container).empty();
 					$(container).html("{<div style=\"padding-left:20px;\">" + $.KTPrintr(responseText) + "</div>}");
-					// 关闭窗口下面滑入的错误提示信息
-					$.KTAnchor.closeSlidMessage();
 				}
 				else if (/^<script>(.+)<\/script>$/.test(responseText)) {
 					var response = responseText.match(/<script>(.+)<\/script>/);
@@ -151,8 +147,6 @@
 					$(container).KTLoader();
 					// 检查有无滚动条需要重置
 					// $(container).parent($.KTAnchor.scroll_container).ktScrollReset();
-					// 关闭窗口下面滑入的错误提示信息
-					$.KTAnchor.closeSlidMessage();
 				}
 			},
 
@@ -170,8 +164,6 @@
 					// 填充
 					$(container).empty();
 					$(container).html("{<div style=\"padding-left:20px;\">" + $.KTPrintr(XMLHttpRequest.responseJSON) + "</div>}");
-					// 关闭窗口下面滑入的错误提示信息
-					$.KTAnchor.closeSlidMessage();
 				}
 				else {
 					$.KTAnchor.showSlidMessage("Error : " + XMLHttpRequest.status);
@@ -179,41 +171,51 @@
 			},
 
 			begin: function(){
-				$.KTLog("JQuery.KTAnchor.begin");
+				// $.KTLog("JQuery.KTAnchor.begin");
 			},
 
 			complete: function(container, XMLHttpRequest){
-				$.KTLog("JQuery.KTAnchor.complete : " + container);
+				// $.KTLog("JQuery.KTAnchor.complete : " + container);
+			},
+
+			// 加载界面
+			ajaxLoader : function(url){
+				var container = $.KTAnchor.response_container;
+				window.history.pushState(null, "", url);
+				$.KTAnchor.begin();
+				// ajax 请求，并回调
+				$.KTAjax(url, "GET", null, null,
+					// 成功
+					function(responseText){
+						$.KTAnchor.success(container, responseText);
+					},
+					// 错误
+					function(XMLHttpRequest){
+						$.KTAnchor.error(container, XMLHttpRequest);
+					},
+					// 结束 ( 成功或失败后 )
+					function(XMLHttpRequest){
+						$.KTAnchor.complete(container, XMLHttpRequest);
+						$.KTAnchor.treemenuSelected(url);
+					}
+				);
 			},
 
 			// 弹出窗口
 		    popupLoader : function(url){
-				// 判断关闭是否绑定
-				if ($(".kt-popup-close").data("click") != true) {
-					// 关闭的动画
-		            $(".kt-popup-close").bind("click", function(){
-						$(".kt-popup-doc").css({"margin-top":"5%", "opacity":"1"}).animate({"margin-top":"2%", "opacity":"0"}, "normal", function(){
-							$(".kt-popup-loader").css("display", "none");
-							$(".kt-popup-title").html("");
-						});
-					});
-					// 标注已经绑定了 click 事件，重复执行，不会在同节点上反复绑定
-					$(".kt-popup-close").data("click", true);
-		        }
-				// 加载界面
-		        $(".kt-popup-body").html("loading...").load(url,function(){
-					$(".kt-popup-body").KTLoader();
+		    	// 进度条开始
+				//$.KTAnchor.setRequestProcess(0);
+		    	var popup_elt = $(".popup-modal");
+		    	var body_elt = $(".popup-modal .modal-body").empty();
+		    	var title_elt = $(".popup-modal .modal-title").html("Loading...");
+		    	body_elt.load(url,function(){
+		    		//$.KTAnchor.completeRequestProcess();
+		    		popup_elt.modal('show');
+					body_elt.KTLoader();
 					// 加载 title
-					var popup_title = $(".kt-popup-body").find(".popup-title").html();
-					$(".kt-popup-title").html(popup_title ? popup_title : "");
+					var popup_title = body_elt.find(".popup-title").html();
+					title_elt.html(popup_title ? popup_title : 'Loading...');
 		        });
-				$(".kt-popup-loader").css("display", "block").KTLoader();
-				// 弹出动画
-				$(".kt-popup-doc").css({"margin-top":"2%", "opacity":"0"}).animate({"margin-top":"5%", "opacity":"1"} ,"normal", function() {
-					var parent_height = $(".kt-popup-doc").height() - 43;
-					$(".kt-popup-body").parent().height(parent_height);
-					$(document.body).KTMouseWheel();
-				});
 		    },
 
 			// 左侧菜单被选中
@@ -231,21 +233,59 @@
 				}
 				// 从长到短获取节点
 				var menu_elt = $($.KTAnchor.treemenu_container + " a[href='" + url_match[1] + url_match[2] + url_match[3] + url_match[4] + "']");
-				if (!menu_elt.exist()) {
+				var span_elt = $($.KTAnchor.treemenu_container + " span[href='" + url_match[1] + url_match[2] + url_match[3] + url_match[4] + "']");
+
+				if (!menu_elt.exist() && !span_elt.exist()) {
 					menu_elt = $($.KTAnchor.treemenu_container + " a[href='" + url_match[1] + url_match[2] + url_match[3] + "']");
+					span_elt = $($.KTAnchor.treemenu_container + " span[href='" + url_match[1] + url_match[2] + url_match[3] + "']");
 				}
-				if (!menu_elt.exist()) {
+
+				if (!menu_elt.exist() && !span_elt.exist()) {
 					menu_elt = $($.KTAnchor.treemenu_container + " a[href='" + url_match[1] + url_match[2] + "']");
+					span_elt = $($.KTAnchor.treemenu_container + " span[href='" + url_match[1] + url_match[2] + "']");
 				}
-				if (!menu_elt.exist()) {
+
+				if (!menu_elt.exist() && !span_elt.exist()) {
 					menu_elt = $($.KTAnchor.treemenu_container + " a[href^='" + url_match[1] + "']");
+					span_elt = $($.KTAnchor.treemenu_container + " span[href='" + url_match[1] + "']");
 				}
-				if (menu_elt.parent().prev().hasClass("tree-menu-close")) {
+
+				if (span_elt.exist()) {
+					menu_elt = span_elt.parents("a.tree-menu");
+				}
+				else if (menu_elt.parent().prev().hasClass("tree-menu-close")) {
 					menu_elt.parent().prev().trigger("click");
 				}
-				$(".tree-select-menu").removeClass("tree-select-menu").addClass("tree-menu");
-				menu_elt.removeClass("tree-menu").addClass("tree-select-menu");
-		    }
+				$(".tree-select-menu").removeClass("tree-select-menu");
+				menu_elt.addClass("tree-select-menu");
+		    },
+
+			// show request process
+			setRequestProcess: function(process_length){
+				// 进度的长度
+				var progress_elt = $(".request-progress");
+				// 完整进度的长度
+				var full_process_length = (this.request_process_complete==true) ? $(window).width() : $(window).width() * 0.8;
+				// 如果没有进度条则创建一个
+				if (progress_elt.length==0) {
+					progress_elt = $('<div class="request-progress"></div>').appendTo(document.body);
+				}
+				// 当前的进度条长度
+				var new_process_length = (this.request_process_complete==true) ? (process_length+1)*1.28 : process_length + 1;
+				progress_elt.css({width:new_process_length, display:'block'});
+				if (new_process_length<=full_process_length) {
+					setTimeout(function(){$.KTAnchor.setRequestProcess(new_process_length)}, 1);
+				}
+				else if (this.request_process_complete==true && new_process_length>full_process_length) {
+					progress_elt.delay(500).fadeOut("fast");
+					this.request_process_complete=false;
+				}
+			},
+
+			// remove request process
+			completeRequestProcess: function(){
+				this.request_process_complete=true;
+			},
 		},
 
 		KTDateFormat: function(ts, dt)   {
@@ -259,6 +299,24 @@
 			var nowDate = y + "-" + m + "-" + d;
 			var nowDatetime = nowDate + " " + h + ":" + i + ":" + s;
 			return (dt) ? nowDatetime : nowDate;
+		},
+
+		// confirm
+		confirm : function(message, success) {
+			var confirm_elt = $(".confirm-modal");
+			var success_btn = confirm_elt.find(".btn-success");
+			var body_elt = confirm_elt.find(".modal-body");
+			$(body_elt).html(message);
+			confirm_elt.modal('show');
+			if ($(success_btn).data("click-event")!="click-event") {
+				$(success_btn).data("click-event", "click-event");
+				$(success_btn).on("click", function(e){
+					if($.isFunction(success)) {
+						success();
+					}
+					confirm_elt.modal('hide');
+				});
+			}
 		},
 
 		// print_r arguments
@@ -280,56 +338,27 @@
 		},
 
 		//
-		KTPrintr: function(the_object) {
-			var ret_str = '';
-			if (typeof the_object == 'object') {
-				ret_str += '<div>';
-				for (var p in the_object) {
-					if (typeof the_object[p] == 'object') {
-						ret_str += '<div><b>['+p+'] => ' + typeof(the_object) + '</b></div>';
-						ret_str += '<div style="padding-left:25px;">' + $.KTPrintr(the_object[p]) + '</div>';
+		KTPrintr: function(theObj) {
+			var retStr = '';
+			if (typeof theObj == 'object') {
+				retStr += '<div>';
+				for (var p in theObj) {
+					if (typeof theObj[p] == 'object') {
+						retStr += '<div><b>['+p+'] => ' + typeof(theObj) + '</b></div>';
+						retStr += '<div style="padding-left:25px;">' + $.KTPrintr(theObj[p]) + '</div>';
 					} else {
-						ret_str += '<div>['+p+'] => <b>' + the_object[p] + '</b></div>';
+						retStr += '<div>['+p+'] => <b>' + theObj[p] + '</b></div>';
 					}
 				}
-				ret_str += '</div>';
+				retStr += '</div>';
 			}
-			return ret_str;
-		},
-
-		//得到图片的完整路径
-		getInputPath: function(file) {
-		    var url = null;
-		    if (window.createObjectURL != undefined) { // basic
-		        url = window.createObjectURL(file);
-		    }
-		    else if (window.URL != undefined) { // mozilla(firefox)
-		        url = window.URL.createObjectURL(file);
-		    }
-		    else if (window.webkitURL != undefined) { // webkit or chrome
-		        url = window.webkitURL.createObjectURL(file);
-		    }
-		    return url;
-		},
-
-		// show request process
-		showRequestProcess: function(now_process){
-			now_process = (now_process+1) * 2;
-			var full_process = $(".kt-request-progress").parent().width();
-			$(".kt-request-progress").css({"width":now_process+"px","display":"block"});
-			if (now_process<=full_process) {
-				setTimeout(function(){$.showRequestProcess(now_process)}, 10);
-			}
+			return retStr;
 		},
 
 		// http request function
 		KTAjax: function(url, method, data, headers, success, error, complete){
-
-			// 如果没有进度条则创建一个
-			if ($(".kt-request-progress").length==0) {
-				$(document.body).append('<div class="kt-request-progress"></div>');
-			}
-			this.showRequestProcess(0);
+			// 进度条开始
+			$.KTAnchor.setRequestProcess(0);
 			// stop before one ajax request
 			if (typeof(window.currentKTAjax)=="object") {
 				try{window.currentKTAjax.abort()}catch(e){;}
@@ -339,12 +368,16 @@
 				headers = {};
 			}
 			headers['Ajax-Request'] = "jQuery.KTAnchor";
+			var contentType = false;
+			if (method=="POST") {
+				contentType = (data instanceof FormData) ? false : "application/x-www-form-urlencoded; charset=UTF-8";
+			}
 			// set ajax request
 			window.currentKTAjax = $.ajax({
 				"url"  : url,
 				"type" : method,
 				"data" : data,
-				"contentType" : (method=="POST") ? "application/x-www-form-urlencoded" : false,
+				"contentType" : contentType,
 				"processData" : false,
 				"headers" : headers,
 				"success" : function(responseText) {
@@ -354,7 +387,7 @@
 					if ($.isFunction(error)) error(XMLHttpRequest);
 				},
 				"complete" : function(XMLHttpRequest) {
-					$(".kt-request-progress").delay(800).fadeOut("fast");
+					$.KTAnchor.completeRequestProcess();
 					if ($.isFunction(complete)) complete(XMLHttpRequest);
 				}
 			});
@@ -371,6 +404,10 @@
 			},
 
 			getMenuFolderHtml: function(menu_item, menu_level) {
+				if (typeof(menu_item.href)=="string") {
+					var icon = typeof(menu_item.icon)=="string" ? menu_item.icon : "cog";
+					menu_item.text += "<span href=\"" + menu_item.href + "\" class=\"glyphicon glyphicon-" + icon + "\"></span>";
+				}
 				if (menu_level=="0") {
 					return '<a href="javascript:;" class="tree-menu tree-menu-0"><div>'+menu_item.text+'</div></a>';
 				}
@@ -423,7 +460,13 @@
 
 		KTLoader: function() {
 			// 加载
-			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTDropDown().KTMouseWheel().KTDateInputBind().KTUploadImageInputBind();
+			$(this).KTPaging().KTTreeMenu().KTAnchor().KTForm().KTInputBind();
+			// bootrap 的 tooltip 需要手动激活
+			$(this).find("[data-toggle='tooltip']").tooltip();
+		},
+
+		KTInputBind: function() {
+			$(this).tagsInputBind().timeInputBind().uploadInputBind();
 		},
 
 		KTAnchor : function(success, error, begin, complete) {
@@ -433,53 +476,61 @@
 				var $anchor = $(anchor);
 				// 如果是 <a href="javascript:..." 也是不能去绑定
 				if (/^javascript\:/.test($anchor.attr("href"))) return;
+				// 如果是 # 也是不能绑定
+				if ($anchor.attr("href")=="#") return;
+				// 如果特别标注 <a> 不绑定事件
+				// if ($anchor.attr("native")!=null) return;
 				// 绑定点击事件
-				$anchor.bind("click", function(){
+				$anchor.on("click", function() {
+					//
+					var anchor_action = function() {
+						// 聚焦会使得点击处框上虚线
+						anchor.blur();
+						// 获取要请求的地址
+						var request_url = $anchor.attr("href");
+						// 获取当前的地址
+						var request_ref = window.location.href;
+						// 如果设置了  <a pushstate="no" ... > 那么不做 url pushState
+						if (typeof($anchor.attr("pushstate"))=="undefined" || $anchor.attr("pushstate")!="no") {
+							window.history.pushState(null, "", request_url);
+						}
+						var container = $.KTAnchor.response_container;
+						if (typeof($anchor.attr("container"))!="undefined" && $anchor.attr("container").length>1) {
+							container = $anchor.attr("container");
+						}
+						// 开始
+						$.isFunction(begin) ? begin() : $.KTAnchor.begin();
+						// set header
+						var header = null;
+						if ($.type($anchor.attr("header"))=="string") {
+							header = $.parseJSON($anchor.attr("header"));
+						}
+						// ajax 请求，并回调
+						$.KTAjax(request_url, "GET", null, header,
+							// 成功
+							function(responseText){
+								$.isFunction(success) ? success(container, responseText) : $.KTAnchor.success(container, responseText);
+							},
+							// 错误
+							function(XMLHttpRequest){
+								$.isFunction(error) ? error(container, XMLHttpRequest) : $.KTAnchor.error(container, XMLHttpRequest);
+							},
+							// 结束 ( 成功或失败后 )
+							function(XMLHttpRequest){
+								$.isFunction(complete) ? complete(container, XMLHttpRequest) : $.KTAnchor.complete(container, XMLHttpRequest);
+								if (typeof($anchor.attr("pushstate"))=="undefined" || $anchor.attr("pushstate")!="no") {
+									$.KTAnchor.treemenuSelected(request_url);
+								}
+							}
+						);
+					}
 					// 如果有 confirm 属性
 					if (typeof($anchor.attr("confirm"))!="undefined" && $anchor.attr("confirm").length>1) {
-						if (!confirm($anchor.attr("confirm"))) {
-							return false;
-						}
+						$.confirm($anchor.attr("confirm"), anchor_action);
 					}
-					// 聚焦会使得点击处框上虚线
-					anchor.blur();
-					// 获取要请求的地址
-					var request_url = $anchor.attr("href");
-					// 获取当前的地址
-					var request_ref = window.location.href;
-					// 如果设置了  <a pushstate="no" ... > 那么不做 url pushState
-					if (typeof($anchor.attr("pushstate"))=="undefined" || $anchor.attr("pushstate")!="no") {
-						window.history.pushState(null, "", request_url);
+					else {
+						anchor_action();
 					}
-					var container = $.KTAnchor.response_container;
-					if (typeof($anchor.attr("container"))!="undefined" && $anchor.attr("container").length>1) {
-						container = $anchor.attr("container");
-					}
-					// 开始
-					$.isFunction(begin) ? begin() : $.KTAnchor.begin();
-					// set header
-					var header = null;
-					if ($.type($anchor.attr("header"))=="string") {
-						header = $.parseJSON($anchor.attr("header"));
-					}
-					// ajax 请求，并回调
-					$.KTAjax(request_url, "GET", null, header,
-						// 成功
-						function(responseText){
-							$.isFunction(success) ? success(container, responseText) : $.KTAnchor.success(container, responseText);
-						},
-						// 错误
-						function(XMLHttpRequest){
-							$.isFunction(error) ? error(container, XMLHttpRequest) : $.KTAnchor.error(container, XMLHttpRequest);
-						},
-						// 结束 ( 成功或失败后 )
-						function(XMLHttpRequest){
-							$.isFunction(complete) ? complete(container, XMLHttpRequest) : $.KTAnchor.complete(container, XMLHttpRequest);
-							if (typeof($anchor.attr("pushstate"))=="undefined" || $anchor.attr("pushstate")!="no") {
-								$.KTAnchor.treemenuSelected(request_url);
-							}
-						}
-					);
 					// 防止链接点击生效
 					return false;
 				});
@@ -506,80 +557,88 @@
 						}
 					});
 				});
-				// 将 form 绑定 submit 时间
-				$form.bind("submit", function(){
-					// 检查表单
-					// 自定义的错误处理
-					if ($.isFunction(inputError)) {
-						if (!$(this).checkInputs(inputError)) return false;
-					}
-					// 默认的错误处理，会输出到浏览器的控制台
-					else {
-						if (!$(this).checkInputs($.KTAnchor.inputError)) return false;
-					}
-					// 获取 url
-					var request_url = $form.attr("action");
-					// 默认是 Form method 是 POST
-					var method = "POST";
-					// 获取表单数据
-					// var data = new FormData(this);
-					var data = $(this).serialize();
-					// 获取返回数据将填充哪个节点
-					var container = $.KTAnchor.response_container;
-					if (typeof($form.attr("container"))!="undefined" && $form.attr("container").length>1) {
-						container = $form.attr("container");
-					}
-					// 开始
-					$.isFunction(begin) ? begin() : $.KTAnchor.begin();
-
-					var on_success = $form.attr("success");
-					if (typeof(on_success)=="string" && on_success.length>0) {
-						success = function(container, responseText) {
-							
+				// 将 form 绑定 submit 事件
+				$form.on("submit", function(){
+					// 函数
+					var submit_action = function(){
+						// 检查表单
+						// 自定义的错误处理
+						if ($.isFunction(inputError)) {
+							if (!$form.checkInputs(inputError)) return false;
 						}
-					}
+						// 默认的错误处理，会输出到浏览器的控制台
+						else {
+							if (!$form.checkInputs($.KTAnchor.inputError)) return false;
+						}
+						// 获取 url
+						var request_url = $form.attr("action");
+						// 默认是 Form method 是 POST
+						var method = "POST";
+						// 获取表单数据
+						var data = $form.find("input[type='file']").exist() ? new FormData($form.context) : $form.serialize();
+						// 获取返回数据将填充哪个节点
+						var container = $.KTAnchor.response_container;
+						if (typeof($form.attr("container"))!="undefined" && $form.attr("container").length>1) {
+							container = $form.attr("container");
+						}
+						// 开始
+						$.isFunction(begin) ? begin() : $.KTAnchor.begin();
 
-					// 如果 form 是 GET, 适合用来搜索
-					if ($form.attr("method")=="get") {
-						// 将字段拼接在 action 后
-						$form.find("input").each(function(key, input_elt){
-							input_elt = $(input_elt);
-							if (input_elt.attr("name").length>0 && input_elt.val().length>0) {
-								if (/\?/.test(request_url)) {
-									request_url = request_url + "&" + input_elt.attr("name") + "=" + encodeURI(input_elt.val());
-								}
-								else {
-									request_url = request_url + "?" + input_elt.attr("name") + "=" + encodeURI(input_elt.val());
-								}
+						var on_success = $form.attr("success");
+						if (typeof(on_success)=="string" && on_success.length>0) {
+							success = function(container, responseText) {
+								
 							}
-						});
-						method = "GET";
-						data = null;
-						// 如果设置了  <a pushstate="no" ... > 那么不做 url pushState
-						if (typeof($form.attr("pushstate"))=="undefined" || $form.attr("pushstate")!="no") {
-							window.history.pushState(null, "", request_url);
 						}
-					}
-					// set header
-					var header = null;
-					if ($.type($form.attr("header"))=="string") {
-						header = $.parseJSON($form.attr("header"));
-					}
-					// ajax 请求，并回调
-					$.KTAjax(request_url, method, data, header,
-						// 成功
-						function(responseText){
-							$.isFunction(success) ? success(container, responseText) : $.KTAnchor.success(container, responseText);
-						},
-						// 错误
-						function(XMLHttpRequest){
-							$.isFunction(error) ? error(container, XMLHttpRequest) : $.KTAnchor.error(container, XMLHttpRequest);
-						},
-						// 结束 ( 成功或失败后 )
-						function(XMLHttpRequest){
-							$.isFunction(complete) ? complete(container, XMLHttpRequest) : $.KTAnchor.complete(container, XMLHttpRequest);
+
+						// 如果 form 是 GET, 适合用来搜索
+						if ($form.attr("method")=="get") {
+							// 将字段拼接在 action 后
+							$form.find("input").each(function(key, input_elt){
+								input_elt = $(input_elt);
+								if (input_elt.attr("name").length>0 && input_elt.val().length>0) {
+									if (/\?/.test(request_url)) {
+										request_url = request_url + "&" + input_elt.attr("name") + "=" + encodeURI(input_elt.val());
+									}
+									else {
+										request_url = request_url + "?" + input_elt.attr("name") + "=" + encodeURI(input_elt.val());
+									}
+								}
+							});
+							method = "GET";
+							data = null;
+							// 如果设置了  <a pushstate="no" ... > 那么不做 url pushState
+							if (typeof($form.attr("pushstate"))=="undefined" || $form.attr("pushstate")!="no") {
+								window.history.pushState(null, "", request_url);
+							}
 						}
-					);
+						// set header
+						var header = null;
+						if ($.type($form.attr("header"))=="string") {
+							header = $.parseJSON($form.attr("header"));
+						}
+						// ajax 请求，并回调
+						$.KTAjax(request_url, method, data, header,
+							// 成功
+							function(responseText){
+								$.isFunction(success) ? success(container, responseText) : $.KTAnchor.success(container, responseText);
+							},
+							// 错误
+							function(XMLHttpRequest){
+								$.isFunction(error) ? error(container, XMLHttpRequest) : $.KTAnchor.error(container, XMLHttpRequest);
+							},
+							// 结束 ( 成功或失败后 )
+							function(XMLHttpRequest){
+								$.isFunction(complete) ? complete(container, XMLHttpRequest) : $.KTAnchor.complete(container, XMLHttpRequest);
+							}
+						);
+					}
+					// 如果有 confirm 属性
+					if (typeof($form.attr("confirm"))!="undefined" && $form.attr("confirm").length>1) {
+						$.confirm($form.attr("confirm"), submit_action);
+						return false;
+					}
+					submit_action();
 					// 禁止表单继续提交
 					return false;
 				});
@@ -683,56 +742,9 @@
 			return field_ok;
 		},
 
-		//得到图片的完整路径
-		KTGetInputPath: function(ii) {
-			var file = this.context.files[ii];
-		    var url = null;
-		    if (window.createObjectURL != undefined) { // basic
-		        url = window.createObjectURL(file);
-		    }
-		    else if (window.URL != undefined) { // mozilla(firefox)
-		        url = window.URL.createObjectURL(file);
-		    }
-		    else if (window.webkitURL != undefined) { // webkit or chrome
-		        url = window.webkitURL.createObjectURL(file);
-		    }
-		    return url;
-		},
-
-		KTUploadImageInputBind: function()
+		timeInputBind : function()
 		{
-			var image_inputs = $(".upload-image");
-			image_inputs.each(function(key, date_input) {
-				image_input = $(this);
-				// 判断是否已经绑定过
-				if (image_input.data("mouse-click")!=null) {
-					return null;
-				}
-				// 绑定
-				image_input.data("mouse-click", "mouse-click");
-				// 绑定事件
-				image_input.change(function() {
-			        var image_url = $(this).KTGetInputPath(0);
-			        if (image_url) {
-			            image_input.prev().html("<img style=\"width:100%;height:100%;\" src=\"" + image_url + "\">");
-			        }
-			    });
-			});
-
-			return this;
-		},
-
-		KTDateInputBind : function()
-		{
-			var date_inputs = $("input[type='date']");
-			date_inputs.each(function(key, date_input) {
-				// 判断是否已经绑定过
-				if ($(this).data("mouse-click")!=null) {
-					return null;
-				}
-				// 属性调整
-				//$(this).attr("readonly", "1");
-				$(this).data("mouse-click", "mouse-click");
+			$(this).find("input.date").each(function(key, date_input) {
 				// 绑定
 				$(this).datetimepicker({
 					 timepicker:false,
@@ -741,15 +753,7 @@
 				});
 			});
 
-			var datetime_inputs = $("input[type='datetime']");
-			datetime_inputs.each(function(key, datetime_input) {
-				// 判断是否已经绑定过
-				if ($(this).data("mouse-click")!=null) {
-					return null;
-				}
-				// 属性调整
-				//$(this).attr("readonly", "1");
-				$(this).data("mouse-click", "mouse-click");
+			$(this).find("input.datetime").each(function(key, datetime_input) {
 				// 绑定
 				$(this).datetimepicker({
 					 timepicker:true,
@@ -758,15 +762,7 @@
 				});
 			});
 
-			var datetime_inputs = $("input[type='time']");
-			datetime_inputs.each(function(key, datetime_input) {
-				// 判断是否已经绑定过
-				if ($(this).data("mouse-click")!=null) {
-					return null;
-				}
-				// 属性调整
-				//$(this).attr("readonly", "1");
-				$(this).data("mouse-click", "mouse-click");
+			$(this).find("input.time").each(function(key, datetime_input) {
 				// 绑定
 				$(this).datetimepicker({
 					 timepicker:false,
@@ -774,8 +770,258 @@
 					 format:'H:i:s'
 				});
 			});
+			return this;
+		},
+
+		uploadInputBind: function()
+		{
+			$(this).find("input.upload-input").each(function(key, input_elt) {
+				var upload_input = $(this);
+				var upload_frame = $("<div class=\"upload-frame\"></div>").appendTo(upload_input.parent());
+				upload_input.appendTo(upload_frame);
+				// 绑定事件
+				upload_input.change(function() {
+					var image_url = $(this).getInputFilePath();
+					upload_frame.css("background-image", "url(" + image_url+ ")");
+				});
+			});
 
 			return this;
+		},
+
+		tagsInputBind: function()
+		{
+			$(this).find("input.tags-input").each(function(key, tags_input){
+				/*----------------------------------------------*\
+				 |
+				 | 初始化重要值，状态，节点
+				 |
+				\*----------------------------------------------*/
+				// tags 的节点
+				var tags_input = $(this);
+				// 初始的就填入的 tags
+				var initial_value = tags_input.val().split(",");
+				// tag 的数据检索的来源
+				var search_source = tags_input.attr("search-source");
+				// 搜索的数据
+				var search_data = typeof(search_source)=="string" ? search_source.split(",") : [];
+				// 是否允许输入多个 tag
+				var accept_multipart = tags_input.attr("accept-multipart");
+
+
+				/*----------------------------------------------*\
+				 |
+				 | 插入 tags 的输入系统，区分带检索和不带检索的输入系统
+				 |
+				\*----------------------------------------------*/
+				// 默认不带弹出检索层的 tag 输入系统
+				var tags_frame = $('<div class="tags-frame form-control"><input type="text" class="tags-enter"></div>');
+
+				// 如果有指定检索，就初始化弹出的检索层 
+				if (typeof(search_source)=="string") {
+					var dropup = tags_input.hasClass("dropup") ? "dropup" : "";
+					// tags 操作的主体框，含输入的 input 和 检索弹出层
+					tags_frame = $('<div class="tags-frame form-control ' + dropup + '"><input type="text" class="tags-enter"><ul class="dropdown-menu"></ul></div>');
+				}
+				// 插入到 input 的后面
+				tags_frame.appendTo(tags_input.parent());
+
+				// tags 检索弹出层
+				var tags_options = tags_frame.children("ul.dropdown-menu");
+				// tags 的输入框
+				var tags_enter = tags_frame.children("input.tags-enter");
+
+				// tags 输入框给一个标记，
+				// 方法比较挫，用来标记退格前，如果输入框是空，就删除最后一个已经输入的 tag
+				tags_enter.data("empty-data", "empty-data");
+
+				// init <input value="tag1,tag2,tag3..."
+				// 插入初始值
+				for (var ii=0; ii<initial_value.length; ii++) {
+					if (initial_value[ii]!="") {
+						tags_frame.insertEnterTag(initial_value[ii]);
+					}
+				}
+
+				/*----------------------------------------------*\
+				 |
+				 | 判断输入时，和 onblur 时的动作
+				 |
+				\*----------------------------------------------*/
+				// 点外框时 focus 输入框
+				tags_frame.click(function(e){
+					tags_enter.focus();
+					e.stopPropagation();
+				});
+				// 输入框 focus 时，外框亮色提示
+				tags_enter.focus(function(){
+					tags_frame.addClass("tags-frame-focus");
+					// 回车键不会让 form 提交
+					$(this).parents("form").bind("keydown", function(e){
+						if(e.keyCode === 13) {
+							return false;
+						}
+					});
+					tags_frame.tagsAutoComplete();
+					tags_options.css("display", "block");
+
+					$(document.body).bind("click touchend", function(e){
+						// 关闭动画
+						tags_options.css("display", "none");
+						$(document.body).unbind("click touchend");
+					});
+				});
+				// 输入框 blur 时，外框亮色取消
+				tags_enter.blur(function(){
+					tags_frame.removeClass("tags-frame-focus");
+					$(this).parents("form").unbind("keydown");
+				});
+
+				/*----------------------------------------------*\
+				 |
+				 | 输入 tag
+				 |
+				\*----------------------------------------------*/
+				// 绑定事件
+				tags_enter.bind("keyup", function(e){
+					// 删除
+					if(e.keyCode === 8 && $(this).val()=="" && $(this).data("empty-data")=="empty-data"){
+						var tag_elt = $(this).parent().children("span:last");
+						if (tag_elt.exist()) {
+							tag_elt.children("p").trigger("click");
+							return;
+						}
+					}
+					tags_enter.data("empty-data", ($(this).val()!="") ? null : "empty-data");
+					// 插入
+					if(e.keyCode === 13 && $(this).val()!="") {
+						if (typeof(search_source)=="string") {
+							tags_options.children("li").each(function(idx, elt){
+								var val = $(elt).children("a").html();
+								if (val==tags_enter.val()) {
+									tags_frame.insertEnterTag(val);
+									return;
+								}
+							});
+						}
+						else {
+							tags_frame.insertEnterTag($(this).val());
+						}
+					}
+					tags_frame.tagsAutoComplete();
+				});
+			});
+			return this;
+		},
+
+		tagsAutoComplete: function()
+		{
+			/*----------------------------------------------*\
+			 |
+			 | 初始化重要值，状态，节点
+			 |
+			\*----------------------------------------------*/
+			// tags 的节点
+			var tags_input = $(this).prev();
+			// tag 的数据检索的来源
+			var search_source = tags_input.attr("search-source");
+			// 搜索的数据
+			var search_data = typeof(search_source)=="string" ? search_source.split(",") : [];
+
+			var tags_frame = $(this);
+			// tags 检索弹出层
+			var tags_options = tags_frame.children("ul.dropdown-menu");
+			// tags 的输入框
+			var tags_enter = tags_frame.children("input.tags-enter");
+
+			// 目前填入的值
+			var tags_spans = tags_frame.children("span");
+			var tags_val = "";
+			tags_spans.each(function(key, tag_span){
+				var val = $(tag_span).html().split("<p>")[0];
+				tags_val += "," + val;
+			});
+			tags_val = tags_val + ",";
+
+			// 搜索 自动补全
+			if (tags_options.exist()) {
+				tags_options.empty();
+				for(var ii=0; ii<search_data.length; ii++) {
+					var reg = new RegExp(tags_enter.val(),"g");
+					var reg2 = new RegExp("," + search_data[ii] + ",","g");
+					// 在数据源里查找输入的字符串，并且绕过已经输入过的 tag
+					if (reg.test(search_data[ii]) && !reg2.test(tags_val)) {
+						var complete_li = $("<li><a href=\"javascript:void(0);\">" + search_data[ii] + "</a></li>");
+						complete_li.appendTo(tags_options);
+						complete_li.click(function(e){
+							// var _tags_frame = $(this).parents(".tags-frame");
+							// var _tags_enter = _tags_frame.children("input.tags-enter");
+							tags_frame.insertEnterTag($(this).children().html());
+							tags_enter.focus();
+						});
+					}
+				}
+			}
+		},
+
+		insertEnterTag: function(tag_text)
+		{
+			if (tag_text=="") {
+				return;
+			}
+			var tags_frame = $(this);
+
+			/*----------------------------------------------*\
+			 |
+			 | 初始化重要值，状态，节点
+			 |
+			\*----------------------------------------------*/
+			// tags 的节点
+			var tags_input = tags_frame.prev();
+			// 是否允许输入多个 tag
+			var accept_multipart = tags_input.attr("accept-multipart");
+			if (typeof(accept_multipart)=="string" && accept_multipart=="no") {
+				tags_frame.children("span").remove();
+			}
+
+			var tags_spans = tags_frame.children("span");
+			var tag_exist = false;
+			tags_spans.each(function(key, tag_span){
+				var val = $(tag_span).html().split("<p>")[0];
+				if (val==tag_text) {
+					tag_exist = true;
+					return;
+				}
+			});
+
+			if (tag_exist==true) {
+				return;
+			}
+
+			var tags_enter = tags_frame.children("input.tags-enter");
+			var tag_elt = $("<span class=\"radius-5\">" + tag_text + "<p>×</p></span>").insertBefore(tags_enter);
+			tags_enter.focus().val("");
+			tags_enter.data("empty-data", ($(this).val()!="") ? null : "empty-data");
+			tags_frame.tagsInputFlush();
+			tag_elt.children("p").click(function(e){
+				var tag = $(this).parent();
+				var tags_frame = tag.parent();
+				tag.empty().remove();
+				tags_frame.tagsInputFlush();
+			});
+		},
+
+		tagsInputFlush: function()
+		{
+			var tags_frame = $(this);
+			var tags_input = tags_frame.parent().children("input.tags-input");
+			var tags_spans = tags_frame.children("span");
+			var tags_val = "";
+			tags_spans.each(function(key, tag_span){
+				var val = $(tag_span).html().split("<p>")[0];
+				tags_val += (tags_val=="") ? val : "," + val;
+			});
+			tags_input.val(tags_val);
 		},
 
 		KTPaging : function() {
@@ -855,16 +1101,16 @@
 					}
 					// 组织 html
 					if (page_list[ii]=="...") {
-						paging_html += "<span class=\""+class_name+"\" style=\"border:0;\">"+page_list[ii]+"</span>";
+						paging_html += "<li><span>...</span></li>";
 					}
 					else if (page_list[ii]==current_page){
-						paging_html += "<a href=\""+href+"\" class=\""+class_name+" "+current_class_name+"\" "+pushstate_html+">"+page_list[ii]+"</a>";
+						paging_html += '<li class="active"><a href="'+href+'" '+pushstate_html+'>'+page_list[ii]+'</a></li>';
 					}
 					else {
-						paging_html += "<a href=\""+href+"\" class=\""+class_name+"\" "+pushstate_html+">"+page_list[ii]+"</a>";
+						paging_html += '<li><a href="'+href+'" '+pushstate_html+'>'+page_list[ii]+'</a></li>';
 					}
 				}
-				$paging_elt.html(paging_html);
+				$paging_elt.html('<nav><ul class="pagination">' + paging_html + '</ul></nav>');
 			});
 			// 返回 JQuery 对象
 			return this;
@@ -881,6 +1127,24 @@
 			return this;
 		},
 
+		/* --------------------    tools function    ------------------ */
+
+		// 得到图片的完整路径
+		getInputFilePath: function() {
+			var file = this.context.files[0];
+		    var url = null;
+		    if (window.createObjectURL != undefined) { // basic
+		        url = window.createObjectURL(file);
+		    }
+		    else if (window.URL != undefined) { // mozilla(firefox)
+		        url = window.URL.createObjectURL(file);
+		    }
+		    else if (window.webkitURL != undefined) { // webkit or chrome
+		        url = window.webkitURL.createObjectURL(file);
+		    }
+		    return url;
+		},
+
 		setMainMenuEvent : function(){
 			var $treemenu_elt = $(this)
 			// 开始循环
@@ -891,6 +1155,10 @@
 				var $next_elt = $menu_elt.next("div");
 				// 如果节点后有DIV，说明一个折叠菜单
 				if ($next_elt.exist()) {
+					$menu_elt.find("span[href]").click(function(e){
+						$.KTAnchor.ajaxLoader($(this).attr("href"))
+						e.stopPropagation();
+					});
 					// 绑定点击事件
 					$menu_elt.bind("click", function() {
 						// 打开菜单
@@ -919,71 +1187,6 @@
 					$next_elt.setMainMenuEvent();
 				}
 			});
-		},
-
-		KTDropDown : function() {
-			// 从配置中获取参数配置
-			var container = $.KTAnchor.dropdown_container;
-			// 开始查找
-			this.find(container).each(function(key, dropdown_bar){
-				// 取节点
-				var $click_elt = $(dropdown_bar).children().first();
-				// 已经绑定了 click 事件，重复执行，不会在同节点上反复绑定
-				if ($click_elt.data("click")==true) return;
-				// 取弹窗
-				var $popup_elt = $click_elt.next();
-				// 弹窗内节点取出，如果某节点被点，弹出窗收回
-				$popup_elt.find("a").bind("click", function(e){
-					$popup_elt.fadeOut("fast");
-				});
-				// 绑定
-				$click_elt.bind("click", function(e){
-					// 不冒泡 ... ?
-					e.stopPropagation();
-					// 当前弹出窗关闭还是开启呢 ？
-					var style_display = $popup_elt.css("display");
-					// 先将弹出窗都关闭
-					$(container).each(function(key, elt) {
-						$(elt).children().last().css("display", "none");
-					});
-					// 如果本来下拉菜单已经弹出
-					if (style_display=="none") {
-						// 显示下拉菜单
-						$popup_elt.css("display","block");
-						// 绑定 document.click 事件
-						$(document.body).bind("click", $.KTAnchor.hiddenDropdown);
-						// 被点击的按钮不聚焦
-						$click_elt.blur();
-					}
-					else {
-						// 关闭下拉菜单
-						$popup_elt.css("display","none");
-						// 解绑 document.click 事件
-						$(document.body).unbind("click", $.KTAnchor.hiddenDropdown);
-					}
-				});
-				// 弹出窗不冒泡，避免上面的链接点了后，立刻窗口隐藏，有点怪怪的
-				$popup_elt.bind("click", function(e){
-					e.stopPropagation();
-				});
-				// 标注已经绑定了 click 事件，重复执行，不会在同节点上反复绑定
-				$click_elt.data("click", true);
-			});
-			// 返回 JQuery 对象
-			return this;
-		},
-
-		KTMouseWheel : function() {
-
-			// 所有的自定义滚动条层
-			var containers = this.find($.KTAnchor.scroll_container);
-			// 查询匹配的节点
-			containers.each(function(key, scroll_container) {
-				var scroll_container = $(scroll_container)
-				var parent_height = scroll_container.parent().height();
-				scroll_container.css({"height":parent_height, "overflow-y":"scroll"});
-			});
-			return this;
 		}
 	});
 
@@ -991,7 +1194,7 @@
 
 /* set KTAnchor default value */
 $.KTAnchor.init({
-	response_container: ".response-container", // Ajax, 设定默认 response 填充的区域
+	response_container: ".body-content-right", // Ajax, 设定默认 response 填充的区域
 	paging_container: ".paging-container", // 分页，分页的容器
 	paging_limit: 30, // 分页，默认每页 30 条记录
 	paging_symbol: "&po", // 分页，默认通过传统的 & 来分割，值通过 http.request.GET.cc 来传递
@@ -1002,9 +1205,9 @@ $.KTAnchor.init({
 
 // 返回按钮监听
 $(window).bind("popstate", function(){
-	$(".response-container").load(window.top.location.href, function(){
+	$(".body-content-right").load(window.top.location.href, function(){
 		$.KTAnchor.treemenuSelected(window.top.location.href);
-		$(".response-container").KTLoader();
+		$(".body-content-right").KTLoader();
 	});
 });
 
@@ -1014,12 +1217,10 @@ $(document).ready(function(){
 
   // 调整窗口时时，
   $(window).bind("resize", function(){
-    // 主内容的区域的高度，为浏览区域的高度，减去 40
-    $("#left-container, #right-container").height($(window).height()-40);
-	$(".kt-popup-body").parent().height($(".kt-popup-doc").height() -  43);
-    // 如果不是移动的浏览器
-    $(document.body).KTMouseWheel();
+    $(".body-content").height($(window).height()-40);
+    $(".popup-modal .modal-body").height($(window).height()*0.85-88);
   });
+
   // 手动触发一次
   $(window).trigger("resize");
 });

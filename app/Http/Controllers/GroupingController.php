@@ -11,7 +11,8 @@ class GroupingController extends BaseController
     /*
      * 管理员列表
      */
-    function list() {
+    public function getList()
+    {
         // 分页信息
         $paging = new PagingHelper(Grouping::withTrashed()->count());
         // 管理员列表

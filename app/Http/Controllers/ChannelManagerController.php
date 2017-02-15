@@ -24,7 +24,8 @@ class ChannelManagerController extends BaseController
     /*
      * list All the Online Channel
      */
-    function list() {
+    public function getList()
+    {
 
         $skip = empty($_GET['po']) ? 0 : $_GET['po'] - 1;
 

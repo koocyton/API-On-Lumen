@@ -11,7 +11,8 @@ class TaskController extends BaseController
     /*
      * 任务列表
      */
-    function list() {
+    public function getList()
+    {
         // 分页信息
         $paging = new PagingHelper(Task::count());
         // 任务列表

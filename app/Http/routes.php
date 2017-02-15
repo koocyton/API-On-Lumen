@@ -43,7 +43,7 @@ $app->get('/operation/list', 'ManagerController@operationList');
 // 管理员的接口
 $app->group(['prefix' => '/manager', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
     // 管理员列表
-    $app->get('list', 'ManagerController@list');
+    $app->get('list', 'ManagerController@getList');
     // 新增管理员申请
     $app->get('apply', 'ManagerController@apply');
     // 新增管理员
@@ -61,7 +61,7 @@ $app->group(['prefix' => '/manager', 'namespace' => 'App\Http\Controllers'], fun
  */
 $app->group(['prefix' => '/grouping', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
     // 分组列表
-    $app->get('list', 'GroupingController@list');
+    $app->get('list', 'GroupingController@getList');
     // 新增分组表单
     $app->get('apply', 'GroupingController@apply');
     // 新增分组信息
@@ -80,7 +80,7 @@ $app->group(['prefix' => '/grouping', 'namespace' => 'App\Http\Controllers'], fu
 // 任务的接口
 $app->group(['prefix' => '/task', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
     // 任务列表
-    $app->get('list', 'TaskController@list');
+    $app->get('list', 'TaskController@getList');
     // 新增任务申请
     $app->get('apply', 'TaskController@apply');
     // 新增任务
@@ -125,7 +125,7 @@ $app->group(['prefix' => '/project', 'namespace' => 'App\Http\Controllers'], fun
 // 频道管理
 $app->group(['prefix' => '/channel-manager', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
     // 接口
-    $app->get('list', 'ChannelManagerController@list');
+    $app->get('list', 'ChannelManagerController@getList');
     // 频道模版
     $app->get('demo/{id}', 'ChannelManagerController@demo');
 });

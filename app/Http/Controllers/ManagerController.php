@@ -14,7 +14,8 @@ class ManagerController extends BaseController
     /*
      * 管理员列表
      */
-    function list() {
+    public function getList()
+    {
         // 分页信息
         $paging = new PagingHelper(Manager::withTrashed()->count());
         // 管理员列表

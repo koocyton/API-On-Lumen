@@ -28,6 +28,18 @@ class SecurityHelper
         }
     }
 
+    public static function isHttps()
+    {
+        if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') {
+            return true;
+        } elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+            return true;
+        } elseif (!empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off') {
+            return true;
+        }
+        return false;
+    }
+
     /*
      *
      */
@@ -70,7 +82,7 @@ class SecurityHelper
     {
         $request_url = $request_uri;
         if (!preg_match("/^http.+/", $request_uri)) {
-            $request_url = "http://" . $_SERVER["HTTP_HOST"] . $request_uri;
+            $request_url = (self::isHttps() ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"] . $request_uri;
         }
         if (preg_match('/^OAuth\s+(.*?)$/', $authorization, $matches)) {
             // 将值提取出来
@@ -101,7 +113,7 @@ class SecurityHelper
     {
         $request_url = $request_uri;
         if (!preg_match("/^http.+/", $request_uri)) {
-            $request_url = "http://" . $_SERVER["HTTP_HOST"] . $request_uri;
+            $request_url = (self::isHttps() ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"] . $request_uri;
         }
         // new oauth
         $oauth = new \OAuth($consumer_key, $consumer_secret, OAUTH_SIG_METHOD_HMACSHA1, OAUTH_AUTH_TYPE_AUTHORIZATION);

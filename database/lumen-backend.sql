@@ -28,7 +28,7 @@ CREATE TABLE `grouping` (
   `deleted_at` int(10) DEFAULT NULL COMMENT '组的开关',
   `privileges` text NOT NULL COMMENT '权限',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `grouping` (
 
 LOCK TABLES `grouping` WRITE;
 /*!40000 ALTER TABLE `grouping` DISABLE KEYS */;
-INSERT INTO `grouping` VALUES (1,'项目组',NULL,'/task/list,/task/detail,/task/create,/task/update,/task/apply,/project/api-list,/project/api-detail,/project/api-create,/project/api-update,/project/api-apply,/project/data-list,/project/data-detail,/project/data-create,/project/data-update,/project/data-apply,/project/doc-list,/project/doc-detail,/project/doc-create,/project/doc-update,/project/doc-apply,/operation/me,/operation/list,/manager/list,/manager/detail,/manager/apply,/manager/create,/manager/update,/grouping/list,/grouping/detail,/grouping/create,/grouping/update'),(2,'美术组',NULL,'/task/list,/task/detail,/task/create,/task/update,/task/apply,/project/api-list,/project/api-detail,/project/api-create,/project/api-update,/project/api-apply,/project/data-list,/project/data-detail,/project/data-create,/project/data-update,/project/data-apply,/project/doc-list,/project/doc-detail,/project/doc-create,/project/doc-update,/project/doc-apply,/operation/me,/operation/list,/manager/list,/manager/detail,/manager/apply,/manager/create,/manager/update,/grouping/list,/grouping/detail,/grouping/create,/grouping/update'),(3,'策划组',NULL,'/task/list,/task/detail,/task/create,/task/update,/task/apply,/project/api-list,/project/api-detail,/project/api-create,/project/api-update,/project/api-apply,/project/data-list,/project/data-detail,/project/data-create,/project/data-update,/project/data-apply,/project/doc-list,/project/doc-detail,/project/doc-create,/project/doc-update,/project/doc-apply,/operation/me,/operation/list,/manager/list,/manager/detail,/manager/apply,/manager/create,/manager/update,/grouping/list,/grouping/detail,/grouping/create,/grouping/update'),(4,'测试组',NULL,'/task/list,/task/detail,/task/create,/task/update,/task/apply,/project/api-list,/project/api-detail,/project/api-create,/project/api-update,/project/api-apply,/project/data-list,/project/data-detail,/project/data-create,/project/data-update,/project/data-apply,/project/doc-list,/project/doc-detail,/project/doc-create,/project/doc-update,/project/doc-apply,/operation/me,/operation/list,/manager/list,/manager/detail,/manager/apply,/manager/create,/manager/update,/grouping/list,/grouping/detail,/grouping/create,/grouping/update'),(5,'客户端',NULL,'/task/list,/task/detail,/task/create,/task/update,/task/apply,/project/api-list,/project/api-detail,/project/api-create,/project/api-update,/project/api-apply,/project/data-list,/project/data-detail,/project/data-create,/project/data-update,/project/data-apply,/project/doc-list,/project/doc-detail,/project/doc-create,/project/doc-update,/project/doc-apply,/operation/me,/operation/list,/manager/list,/manager/detail,/manager/apply,/manager/create,/manager/update,/grouping/list,/grouping/detail'),(6,'服务端',NULL,'/task/list,/task/detail,/task/create,/task/update,/task/apply,/project/api-list,/project/api-detail,/project/api-create,/project/api-update,/project/api-apply,/project/data-list,/project/data-detail,/project/data-create,/project/data-update,/project/data-apply,/project/doc-list,/project/doc-detail,/project/doc-create,/project/doc-update,/project/doc-apply,/operation/me,/operation/list,/manager/list,/manager/detail,/manager/apply,/manager/create,/manager/update,/grouping/list,/grouping/detail,/grouping/create,/grouping/update'),(23,'',NULL,'');
+INSERT INTO `grouping` VALUES (1,'项目组',NULL,'/task/list,/task/detail,/task/create,/task/update,/task/apply,/project/api-list,/project/api-detail,/project/api-create,/project/api-update,/project/api-apply,/project/data-list,/project/data-detail,/project/data-create,/project/data-update,/project/data-apply,/project/doc-list,/project/doc-detail,/project/doc-create,/project/doc-update,/project/doc-apply,/operation/me,/operation/list,/manager/list,/manager/detail,/manager/apply,/manager/create,/manager/update,/grouping/list,/grouping/detail,/grouping/create,/grouping/update'),(2,'美术组',NULL,'/task/list,/task/detail,/task/create,/task/update,/task/apply,/project/api-list,/project/api-detail,/project/api-create,/project/api-update,/project/api-apply,/project/data-list,/project/data-detail,/project/data-create,/project/data-update,/project/data-apply,/project/doc-list,/project/doc-detail,/project/doc-create,/project/doc-update,/project/doc-apply,/operation/me,/operation/list,/manager/list,/manager/detail,/manager/apply,/manager/create,/manager/update,/grouping/list,/grouping/detail,/grouping/create,/grouping/update'),(3,'策划组',NULL,'/task/list,/task/detail,/task/create,/task/update,/task/apply,/project/api-list,/project/api-detail,/project/api-create,/project/api-update,/project/api-apply,/project/data-list,/project/data-detail,/project/data-create,/project/data-update,/project/data-apply,/project/doc-list,/project/doc-detail,/project/doc-create,/project/doc-update,/project/doc-apply,/operation/me,/operation/list,/manager/list,/manager/detail,/manager/apply,/manager/create,/manager/update,/grouping/list,/grouping/detail,/grouping/create,/grouping/update'),(4,'测试组',NULL,'/task/list,/task/detail,/task/create,/task/update,/task/apply,/project/api-list,/project/api-detail,/project/api-create,/project/api-update,/project/api-apply,/project/data-list,/project/data-detail,/project/data-create,/project/data-update,/project/data-apply,/project/doc-list,/project/doc-detail,/project/doc-create,/project/doc-update,/project/doc-apply,/operation/me,/operation/list,/manager/list,/manager/detail,/manager/apply,/manager/create,/manager/update,/grouping/list,/grouping/detail,/grouping/create,/grouping/update'),(5,'客户端',NULL,'/task/list,/task/detail,/task/create,/task/update,/task/apply,/project/api-list,/project/api-detail,/project/api-create,/project/api-update,/project/api-apply,/project/data-list,/project/data-detail,/project/data-create,/project/data-update,/project/data-apply,/project/doc-list,/project/doc-detail,/project/doc-create,/project/doc-update,/project/doc-apply,/operation/me,/operation/list,/manager/list,/manager/detail,/manager/apply,/manager/create,/manager/update,/grouping/list,/grouping/detail'),(6,'服务端',NULL,'/task/list,/task/detail,/task/create,/task/update,/task/apply,/project/api-list,/project/api-detail,/project/api-create,/project/api-update,/project/api-apply,/project/data-list,/project/data-detail,/project/data-create,/project/data-update,/project/data-apply,/project/doc-list,/project/doc-detail,/project/doc-create,/project/doc-update,/project/doc-apply,/operation/me,/operation/list,/manager/list,/manager/detail,/manager/apply,/manager/create,/manager/update,/grouping/list,/grouping/detail,/grouping/create,/grouping/update');
 /*!40000 ALTER TABLE `grouping` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,7 +61,7 @@ CREATE TABLE `manager` (
   `groupings` text NOT NULL COMMENT '权限',
   PRIMARY KEY (`id`),
   UNIQUE KEY `account` (`account`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `manager` (
 
 LOCK TABLES `manager` WRITE;
 /*!40000 ALTER TABLE `manager` DISABLE KEYS */;
-INSERT INTO `manager` VALUES (1,'koocyton@gmail.com','刘毅','6e5e32f49d30db450234d6c3ec2625d5','c08270bb9c573f083a77','20c4b3cf58e217392a5bc09b8a29a55a8aab',NULL,1434343434,1486955426,'服务端'),(2,'liuyi.hn@gmail.com','大毛','6e5e32f49d30db450234d6c3ec2625d5','89f37c5998f9680c325d','202957a6782b962bb63206c259f4fd60a124',NULL,1434343434,1484410152,'美术组,策划组'),(3,'doopps@gmail.com','严峻','6e5e32f49d30db450234d6c3ec2625d5','0ad2e67709f0afa52703','9866050b33900065f8d27241a4cd4f18ec8a',NULL,1434343434,1484373000,'项目组,美术组'),(4,'abva@galg.com','','6e5e32f49d30db450234d6c3ec2625d5','','',NULL,1486963722,1486963722,''),(5,'adfsa@ga.com','','6e5e32f49d30db450234d6c3ec2625d5','','',NULL,1486963800,1486963800,'');
+INSERT INTO `manager` VALUES (9,'test@test.com','TEST','cddb44e3bdf429f02230289435338d75','5fbd6f876458aa040fc2','625ba250d8214fb669fb51dc86750dd443d6',NULL,1487125937,1487125957,'美术组,策划组,客户端');
 /*!40000 ALTER TABLE `manager` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,7 +123,7 @@ CREATE TABLE `task` (
   `updated_at` int(10) NOT NULL,
   `deleted_at` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -132,7 +132,7 @@ CREATE TABLE `task` (
 
 LOCK TABLES `task` WRITE;
 /*!40000 ALTER TABLE `task` DISABLE KEYS */;
-INSERT INTO `task` VALUES (1,'我说一大堆，你也不明白啊','doc','1','刘毅','','4','process',0,0,NULL),(2,'任务描述','bug','1','大毛','','说明','resolve',0,0,NULL),(3,'任务描述','task','1','德慧','','说　明说　明说　明说　明说　明','discard',0,0,NULL),(4,'这里是说明哦这里是说明哦这里是说明哦这里是说明哦','bug','1','大毛','','这里是说明哦','process',0,0,NULL),(5,' 任务描述 任务描述 任务描述','doc','1','刘毅','','说　明说　明说　明说　明说　明','process',0,0,NULL),(6,'描述','bug','1','大毛','','描述','process',1486802651,1486802651,NULL),(7,'asdfsafsafsasaf','bug','1','刘毅','','safdsasafafsfsa','process',1486803484,1486803484,NULL),(8,'asfdsafsafsaf','task','1','','','asdfsafsaf','process',1486803494,1486803494,NULL);
+INSERT INTO `task` VALUES (1,'我说一大堆，你也不明白啊','doc','1','刘毅','','4','process',0,0,NULL),(2,'任务描述','bug','1','大毛','','说明','resolve',0,0,NULL),(3,'任务描述','task','1','德慧','','说　明说　明说　明说　明说　明','discard',0,0,NULL),(4,'这里是说明哦这里是说明哦这里是说明哦这里是说明哦','bug','1','大毛','','这里是说明哦','process',0,0,NULL),(5,' 任务描述 任务描述 任务描述','doc','1','刘毅','','说　明说　明说　明说　明说　明','process',0,0,NULL),(6,'描述','bug','1','大毛','','描述','process',1486802651,1486802651,NULL),(7,'asdfsafsafsasaf','bug','1','刘毅','','safdsasafafsfsa','process',1486803484,1486803484,NULL),(8,'asfdsafsafsaf','task','1','','','asdfsafsaf','process',1486803494,1486803494,NULL),(9,'任务描述','bug','1','刘毅','','说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明','process',1487032552,1487032552,NULL);
 /*!40000 ALTER TABLE `task` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -145,4 +145,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-13 13:32:43
+-- Dump completed on 2017-02-15 10:38:38

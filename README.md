@@ -7,3 +7,17 @@
 * now working on the develop branch !
 
 * 当前开发主要在 develop 分枝上
+
+* Install
+
+```
+root# git clone https://github.com/koocyton/API-On-Lumen.git
+
+root# git checkout develop
+
+root# cd API-On-Lumen
+
+root# composer.phar install
+```
+
+* Demo .    http://be.doopp.com

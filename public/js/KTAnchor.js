@@ -308,12 +308,16 @@
 			var body_elt = confirm_elt.find(".modal-body");
 			$(body_elt).html(message);
 			confirm_elt.modal('show');
-			$(success_btn).one("click", function(e){
-				if($.isFunction(success)) {
-					success();
-				}
-				confirm_elt.modal('hide');
-			});
+			$.KTAnchor.confirm_callback = success;
+			if (success_btn.data("click-confirm")==null) {
+				success_btn.data("click-confirm","click-confirm");
+				$(success_btn).on("click", function(e){
+					if($.isFunction($.KTAnchor.confirm_callback)) {
+						$.KTAnchor.confirm_callback();
+					}
+					confirm_elt.modal('hide');
+				});
+			}
 		},
 
 		// print_r arguments

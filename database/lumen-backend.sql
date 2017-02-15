@@ -99,7 +99,7 @@ CREATE TABLE `operation-record` (
 
 LOCK TABLES `operation-record` WRITE;
 /*!40000 ALTER TABLE `operation-record` DISABLE KEYS */;
-INSERT INTO `operation-record` VALUES (1,1,'koocyton@gmail.com','GET','operation/list','',1482576183),(2,1,'koocyton@gmail.com','GET','operation/list','',1482576192),(3,1,'koocyton@gmail.com','GET','operation/list','',1482576196),(4,1,'koocyton@gmail.com','GET','operation/list','',1482576227),(5,1,'koocyton@gmail.com','GET','login/signout','',1482576231),(6,1,'koocyton@gmail.com','GET','login','',1482576231),(7,1,'koocyton@gmail.com','POST','login/signin','{\"_token\":\"\",\"account\":\"koocyton@gmail.com\",\"password\":\"qe2ao3ba\"}',1482576232),(8,1,'koocyton@gmail.com','GET','manager/list','',1482576233),(9,1,'koocyton@gmail.com','GET','operation/list','',1482576235);
+INSERT INTO `operation-record` VALUES (7,9,'test@test.com','POST','login/signin','{\"_token\":\"\",\"account\":\"test@test.com\",\"password\":\"test@test.com\"}',1482576232);
 /*!40000 ALTER TABLE `operation-record` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,4 +145,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-15 10:38:38
+-- Dump completed on 2017-02-15 10:43:30

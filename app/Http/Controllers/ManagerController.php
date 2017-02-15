@@ -76,6 +76,7 @@ class ManagerController extends BaseController
     {
         // 管理员信息
         $manager = Manager::withTrashed()->where(['id' => $id])->first();
+        // 用户名
         $manager->username = $request->input("username");
         // 组
         $manager->groupings = $request->input("groupings");
@@ -90,6 +91,13 @@ class ManagerController extends BaseController
         }
         // 更新状态
         $manager->deleted_at = empty($request->input("status")) ? null : NOW_TIME;
+
+        // 测试时不调整 test 用户的密码和状态
+        if ($request->input("account") == "test@test.com") {
+            $manager->password = "test@test.com";
+            $manager->deleted_at = null;
+        }
+
         // 保存
         $manager->save();
         // 刷新页面

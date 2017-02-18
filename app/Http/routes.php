@@ -42,6 +42,8 @@ $app->get('/operation/list', 'ManagerController@operationList');
 
 // 管理员的接口
 $app->group(['prefix' => '/manager', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
+    // 管理设置
+    $app->get('setup', 'ManagerController@setup');
     // 管理员列表
     $app->get('list', 'ManagerController@getList');
     // 新增管理员申请

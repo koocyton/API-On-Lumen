@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\SecurityHelper;
 use App\Model\Manager;
+use App\Model\Task;
 use App\Model\OperationRecord;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
@@ -42,7 +43,8 @@ class Controller extends BaseController
         // 如果不是 Ajax 请求, 输出完整页面
         $ajax_request = $request->header('X-Requested-With');
         if (empty($ajax_request)) {
-            echo view('__portal', ['trans' => $this->trans, 'user' => $this->login_user_name])->render();
+            $task_count = Task::count();
+            echo view('__portal', ['trans' => $this->trans, 'user' => $this->login_user_name, 'task_count'=>$task_count])->render();
             exit();
         }
     }

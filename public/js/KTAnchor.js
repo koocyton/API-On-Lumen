@@ -398,10 +398,14 @@
 
 			getMenuItemHtml: function(menu_item, menu_level) {
 				var pushstate_html = "";
+				var badge_html = "";
 				if (typeof(menu_item.pushstate)=="string" && menu_item.pushstate=="no") {
 					pushstate_html = "pushstate=\"no\"";
 				}
-				return '<a href="'+menu_item.href+'" '+pushstate_html+' class="tree-menu tree-menu-'+menu_level+'"><div>'+menu_item.text+'</div></a>';
+				if (typeof(menu_item.badge)=="string") {
+					badge_html = "<span class=\"badge\">" + menu_item.badge + "</span>";
+				}
+				return '<a href="'+menu_item.href+'" '+pushstate_html+' class="tree-menu tree-menu-'+menu_level+'"><div>' + menu_item.text + "　" + badge_html + '</div></a>';
 			},
 
 			getMenuFolderHtml: function(menu_item, menu_level) {
@@ -483,9 +487,7 @@
 				// if ($anchor.attr("native")!=null) return;
 				// 绑定点击事件
 				$anchor.on("click", function() {
-					$.KTLog(">>>>>> KTAnchor 1", this, anchor, $anchor, $anchor.attr("href"));
 					var anchor_action = function() {
-						$.KTLog(">>>>>> KTAnchor 2", this, anchor, $anchor, $anchor.attr("href"));
 						// 聚焦会使得点击处框上虚线
 						anchor.blur();
 						// 获取要请求的地址
@@ -561,10 +563,8 @@
 				});
 				// 将 form 绑定 submit 事件
 				$form.on("submit", function(){
-					$.KTLog(">>>>>> KTForm 1");
 					// 函数
 					var submit_action = function(){
-						$.KTLog(">>>>>> KTForm 2");
 						// 检查表单
 						// 自定义的错误处理
 						if ($.isFunction(inputError)) {

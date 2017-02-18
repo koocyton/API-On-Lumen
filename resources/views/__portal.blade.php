@@ -77,7 +77,7 @@
     </div><!-- /.alert -->
 
     <div class="popup-modal modal fade" id="popup-modal" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog modal-my-lg">
           <div class="modal-content">
             <div class="modal-header">
              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -88,7 +88,7 @@
             <div class="modal-body scroll-container"></div>
           </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
-    </div>
+    </div><!-- /.popup-modal -->
 
     <div class="confirm-modal modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-sm" role="document">
@@ -98,9 +98,9 @@
             <button type="button" class="btn btn-success">确认</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">取消</button>
           </div>
-        </div>
-      </div>
-    </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.confirm-modal -->
 
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script>
@@ -116,7 +116,8 @@
               ]}
           ]},
           {text:"项目研发 · 微闻", menus:[
-              {text:"项目任务　<span class=\"badge\">3</span>", href:"/task/list"},
+              {text:"收集日志", href:"/log/list"},
+              {text:"项目任务", badge:"{{ $task_count }}", href:"/task/list"},
               {text:"API 接口", href:"/project/api-manage", icon:"cog", open:true, menus:[
                   {text:"登录 GET /access-token", href:"/project/api-debug/access-token"},
                   {text:"频道列表 GET /channel-menu", href:"/project/api-debug/channel-menu"},
@@ -139,7 +140,7 @@
                   {text:"填写拍照信息", href:"/project/doc/6"},
               ]},
           ]},
-          {text:"管理员", menus:[
+          {text:"管理员", href:"/manager/setup", icon:"hd-video", menus:[
               {text:"操作日志", href:"/operation/list"},
               {text:"权限管理", href:"/manager/list" },
               {text:"分组管理", href:"/grouping/list" }

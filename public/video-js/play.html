@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Player</title>
+  <link href="video-js.min.css" rel="stylesheet">
+  <style>
+  body{margin:0;}
+  .my-video{width:960px;height:480px;}
+  .my-video>.vjs-big-play-button{top:210px;left:430px;width:100px;height:60px;line-height:60px;}
+   </style>
+  <script src="video.min.js"></script>
+  <script src="videojs-contrib-hls.min.js"></script>
+</head>
+<body style="margin:0;">
+  <video poster="http://vjs.zencdn.net/v/oceans.png" class="my-video video-js vjs-default-skin" controls preload="auto" data-setup='{}'>
+	<source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
+	<source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
+	<source src="http://vjs.zencdn.net/v/oceans.ogv" type="video/ogg">
+	<source src="https://starmakerapp-hrd.appspot.com/api/v16/web/recordings/4664162789097472/masterhls" type="application/x-mpegURL">
+  </video>
+</body>
+</html>

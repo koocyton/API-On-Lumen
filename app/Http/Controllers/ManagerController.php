@@ -11,6 +11,16 @@ use Illuminate\Http\Request;
 
 class ManagerController extends BaseController
 {
+
+    /*
+     * 管理设置
+     */
+    public function setup()
+    {
+        // 返回 view
+        return $this->display('manager_setup');
+    }
+
     /*
      * 管理员列表
      */

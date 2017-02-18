@@ -8,7 +8,7 @@ class User extends Model
 {
     // 使用软删除
     use SoftDeletes;
-
+    
     /**
      * 与模型关联的数据表
      *

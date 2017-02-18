@@ -49,7 +49,7 @@
     </nav><!-- /.navbar -->
 
     <div class="cn-modal-dialog">
-    	<div class="modal-dialog">
+    	<div class="modal-dialog modal-my-sm">
         <form action="/login/signin" method="post">
           <input type="password" style="position:absolute;top:-999px;"/>
       		<div class="modal-content">

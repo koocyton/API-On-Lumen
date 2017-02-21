@@ -46,7 +46,7 @@ body .container{width:100%;}
 
 /* 树状菜单 */
 a.tree-menu {width:100%;display:block;color:#333;cursor:pointer;text-decoration:none}
-a.tree-menu>div {position:relative;text-align:left;height:25px;line-height:25px;font-size:12px}
+a.tree-menu>div {position:relative;text-align:left;height:25px;line-height:25px;font-size:12px;overflow:hidden;}
 a.tree-menu>div:hover{background-color:#eee}
 a.tree-menu>div>span.glyphicon{float:right;margin:5px 23px;font-size:13px;display:none;}
 a.tree-menu>div:hover>span.glyphicon{display:inline;}

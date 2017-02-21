@@ -16,13 +16,9 @@
       <!-- Static navbar -->
       <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
-          <div>
-            <ul class="nav navbar-nav">
-              <li><a href="javascript:;" style="margin:5px -10px;"><b>管理项设置</b></a></li>
-             </ul>
-          </div>
-          <div class="navbar-form navbar-right">
-          </div><!--/.nav-collapse -->
+          <ul class="nav navbar-nav">
+            <li><a href="javascript:;" style="margin:5px -10px;"><b>管理项设置</b></a></li>
+          </ul>
         </div><!--/.container-fluid -->
       </nav>
     </div>

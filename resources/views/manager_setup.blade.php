@@ -25,7 +25,7 @@
 
     <div class="container">
 
-      <video poster="http://vjs.zencdn.net/v/oceans.png" id="my-video" class="my-video video-js vjs-default-skin" controls autoplay preload="auto" data-setup='{}'>
+      <video poster="http://static.cnbetacdn.com/article/2017/0221/b76045d45d3f324.jpg" id="my-video" class="my-video video-js vjs-default-skin" controls preload="auto" data-setup='{}'>
         <!-- 
           data-setup='{"techOrder": ["flash"]}'
         //-->

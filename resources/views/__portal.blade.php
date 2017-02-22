@@ -22,7 +22,7 @@
     <script src="/js/jquery-1.11.3.min.js"></script>
     <script src="/js/jquery.datetimepicker.js"></script>
     <script src="/js/KTAnchor.js"></script>
-
+    <script src="/js/vue-1.0.26.min.js"></script>
   </head>
   <body>
 

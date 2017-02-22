@@ -1,4 +1,3 @@
-    <script src="/js/vue-1.0.26.min.js"></script>
 
     <br>
 

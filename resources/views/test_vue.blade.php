@@ -16,7 +16,7 @@
     <div class="container">
 
       <div id="app-6">
-        <p>{{ message }}</p>
+        <p>@{{ message }}</p>
         <input style="width:500px;" class="form-control" v-model="message">
       </div>
 

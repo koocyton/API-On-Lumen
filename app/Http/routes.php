@@ -56,6 +56,16 @@ $app->group(['prefix' => '/manager', 'namespace' => 'App\Http\Controllers'], fun
     $app->post('{id}/update', 'ManagerController@update');
 });
 
+// 管理员的接口
+$app->group(['prefix' => '/test', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
+    // video-js
+    $app->get('video-js', 'TestController@videojs');
+    // vue-js
+    $app->get('vue', 'TestController@vue');
+    // pixi html5
+    $app->get('pixi', 'TestController@pixi');
+});
+
 /*
 |--------------------------------------------------
 |分组管理

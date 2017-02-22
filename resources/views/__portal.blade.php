@@ -109,7 +109,7 @@
               {text:"广告管理", href:"/advert"},
               {text:"素材管理", href:"/resouse"},
               {text:"联盟管理", href:"/union"},
-              {text:"数据统计", "open":true, menus:[
+              {text:"数据统计", "open":false, menus:[
                   {text:"数据简报", href:"/bulletin"},
                   {text:"各项统计", href:"/count"},
                   {text:"优化分析", href:"/optimize"}
@@ -118,7 +118,7 @@
           {text:"项目研发 · 微闻", menus:[
               {text:"收集日志", href:"/log/list"},
               {text:"项目任务", badge:"{{ $task_count }}", href:"/task/list"},
-              {text:"API 接口", href:"/project/api-manage", icon:"cog", open:true, menus:[
+              {text:"API 接口", href:"/project/api-manage", icon:"cog", open:false, menus:[
                   {text:"登录 GET /access-token", href:"/project/api-debug/access-token"},
                   {text:"频道列表 GET /channel-menu", href:"/project/api-debug/channel-menu"},
                   {text:"频道新闻 GET /channel-detail/{id}", href:"/project/api-debug/channel-detail"},
@@ -140,10 +140,15 @@
                   {text:"填写拍照信息", href:"/project/doc/6"},
               ]},
           ]},
-          {text:"管理员", href:"/manager/setup", icon:"hd-video", menus:[
+          {text:"管理员", menus:[
               {text:"操作日志", href:"/operation/list"},
               {text:"权限管理", href:"/manager/list" },
-              {text:"分组管理", href:"/grouping/list" }
+              {text:"分组管理", href:"/grouping/list" },
+              {text:"技术测试", open:false, menus:[
+                  {text:"video js", href:"/test/video-js"},
+                  {text:"vue js", href:"/test/vue"},
+                  {text:"pixi html5", href:"/test/pixi"},
+              ]},
           ]}
       ];
       $("#main-menu").html($.KTTreeMenuHTML.getMenuHtml(menu_data));

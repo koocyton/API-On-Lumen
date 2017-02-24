@@ -48,33 +48,31 @@
       </div><!-- /.container -->
     </nav><!-- /.navbar -->
 
-    <div class="cn-modal-dialog">
-    	<div class="modal-dialog modal-my-sm">
-        <form action="/login/signin" method="post">
-          <input type="password" style="position:absolute;top:-999px;"/>
-      		<div class="modal-content">
-      			<div class="modal-body">
-      				<div class="form-group">
-      					<input type="text" name="_account" class="form-control" autocomplete="off" placeholder="{{ $trans->get('login.Please enter account') }}" value="test@test.com">
-      				</div>
-      				<div class="form-group">
-      					<input type="password" name="_password" class="form-control" autocomplete="off" placeholder="{{ $trans->get('login.Please enter password') }}" value="test@test.com">
-      				</div>
-      				<div>
-      					<label>
-      						<input type="checkbox" name="_remberme" value="1"> {{ $trans->get('login.Remember me') }}
-      					</label>
-      					<span class="separator">·</span>
-      					<a href="javascript:;" native="yes" style="color:#0084b4">{{ $trans->get('login.Forgot password') }}</a>
-      				</div>
-      			</div>
-      			<div class="modal-footer">
-      				<button type="submit" class="btn btn-success">{{ $trans->get('login.Login') }}</button>
-      			</div>
-      		</div><!-- /.modal-content -->
-        </form><!-- /.modal-form -->
-    	</div><!-- /.modal-dialog -->
-    </div>
+  	<div class="cn-modal-dialog modal-dialog modal-my-sm">
+      <form action="/login/signin" method="post">
+        <input type="password" style="position:absolute;top:-999px;"/>
+    		<div class="modal-content">
+    			<div class="modal-body">
+    				<div class="form-group">
+    					<input type="text" name="_account" class="form-control" autocomplete="off" placeholder="{{ $trans->get('login.Please enter account') }}" value="test@test.com">
+    				</div>
+    				<div class="form-group">
+    					<input type="password" name="_password" class="form-control" autocomplete="off" placeholder="{{ $trans->get('login.Please enter password') }}" value="test@test.com">
+    				</div>
+    				<div>
+    					<label>
+    						<input type="checkbox" name="_remberme" value="1"> {{ $trans->get('login.Remember me') }}
+    					</label>
+    					<span class="separator">·</span>
+    					<a href="javascript:;" native="yes" style="color:#0084b4">{{ $trans->get('login.Forgot password') }}</a>
+    				</div>
+    			</div>
+    			<div class="modal-footer">
+    				<button type="submit" class="btn btn-success">{{ $trans->get('login.Login') }}</button>
+    			</div>
+    		</div><!-- /.modal-content -->
+      </form><!-- /.modal-form -->
+  	</div><!-- /.modal-dialog -->
 
     <div class="alert alert-danger" role="alert">
       <strong>Warning!</strong>

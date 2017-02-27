@@ -18,7 +18,7 @@
       document.getElementById("pixi-convas").appendChild(app.view);
 
       // create a new Sprite from an image path
-      var bunny = PIXI.Sprite.fromImage('/image/php.jpg')
+      var bunny = PIXI.Sprite.fromImage('/image/chrome.png')
 
       // center the sprite's anchor point
       bunny.anchor.set(0.5);
@@ -32,12 +32,22 @@
 
       app.stage.addChild(bunny);
 
+      var bunny_x_action = "-";
+      var bunny_y_action = "-";
+
       // Listen for animate update
       app.ticker.add(function(delta) {
           // just for fun, let's rotate mr rabbit a little
           // delta is 1 if running at 100% performance
           // creates frame-independent tranformation
-          bunny.rotation += 0.1 / delta;
+          bunny.rotation += 0.2 / delta;
+          
+          bunny_x_action = (bunny.x>app.renderer.width-bunny.width/2) ? "-" : (bunny.x<bunny.width/2) ? "+" : bunny_x_action;
+          bunny_y_action = (bunny.y>app.renderer.height-bunny.height) ? "-" : (bunny.y<bunny.height/2) ? "+" : bunny_y_action;
+          
+          bunny.x = (bunny_x_action=="+") ? bunny.x + 4 : bunny.x - 4;
+          bunny.y = (bunny_y_action=="+") ? bunny.y + 4 : bunny.y - 4;
+
       });
       </script>
     </div>

@@ -93,7 +93,8 @@ class SecurityHelper
                 }
 
                 // new oauth
-                $oauth = new \OAuth($param['oauth_consumer_key'], $consumer_secret, $param['oauth_signature_method'], OAUTH_AUTH_TYPE_AUTHORIZATION);
+                // $param['oauth_signature_method']
+                $oauth = new \OAuth($param['oauth_consumer_key'], $consumer_secret, OAUTH_SIG_METHOD_HMACSHA256, OAUTH_AUTH_TYPE_AUTHORIZATION);
                 $oauth->setToken($param['oauth_token'], $token_secret);
                 $oauth->setNonce($param['oauth_nonce']);
                 $oauth->setTimestamp($param['oauth_timestamp']);
@@ -116,7 +117,7 @@ class SecurityHelper
             $request_url = (self::isHttps() ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"] . $request_uri;
         }
         // new oauth
-        $oauth = new \OAuth($consumer_key, $consumer_secret, OAUTH_SIG_METHOD_HMACSHA1, OAUTH_AUTH_TYPE_AUTHORIZATION);
+        $oauth = new \OAuth($consumer_key, $consumer_secret, OAUTH_SIG_METHOD_HMACSHA256, OAUTH_AUTH_TYPE_AUTHORIZATION);
         $oauth->setToken($token, $token_secret);
         return $oauth->getRequestHeader($request_method, $request_url);
     }

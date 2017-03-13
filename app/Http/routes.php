@@ -66,6 +66,7 @@ $app->group(['prefix' => '/test', 'namespace' => 'App\Http\Controllers'], functi
     $app->get('pixi', 'TestController@pixi');
 });
 
+
 /*
 |--------------------------------------------------
 |分组管理

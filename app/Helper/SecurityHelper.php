@@ -28,6 +28,7 @@ class SecurityHelper
         }
     }
 
+
     public static function isHttps()
     {
         if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') {
@@ -95,10 +96,14 @@ class SecurityHelper
                 // new oauth
                 // $param['oauth_signature_method']
                 $oauth = new \OAuth($param['oauth_consumer_key'], $consumer_secret, OAUTH_SIG_METHOD_HMACSHA256, OAUTH_AUTH_TYPE_AUTHORIZATION);
-                $oauth->setToken($param['oauth_token'], $token_secret);
-                $oauth->setNonce($param['oauth_nonce']);
-                $oauth->setTimestamp($param['oauth_timestamp']);
-                $oauth->setVersion($param['oauth_version']);
+
+                $oauth->setToken( $param['oauth_token'], $token_secret );
+
+                $oauth->setNonce( $param['oauth_nonce'] );
+
+                $oauth->setTimestamp( $param['oauth_timestamp'] );
+
+                $oauth->setVersion( $param['oauth_version'] );
 
                 // return
                 return $oauth->generateSignature($request_method, $request_url) == urldecode($param['oauth_signature']);

@@ -115,7 +115,7 @@
                   {text:"优化分析", href:"/optimize"}
               ]}
           ]},
-          {text:"项目研发 · 微闻", menus:[
+          {text:"项目研发", menus:[
               {text:"收集日志", href:"/log/list"},
               {text:"项目任务", badge:"{{ $task_count }}", href:"/task/list"},
               {text:"API 接口", href:"/project/api-manage", icon:"cog", open:false, menus:[
@@ -131,14 +131,7 @@
                   {text:"新闻列表", href:"/project/data/news"},
                   {text:"用户管理", href:"/project/data/user"},
               ]},
-              {text:"项目文档", href:"/project/doc-manage", icon:"cog", open:false, menus:[
-                  {text:"概叙", href:"/project/doc/1"},
-                  {text:"登录", href:"/project/doc/2"},
-                  {text:"注册", href:"/project/doc/3"},
-                  {text:"主界面", href:"/project/doc/4"},
-                  {text:"拍照", href:"/project/doc/5"},
-                  {text:"填写拍照信息", href:"/project/doc/6"},
-              ]},
+              {text:"项目文档", href:"/project/doc-manage"},
           ]},
           {text:"管理员", menus:[
               {text:"操作日志", href:"/operation/list"},

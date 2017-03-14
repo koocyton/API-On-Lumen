@@ -5,6 +5,7 @@ use App\Helper\PagingHelper;
 use App\Helper\SecurityHelper;
 use App\Http\Controllers\Controller as BaseController;
 use App\Model\User;
+use App\Model\ProjectDoc;
 use Illuminate\Http\Response;
 
 class ProjectController extends BaseController
@@ -30,7 +31,23 @@ class ProjectController extends BaseController
      */
     public function docManage()
     {
-        return $this->display('project_doc_manage');
+        // 分页信息
+        $paging = new PagingHelper(ProjectDoc::count());
+        // 管理员列表
+        $docs = ProjectDoc::skip($paging->current - 1)->take($paging->limit)->orderBy('id', 'desc')->get();
+        // view
+        return $this->display('project_doc_manage', ['docs' => $docs, 'paging' => $paging]);
+    }
+
+    /*
+     * 文档管理
+     */
+    public function docDetail($id)
+    {
+        // 管理员列表
+        $doc = ProjectDoc::where(['id' => $id])->first();
+        // view
+        return $this->display('project_doc_detail', ['doc' => $doc]);
     }
 
     /*

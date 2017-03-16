@@ -28,6 +28,7 @@ phpunit.phar
 
 # local phpunit config
 /phpunit.xml
+/storage/framework/views/
 
 .arclint
 .arcconfig

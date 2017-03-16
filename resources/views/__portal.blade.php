@@ -116,8 +116,9 @@
               ]}
           ]},
           {text:"项目研发", menus:[
-              {text:"收集日志", href:"/log/list"},
               {text:"项目任务", badge:"{{ $task_count }}", href:"/task/list"},
+              {text:"数据管理", href:"/project/data/list"},
+              {text:"项目文档", href:"/project/doc/list"},
               {text:"API 接口", href:"/project/api-manage", icon:"cog", open:false, menus:[
                   {text:"登录 GET /access-token", href:"/project/api-debug/access-token"},
                   {text:"频道列表 GET /channel-menu", href:"/project/api-debug/channel-menu"},
@@ -126,12 +127,7 @@
                   {text:"上传新闻 POST /news", href:"/project/api-debug/post-news"},
                   {text:"选择地区 UPDATE /region/{id}", href:"/project/api-debug/region/{id}"}
               ]},
-              {text:"数据管理", href:"/project/data-manage", icon:"cog", open:false, menus:[
-                  {text:"频道信息", href:"/project/data/channel"},
-                  {text:"新闻列表", href:"/project/data/news"},
-                  {text:"用户管理", href:"/project/data/user"},
-              ]},
-              {text:"项目文档", href:"/project/doc-manage"},
+              {text:"崩溃日志", href:"/crashlog/list"},
           ]},
           {text:"管理员", menus:[
               {text:"操作日志", href:"/operation/list"},

@@ -111,12 +111,23 @@ $app->group(['prefix' => '/task', 'namespace' => 'App\Http\Controllers'], functi
  */
 // 管理员的接口
 $app->group(['prefix' => '/project', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
-    // 数据管理
+
+    // 文档列表
+    $app->get('doc/list', 'ProjectController@docList');
+    // 申请新建文档
+    $app->get('doc/apply', 'ProjectController@docApply');
+    // 建立文档
+    $app->post('doc/create', 'ProjectController@docCreate');
+    // 查看，编辑文档
+    $app->get('doc/{id}', 'ProjectController@docDetail');
+    // 更新文档
+    $app->post('doc/{id}/update', 'ProjectController@docUpdate');
+
+
+    // API 管理
     $app->get('api-manage', 'ProjectController@apiManage');
     // 数据管理
     $app->get('data-manage', 'ProjectController@dataManage');
-    // 数据管理
-    $app->get('doc-manage', 'ProjectController@docManage');
 
     // 接口
     $app->get('api-debug/{key}', 'ProjectController@apiDebug');

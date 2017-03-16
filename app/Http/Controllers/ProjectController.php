@@ -11,6 +11,51 @@ use Illuminate\Http\Response;
 class ProjectController extends BaseController
 {
     /*
+     * 文档管理
+     */
+    public function docList()
+    {
+        // 分页信息
+        $paging = new PagingHelper(ProjectDoc::count());
+        // 管理员列表
+        $docs = ProjectDoc::skip($paging->current - 1)->take($paging->limit)->orderBy('id', 'desc')->get();
+        // view
+        return $this->display('project_doc_manage', ['docs' => $docs, 'paging' => $paging]);
+    }
+
+    /*
+     * 文档详细
+     */
+    public function docDetail($id)
+    {
+        // 管理员列表
+        $doc = ProjectDoc::where(['id' => $id])->first();
+        // view
+        return $this->display('project_doc_detail', ['doc' => $doc]);
+    }
+
+    /*
+     * 文档更新
+     */
+    public function docUpdate($id)
+    {
+    }
+
+    /*
+     * 申请添加新文档
+     */
+    public function docApply()
+    {
+    }
+
+    /*
+     * 文档新建
+     */
+    public function docCreate()
+    {
+    }
+
+    /*
      * API 管理
      */
     public function apiManage()
@@ -24,30 +69,6 @@ class ProjectController extends BaseController
     public function dataManage()
     {
         return $this->display('project_data_manage');
-    }
-
-    /*
-     * 文档管理
-     */
-    public function docManage()
-    {
-        // 分页信息
-        $paging = new PagingHelper(ProjectDoc::count());
-        // 管理员列表
-        $docs = ProjectDoc::skip($paging->current - 1)->take($paging->limit)->orderBy('id', 'desc')->get();
-        // view
-        return $this->display('project_doc_manage', ['docs' => $docs, 'paging' => $paging]);
-    }
-
-    /*
-     * 文档管理
-     */
-    public function docDetail($id)
-    {
-        // 管理员列表
-        $doc = ProjectDoc::where(['id' => $id])->first();
-        // view
-        return $this->display('project_doc_detail', ['doc' => $doc]);
     }
 
     /*

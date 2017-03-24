@@ -99,11 +99,11 @@
 				$(".input-error-pop").css("display", "none");
 				// 获取 input , input 和 错误信息存放的容器，错误信息的层
 				var $input = $(input);
-				var $input_box = $input.parent().parent();
+				var $input_box = $input.parent();
 				var $error_pop = $input_box.find(".input-error-pop");
 				// 如果错误信息层不存在，就创建
 				if ($error_pop.length==0) {
-					$input_box.append("<dd class=\"input-error-pop radius-4\"><b class=\"angle-up input-error-angle\"></b> &nbsp; "+message+"</dd>");
+					$input_box.append("<dd class=\"input-error-pop radius-5\"><b class=\"angle-up input-error-angle\"></b>"+message+"</dd>");
 				}
 				// 显示这个错误信息
 				$error_pop.css("display", "block");
@@ -113,6 +113,7 @@
 					$input.bind('input change blur',function(ev){
 						if ($input_box.children(".input-error-pop").exist()) {
 							$input_box.children(".input-error-pop").css("display", "none");
+							$input_box.children(".input-error-pop").remove();
 						}
 					});
 					$input.data("change", true);
@@ -658,85 +659,94 @@
 				var validation = $(input_elt).attr("validation");
 				if (typeof(validation)=="string" && validation.length>=1) {
 					var input_value = $(input_elt).val();
+					var valid_match = null;
 					// 不能为空
 					if (validation=="/!empty/") {
 						if (input_value.length<1) {
-							if ($.isFunction(inputError)) inputError(input_elt, "Can not be empty");
+							if ($.isFunction(inputError)) inputError(input_elt, "Can not is empty");
 							field_ok = false;
 							return false;
 						}
 					}
 					// 请输入邮箱
-					else if (/\/email:(.+)\//.test(validation)) {
+					else if (valid_match=validation.match(/\/email:(.+)\//)) {
 						if (!/^([0-9A-Za-z\-_\.]+)@([0-9A-Za-z\-_\.]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g.test(input_value)){
-							var match = validation.match(/\/email:(.+)\//);
-							if ($.isFunction(inputError)) inputError(input_elt, match[1]);
+							if ($.isFunction(inputError)) inputError(input_elt, valid_match[1]);
+							field_ok = false;
+							return false;
+						}
+					}
+					// 请输入数字，字母，下划线，横线
+					else if (valid_match=validation.match(/\/word-number:(.+)\//)) {
+						if (!/^[0-9A-Za-z\-_]+$/g.test(input_value)){
+							if ($.isFunction(inputError)) inputError(input_elt, valid_match[1]);
+							field_ok = false;
+							return false;
+						}
+					}
+					// 请输入数字
+					else if (valid_match=validation.match(/\/number:(.+)\//)) {
+						if (!/^\d+$/g.test(input_value)){
+							if ($.isFunction(inputError)) inputError(input_elt, valid_match[1]);
 							field_ok = false;
 							return false;
 						}
 					}
 					// 请输入密码，并不小于 8 位长
-					else if (/\/password:(.+)\//.test(validation)) {
+					else if (valid_match=validation.match(/\/password:(.+)\//)) {
 						if (input_value.length<8) {
-							var match = validation.match(/\/password:(.+)\//);
-							if ($.isFunction(inputError)) inputError(input_elt, match[1]);
+							if ($.isFunction(inputError)) inputError(input_elt, valid_match[1]);
 							field_ok = false;
 							return false;
 						}
 					}
 					// 修改密码，要么留空，要么不小于8 位长
-					else if (/\/edpassword:(.+)\//.test(validation)) {
+					else if (valid_match=validation.match(/\/edpassword:(.+)\//)) {
 						if (input_value.length>=1) {
 							if (input_value.length<8) {
-								var match = validation.match(/\/edpassword:(.+)\//);
-								if ($.isFunction(inputError)) inputError(input_elt, match[1]);
+								if ($.isFunction(inputError)) inputError(input_elt, valid_match[1]);
 								field_ok = false;
 								return false;
 							}
 						}
 					}
 					// 重复输入密码要和前面输入的密码一样
-					else if (/\/repassword:(.+):(.+)\//.test(validation)) {
-						var match = validation.match(/\/repassword:(.+):(.+)\//);
-						var password_value = $(form_elt).find("input[name="+match[1]+"]").val();
+					else if (valid_match=validation.match(/\/repassword:(.+):(.+)\//)) {
+						var password_value = $(form_elt).find("input[name="+valid_match[1]+"]").val();
 						if (password_value!=input_value) {
-							if ($.isFunction(inputError)) inputError(input_elt, match[1]);
+							if ($.isFunction(inputError)) inputError(input_elt, valid_match[2]);
 							field_ok = false;
 							return false;
 						}
 					}
 					// 如果空就弹出后面的提示
-					else if (/\/!empty:(.+)\//.test(validation)) {
+					else if (valid_match=validation.match(/\/!empty:(.+)\//)) {
 						if (input_value.length<1) {
-							var match = validation.match(/\/!empty:(.+)\//);
-							if ($.isFunction(inputError)) inputError(input_elt, match[1]);
+							if ($.isFunction(inputError)) inputError(input_elt, valid_match[1]);
 							field_ok = false;
 							return false;
 						}
 					}
 					// 手机号判断
-					else if (/\/mobile:(.+)\//.test(validation)) {
+					else if (valid_match=validation.match(/\/mobile:(.+)\//)) {
 						if (!/^1\d{10}$/g.test(input_value)){
-							var match = validation.match(/\/mobile:(.+)\//);
-							if ($.isFunction(inputError)) inputError(input_elt, match[1]);
+							if ($.isFunction(inputError)) inputError(input_elt, valid_match[1]);
 							field_ok = false;
 							return false;
 						}
 					}
 					// 年-月-日 时间判断
-					else if (/\/date:(.+)\//.test(validation)) {
+					else if (valid_match=validation.match(/\/date:(.+)\//)) {
 						if (!/^[1|2]\d{3}\-(0[1-9]|1[0-2])\-(0[1-9]|[1-2][0-9]|3[1-2])$/g.test(input_value)){
-							var match = validation.match(/\/date:(.+)\//);
-							if ($.isFunction(inputError)) inputError(input_elt, match[1]);
+							if ($.isFunction(inputError)) inputError(input_elt, valid_match[1]);
 							field_ok = false;
 							return false;
 						}
 					}
 					// 年-月-日 时:分:秒时间判断
-					else if (/\/datetime:(.+)\//.test(validation)) {
+					else if (valid_match=validation.match(/\/datetime:(.+)\//)) {
 						if (!/^[1|2]\d{3}\-(0[1-9]|1[0-2])\-(0[1-9]|[1-2][0-9]|3[1-2]) ([0|1][0-9]|2[0-4])\:([0-5][0-9])\:([0-5][0-9])$/g.test(input_value)){
-							var match = validation.match(/\/datetime:(.+)\//);
-							if ($.isFunction(inputError)) inputError(input_elt, match[1]);
+							if ($.isFunction(inputError)) inputError(input_elt, valid_match[1]);
 							field_ok = false;
 							return false;
 						}

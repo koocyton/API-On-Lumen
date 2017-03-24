@@ -12,7 +12,7 @@
           <div class="navbar-form navbar-right">
             <form action="/manager/list" method="get" role="search">
               <div class="form-group has-feedback" style="width:200px;">
-                <input type="text" name="search" class="form-control">
+                <input type="text" name="search" class="form-control" validation="/!empty:请填写搜索条件/">
                 <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
               </div>
               <button class="btn btn-success btn-sm" style="margin-left:20px;" type="button" onclick="$.KTAnchor.popupLoader('/manager/apply')">New !!</button>

@@ -92,3 +92,8 @@ a.tree-menu-open>div{background-image: url("button_down.gif");}
 .tags-frame>.tags-enter{overflow-x:visible;}
 .tags-input{display:none;margin-left:3px;outline:0px;}
 
+/* */
+.form-group{position:relative;}
+.input-error-pop {position:absolute; top:36px; height:37px;line-height:37px;background-color:#333;color:#fff;font-size:12px;padding: 0px 15px;z-index:1000;}
+.input-error-angle{position:absolute;border-bottom:9px solid #333;top:-6px;left:6px;}
+.input-error-pop>.glyphicon {color:red;}

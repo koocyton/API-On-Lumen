@@ -2,7 +2,7 @@
 .idea
 .tags
 .tags_sorted_by_file
-.lumen.log
+lumen.log
 
 # netbeans project files
 nbproject

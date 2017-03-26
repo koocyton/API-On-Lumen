@@ -61,7 +61,7 @@
 				</td>
 				<td>
 					<div class="form-group form-tags">
-						<input type="text" name="groupings" value="" search-source="{{ $groupings }}" autocomplete="off" class="tags-input">
+						<input type="text" name="groupings" value="策划组" tags-data="{{ $groupings }}" autocomplete="off" class="tags-input" multiple />
 					</div>
 				</td>
 			</tr>

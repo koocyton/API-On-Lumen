@@ -345,6 +345,39 @@
 				
 				// 输出 tags input 的 view 部分
 				this.tagsInputGraph();
+
+				// 插入已经定义的 tag
+				this.insertTag(this.entered_tags);
+			},
+
+			// 插入 tag
+			insertTag: function(values)
+			{
+				if (typeof(values)=="string") {
+					values = (values.length<1) ? [] : values.split(",");
+				}
+				if (typeof(values)=="object") {
+					// 呃。没办法
+					instance = this;
+					// loop
+					$.each(values, function(key,value) {
+						var name = (typeof(instance.full_tags[value])=="undefined") ? value : instance.full_tags[value];
+						var tag_elt = $("<span class=\"radius-5\" value=\"" + value + "\">" + name + "<p>×</p></span>");
+						tag_elt.children("p").click(function(e){
+							instance.removeTag(value);
+						});
+						if (instance.multiple!=true) {
+							instance.tags_frame.children("span").remove();
+						}
+						tag_elt.insertBefore(instance.tags_enter);
+					})
+				}
+			},
+
+			// 移除 tag
+			removeTag: function(value)
+			{
+				this.tags_frame.children("span[value='"+value+"']").empty().remove();
 			},
 
 			// 如果可以，显示自动补全
@@ -353,8 +386,26 @@
 				if (!this.full_tags || !this.tags_complete.exist()) {
 					return;
 				}
-				// 打开自动补全
-				this.tags_complete.css("display", "block");
+				// 拿到需要排除的 tag，不会显示在自动补全
+				var entered_tags = ',';
+				this.tags_frame.children("span").each(function(key, elt){
+					entered_tags += $(elt).attr("value") + ",";
+				});
+				if (this.full_tags) {
+					this.tags_complete.empty();
+					// 呃。没办法
+					instance = this;
+					// 开始搜索数据源
+					$.each(this.full_tags, function(value, name) {
+						var reg = new RegExp("," + value + ",", "g");
+						if (!reg.test(entered_tags)) {
+							var complete_li = $("<li><a href=\"javascript:void(0);\">" + name + "</a></li>");
+							complete_li.appendTo(instance.tags_complete);
+							// 打开自动补全
+							instance.tags_complete.css("display", "block");
+						}
+					});
+				}
 			},
 
 			// 隐藏自动补全
@@ -384,6 +435,8 @@
 				this.tags_enter = this.tags_frame.children("input");
 				// 自动补全窗口
 				this.tags_complete = this.tags_frame.children("ul");
+				// 自动补全窗口设定高度，和滚屏
+				this.tags_complete.css({"max-height":200, "overflow-y":"auto"});
 
 				// 呃。没办法
 				instance = this;
@@ -434,7 +487,7 @@
 				full_tags = {};
 				for(var ii=0; ii<tags_data.length; ii++) {
 					var one_tags = tags_data[ii].split(":");
-					full_tags[one_tags[0]] = one_tags[1];
+					full_tags[one_tags[0]] = (typeof(one_tags[1])=="undefined") ? one_tags[0] : one_tags[1];
 				}
 				// 返回
 				return full_tags;

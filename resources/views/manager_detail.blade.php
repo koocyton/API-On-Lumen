@@ -72,7 +72,7 @@
 				</td>
 				<td>
 					<div class="form-group form-tags">
-						<input type="text" name="groupings" value="{{ $manager->groupings }}" search-source="{{ $groupings }}" autocomplete="off" class="tags-input">
+						<input type="text" name="groupings" value="{{ $manager->groupings }}" tags-data="{{ $groupings }}" autocomplete="off" class="tags-input" multiple>
 					</div>
 				</td>
 			</tr>

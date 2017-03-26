@@ -318,6 +318,9 @@
 			// 自动补全窗口弹出的方向
 			complete_drop : 'dropup',
 
+			// 当前自动补全选中的项
+			selected_complete : "",
+
 			/* 
 			 * init
 			 */
@@ -362,10 +365,16 @@
 				this.tags_enter.bind("keyup", function(e) {
 					// 回车
 					if(e.keyCode === 13) {
-						var value = instance.tags_enter.val();
-						if (value.length>=1 && !instance.tags_frame.children("span[value='" + value+ "']").exist()) {
-							instance.insertTag(value);
+						if (instance.selected_complete!=null) {
+							instance.insertTag(instance.selected_complete);
 							instance.tags_enter.val("");
+						}
+						else {
+							var value = instance.tags_enter.val();
+							if (value.length>=1 && !instance.tags_frame.children("span[value='" + value+ "']").exist()) {
+								instance.insertTag(value);
+								instance.tags_enter.val("");
+							}
 						}
 					}
 					// 上
@@ -453,17 +462,29 @@
 				var enter_value = this.tags_enter.val()
 				var enter_reg = new RegExp(enter_value, "g");
 				var match_li = null;
+				this.selected_complete = null;
 				this.tags_complete.find("li").each(function(key, elt) {
 					var name = $(elt).children("a").html();
-					$.KTLog(enter_value.length>1, enter_reg.test(name), match_li===null, elt);
-					if (enter_value.length>0 && match_li===null && enter_reg.test(name)) {
-						$.KTLog(" >>>>>>>>>>>>>>>>>  999 ");
-						match_li = $(elt).css("background-color", "#eeeeee");
+					if (enter_value.length<1) {
+						$(elt).css("background-color", "#ffffff");
+						$(elt).css("display", "block");
+					}
+					else if (name.match(enter_reg)) {
+						if (match_li==null) {
+							match_li = $(elt).css("background-color", "#eeeeee");
+						}
+						else {
+							$(elt).css("background-color", "#ffffff");
+						}
+						$(elt).css("display", "block");
 					}
 					else {
-						$(elt).css("background-color", "#ffffff");
+						$(elt).css("display", "none");
 					}
 				});
+				if (match_li!=null) {
+					this.selected_complete = match_li.children("a").html();
+				}
 			},
 
 			// 列出自动补全

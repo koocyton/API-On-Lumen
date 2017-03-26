@@ -358,10 +358,8 @@
 			{
 				// 呃。没办法
 				instance = this;
-				// bind event
+				// onkeyup
 				this.tags_enter.bind("keyup", function(e) {
-				});
-				this.tags_enter.bind("keydown", function(e) {
 					// 回车
 					if(e.keyCode === 13) {
 						var value = instance.tags_enter.val();
@@ -378,8 +376,17 @@
 					else if (e.keyCode === 40) {
 
 					}
+					else {
+						// 选择自动补全
+						instance.selectEnterComplete();
+						// 如果自动补全的内容都已经输入，就不显示了
+						instance.showEnterComplete();
+					}
+				});
+				// onkeydown
+				this.tags_enter.bind("keydown", function(e) {
 					// 删除
-					else if (e.keyCode === 8) {
+					if (e.keyCode === 8) {
 						var value = instance.tags_enter.val();
 						if (value.length<1) {
 							var last_tag = instance.tags_frame.children("span").last();
@@ -387,9 +394,6 @@
 							instance.removeTag(last_value);
 						}
 					}
-					instance.selectEnterComplete();
-					// 如果自动补全的内容都已经输入，就不显示了
-					instance.showEnterComplete();
 				});
 			},
 
@@ -416,13 +420,8 @@
 					});
 				}
 				/* input value */
-				var value = "";
-				this.tags_frame.children("span").each(function(key, elt){
-					value += (value=="") ? $(elt).attr("value") : "," + $(elt).attr("value");
-				});
-				this.tags_input.val(value);
-				this.listEnterComplete();
-				this.showEnterComplete();
+				this.flushTagsInputValue();
+				this.flushEnterComplete();
 			},
 
 			// 移除 tag
@@ -430,13 +429,19 @@
 			{
 				this.tags_frame.children("span[value='"+value+"']").empty().remove();
 				/* input value */
+				this.flushTagsInputValue();
+				this.flushEnterComplete();
+			},
+
+			// 给 input 值
+			flushTagsInputValue: function()
+			{
+				/* input value */
 				var value = "";
 				this.tags_frame.children("span").each(function(key, elt){
 					value += (value=="") ? $(elt).attr("value") : "," + $(elt).attr("value");
 				});
 				this.tags_input.val(value);
-				this.listEnterComplete();
-				this.showEnterComplete();
 			},
 
 			// 选择自动补全
@@ -445,20 +450,24 @@
 				if (!this.full_tags || !this.tags_complete.exist()) {
 					return;
 				}
-				var reg = new RegExp(this.tags_enter.val(), "g");
+				var enter_value = this.tags_enter.val()
+				var enter_reg = new RegExp(enter_value, "g");
 				var match_li = null;
 				this.tags_complete.find("li").each(function(key, elt) {
 					var name = $(elt).children("a").html();
-					if (reg.test(name) && match_li==null) {
-						// match_li = $(elt).css("background-color", "#eeeeee");
-						$.KTLog(match_li);
-						return false;
+					$.KTLog(enter_value.length>1, enter_reg.test(name), match_li===null, elt);
+					if (enter_value.length>0 && match_li===null && enter_reg.test(name)) {
+						$.KTLog(" >>>>>>>>>>>>>>>>>  999 ");
+						match_li = $(elt).css("background-color", "#eeeeee");
+					}
+					else {
+						$(elt).css("background-color", "#ffffff");
 					}
 				});
 			},
 
 			// 列出自动补全
-			listEnterComplete: function()
+			flushEnterComplete: function()
 			{
 				if (!this.full_tags || !this.tags_complete.exist()) {
 					return;
@@ -532,18 +541,8 @@
 				// 呃。没办法
 				instance = this;
 
-				// 点外框时 focus 输入框
-				/*this.tags_frame.click(function(e){
-					instance.tags_enter.focus();
-					e.stopPropagation();
-				});
-
-				// 输入框时，避免两次 focus
-				this.tags_enter.click(function(e){
-					e.stopPropagation();
-				});*/
-
-				this.listEnterComplete();
+				// 刷新自动补全的内容
+				this.flushEnterComplete();
 
 				// 输入框 focus 时，外框亮色提示
 				this.tags_frame.click(function(e){
@@ -573,16 +572,6 @@
 					// 不冒泡
 					e.stopPropagation();
 				});
-
-				// 输入框 blur 时，外框亮色取消
-				// this.tags_enter.blur(function(){
-					// remove class
-					// instance.tags_frame.removeClass("tags-frame-focus");
-					// unbind keydown
-					// instance.tags_enter.parents("form").unbind("keydown");
-					// 关闭自动补全框
-					// instance.hiddEnterComplete();
-				// });
 			},
 
 			// 返回完整的 tags 数据

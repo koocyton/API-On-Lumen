@@ -348,6 +348,49 @@
 
 				// 插入已经定义的 tag
 				this.insertTag(this.entered_tags);
+
+				// 绑定事件
+				this.tagsInputEvent();
+			},
+
+			// 给 input 部分添加键盘事件
+			tagsInputEvent: function()
+			{
+				// 呃。没办法
+				instance = this;
+				//
+				this.tags_enter.bind("keydown", function(e) {
+					// 回车
+					if(e.keyCode === 13) {
+						var value = instance.tags_enter.val();
+						if (value.length>=1 && !instance.tags_frame.children("span[value='" + value+ "']").exist()) {
+							instance.insertTag(value);
+							instance.tags_enter.val("");
+						}
+					}
+					// 上
+					else if (e.keyCode === 38) {
+
+					}
+					// 下
+					else if (e.keyCode === 40) {
+
+					}
+					// 删除
+					else if (e.keyCode === 8) {
+						var value = instance.tags_enter.val();
+						if (value.length<1) {
+							var last_tag = instance.tags_frame.children("span").last();
+							var last_value = last_tag.attr("value");
+							instance.removeTag(last_value);
+						}
+					}
+					else {
+						instance.selectEnterComplete();
+					}
+					// 如果自动补全的内容都已经输入，就不显示了
+					instance.showEnterComplete();
+				});
 			},
 
 			// 插入 tag
@@ -361,7 +404,7 @@
 					instance = this;
 					// loop
 					$.each(values, function(key,value) {
-						var name = (typeof(instance.full_tags[value])=="undefined") ? value : instance.full_tags[value];
+						var name = (!instance.full_tags || typeof(instance.full_tags[value])=="undefined") ? value : instance.full_tags[value];
 						var tag_elt = $("<span class=\"radius-5\" value=\"" + value + "\">" + name + "<p>×</p></span>");
 						tag_elt.children("p").click(function(e){
 							instance.removeTag(value);
@@ -370,18 +413,41 @@
 							instance.tags_frame.children("span").remove();
 						}
 						tag_elt.insertBefore(instance.tags_enter);
-					})
+					});
 				}
+				/* input value */
+				var value = "";
+				this.tags_frame.children("span").each(function(key, elt){
+					value += (value=="") ? $(elt).attr("value") : "," + $(elt).attr("value");
+				});
+				this.tags_input.val(value);
 			},
 
 			// 移除 tag
 			removeTag: function(value)
 			{
 				this.tags_frame.children("span[value='"+value+"']").empty().remove();
+				/* input value */
+				var value = "";
+				this.tags_frame.children("span").each(function(key, elt){
+					value += (value=="") ? $(elt).attr("value") : "," + $(elt).attr("value");
+				});
+				this.tags_input.val(value);
+			},
+
+			selectEnterComplete: function()
+			{
+				if (!this.full_tags || !this.tags_complete.exist()) {
+					return;
+				}
+				var reg = new RegExp(this.tags_enter.val(), "g");
+				this.tags_complete.find("li").each(function(key, elt) {
+					$(elt).addClass("111");
+				});
 			},
 
 			// 如果可以，显示自动补全
-			showTagsComplete: function()
+			showEnterComplete: function()
 			{
 				if (!this.full_tags || !this.tags_complete.exist()) {
 					return;
@@ -392,6 +458,7 @@
 					entered_tags += $(elt).attr("value") + ",";
 				});
 				if (this.full_tags) {
+					// 先清除
 					this.tags_complete.empty();
 					// 呃。没办法
 					instance = this;
@@ -400,16 +467,20 @@
 						var reg = new RegExp("," + value + ",", "g");
 						if (!reg.test(entered_tags)) {
 							var complete_li = $("<li><a href=\"javascript:void(0);\">" + name + "</a></li>");
+							complete_li.click(function(e){
+								alert(1);
+							});
 							complete_li.appendTo(instance.tags_complete);
-							// 打开自动补全
-							instance.tags_complete.css("display", "block");
 						}
 					});
+					// 如果自动补全已经录入完毕，就不再显示
+					var display = instance.tags_complete.children("li").exist() ? "block" : "none";
+					instance.tags_complete.css("display", display);
 				}
 			},
 
 			// 隐藏自动补全
-			hiddTagsComplete: function()
+			hiddEnterComplete: function()
 			{
 				if (!this.full_tags || !this.tags_complete.exist()) {
 					return;
@@ -447,6 +518,11 @@
 					e.stopPropagation();
 				});
 
+				// 输入框时，避免两次 focus
+				this.tags_enter.click(function(e){
+					e.stopPropagation();
+				});
+
 				// 输入框 focus 时，外框亮色提示
 				this.tags_enter.focus(function(){
 					// add clsss
@@ -458,7 +534,7 @@
 						}
 					});
 					// 弹出自动补全框
-					instance.showTagsComplete();
+					instance.showEnterComplete();
 				});
 
 				// 输入框 blur 时，外框亮色取消
@@ -468,7 +544,7 @@
 					// unbind keydown
 					instance.tags_enter.parents("form").unbind("keydown");
 					// 关闭自动补全框
-					instance.hiddTagsComplete();
+					instance.hiddEnterComplete();
 				});
 			},
 

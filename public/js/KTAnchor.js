@@ -342,7 +342,7 @@
 				
 				// 自动补全弹出的方向
 				this.complete_drop = typeof(this.tags_input.attr('drop-up'))=="undefined" ? 'dropdown' : 'dropup',
-				
+
 				// 输出 tags input 的 view 部分
 				this.tagsInputGraph();
 
@@ -358,7 +358,9 @@
 			{
 				// 呃。没办法
 				instance = this;
-				//
+				// bind event
+				this.tags_enter.bind("keyup", function(e) {
+				});
 				this.tags_enter.bind("keydown", function(e) {
 					// 回车
 					if(e.keyCode === 13) {
@@ -385,9 +387,7 @@
 							instance.removeTag(last_value);
 						}
 					}
-					else {
-						instance.selectEnterComplete();
-					}
+					instance.selectEnterComplete();
 					// 如果自动补全的内容都已经输入，就不显示了
 					instance.showEnterComplete();
 				});
@@ -421,6 +421,8 @@
 					value += (value=="") ? $(elt).attr("value") : "," + $(elt).attr("value");
 				});
 				this.tags_input.val(value);
+				this.listEnterComplete();
+				this.showEnterComplete();
 			},
 
 			// 移除 tag
@@ -433,21 +435,30 @@
 					value += (value=="") ? $(elt).attr("value") : "," + $(elt).attr("value");
 				});
 				this.tags_input.val(value);
+				this.listEnterComplete();
+				this.showEnterComplete();
 			},
 
+			// 选择自动补全
 			selectEnterComplete: function()
 			{
 				if (!this.full_tags || !this.tags_complete.exist()) {
 					return;
 				}
 				var reg = new RegExp(this.tags_enter.val(), "g");
+				var match_li = null;
 				this.tags_complete.find("li").each(function(key, elt) {
-					$(elt).addClass("111");
+					var name = $(elt).children("a").html();
+					if (reg.test(name) && match_li==null) {
+						// match_li = $(elt).css("background-color", "#eeeeee");
+						$.KTLog(match_li);
+						return false;
+					}
 				});
 			},
 
-			// 如果可以，显示自动补全
-			showEnterComplete: function()
+			// 列出自动补全
+			listEnterComplete: function()
 			{
 				if (!this.full_tags || !this.tags_complete.exist()) {
 					return;
@@ -467,16 +478,25 @@
 						var reg = new RegExp("," + value + ",", "g");
 						if (!reg.test(entered_tags)) {
 							var complete_li = $("<li><a href=\"javascript:void(0);\">" + name + "</a></li>");
-							complete_li.click(function(e){
-								alert(1);
+							complete_li.click(function(e) {
+								instance.insertTag(value);
+								// instance.hiddEnterComplete();
 							});
 							complete_li.appendTo(instance.tags_complete);
 						}
 					});
-					// 如果自动补全已经录入完毕，就不再显示
-					var display = instance.tags_complete.children("li").exist() ? "block" : "none";
-					instance.tags_complete.css("display", display);
 				}
+			},
+
+			// 如果可以，显示自动补全
+			showEnterComplete: function()
+			{
+				if (!this.full_tags || !this.tags_complete.exist()) {
+					return;
+				}
+				// 如果自动补全已经录入完毕，就不再显示
+				var display = instance.tags_complete.children("li").exist() ? "block" : "none";
+				this.tags_complete.css("display", display);
 			},
 
 			// 隐藏自动补全
@@ -513,7 +533,7 @@
 				instance = this;
 
 				// 点外框时 focus 输入框
-				this.tags_frame.click(function(e){
+				/*this.tags_frame.click(function(e){
 					instance.tags_enter.focus();
 					e.stopPropagation();
 				});
@@ -521,10 +541,16 @@
 				// 输入框时，避免两次 focus
 				this.tags_enter.click(function(e){
 					e.stopPropagation();
-				});
+				});*/
+
+				this.listEnterComplete();
 
 				// 输入框 focus 时，外框亮色提示
-				this.tags_enter.focus(function(){
+				this.tags_frame.click(function(e){
+					// 给焦点
+					instance.tags_enter.focus();
+					// 弹出自动补全框
+					instance.showEnterComplete();
 					// add clsss
 					instance.tags_frame.addClass("tags-frame-focus");
 					// 回车键不会让 form 提交
@@ -533,19 +559,30 @@
 							return false;
 						}
 					});
-					// 弹出自动补全框
-					instance.showEnterComplete();
+					// 关闭弹出
+					$(document.body).bind("click touchend", function(e) {
+						// 关闭自动弹出
+						instance.hiddEnterComplete();
+						// 去掉 focus 的 css 效果
+						instance.tags_frame.removeClass("tags-frame-focus");
+						// unbind keydown event
+						instance.tags_enter.parents("form").unbind("keydown");
+						// unbind document click/touchend event
+						$(document.body).unbind("click touchend");
+					});
+					// 不冒泡
+					e.stopPropagation();
 				});
 
 				// 输入框 blur 时，外框亮色取消
-				this.tags_enter.blur(function(){
+				// this.tags_enter.blur(function(){
 					// remove class
-					instance.tags_frame.removeClass("tags-frame-focus");
+					// instance.tags_frame.removeClass("tags-frame-focus");
 					// unbind keydown
-					instance.tags_enter.parents("form").unbind("keydown");
+					// instance.tags_enter.parents("form").unbind("keydown");
 					// 关闭自动补全框
-					instance.hiddEnterComplete();
-				});
+					// instance.hiddEnterComplete();
+				// });
 			},
 
 			// 返回完整的 tags 数据
@@ -1088,9 +1125,9 @@
 		tagsInputBind : function()
 		{
 			// 搜索范围
-			$(this).find("input.tags-input").each(function(key) {
+			$(this).find("input.tags-input").each(function(key, elt) {
 				// 循环处理
-				$.TagsInput.init(this);
+				$.TagsInput.init(elt);
 			});
 			return this;
 		},

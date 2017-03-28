@@ -292,331 +292,6 @@
 			},
 		},
 
-		TagsInput: {
-
-			// 用来定义 tags input 的 input 组件
-			tags_input : null,
-
-			// tags 输入组件
-			tags_frame : null,
-
-			// tags 输入组件，录入的 input
-			tags_enter : null,
-
-			// 自动补全窗口
-			tags_complete : null,
-
-			// 完整的 tags
-			full_tags : null,
-
-			// 当前录入的 tags
-			entered_tags : null,
-
-			// 允许录入多个 tags
-			multiple : true,
-
-			// 自动补全窗口弹出的方向
-			complete_drop : 'dropup',
-
-			// 当前自动补全选中的项
-			selected_complete : "",
-
-			/* 
-			 * init
-			 */
-			init: function(tags_input) {
-
-				// 设定 input
-				this.tags_input = $(tags_input);
-
-				// 清除上一层节点内的属性，让他们都隐藏
-				this.tags_input.parent().children().each(function(key, elt){
-					$(elt).css("display", "none");
-				});
-
-				// 取得全部的 tags 数据
-				this.full_tags = this.fullTags();
-
-				// 已经录入的数据
-				this.entered_tags = (this.tags_input.val().length<1) ? [] : this.tags_input.val().split(",");
-
-				// 是否允许录入多个 tags
-				this.multiple = typeof(this.tags_input.attr('multiple'))=="undefined" ? false : true,
-				
-				// 自动补全弹出的方向
-				this.complete_drop = typeof(this.tags_input.attr('drop-up'))=="undefined" ? 'dropdown' : 'dropup',
-
-				// 输出 tags input 的 view 部分
-				this.tagsInputGraph();
-
-				// 插入已经定义的 tag
-				this.insertTag(this.entered_tags);
-
-				// 绑定事件
-				this.tagsInputEvent();
-			},
-
-			// 给 input 部分添加键盘事件
-			tagsInputEvent: function()
-			{
-				// 呃。没办法
-				instance = this;
-				// onkeyup
-				this.tags_enter.bind("keyup", function(e) {
-					// 回车
-					if(e.keyCode === 13) {
-						if (instance.selected_complete!=null) {
-							instance.insertTag(instance.selected_complete);
-							instance.tags_enter.val("");
-						}
-						else {
-							var value = instance.tags_enter.val();
-							if (value.length>=1 && !instance.tags_frame.children("span[value='" + value+ "']").exist()) {
-								instance.insertTag(value);
-								instance.tags_enter.val("");
-							}
-						}
-					}
-					// 上
-					else if (e.keyCode === 38) {
-
-					}
-					// 下
-					else if (e.keyCode === 40) {
-
-					}
-					else {
-						// 选择自动补全
-						instance.selectEnterComplete();
-						// 如果自动补全的内容都已经输入，就不显示了
-						instance.showEnterComplete();
-					}
-				});
-				// onkeydown
-				this.tags_enter.bind("keydown", function(e) {
-					// 删除
-					if (e.keyCode === 8) {
-						var value = instance.tags_enter.val();
-						if (value.length<1) {
-							var last_tag = instance.tags_frame.children("span").last();
-							var last_value = last_tag.attr("value");
-							instance.removeTag(last_value);
-						}
-					}
-				});
-			},
-
-			// 插入 tag
-			insertTag: function(values)
-			{
-				if (typeof(values)=="string") {
-					values = (values.length<1) ? [] : values.split(",");
-				}
-				if (typeof(values)=="object") {
-					// 呃。没办法
-					instance = this;
-					// loop
-					$.each(values, function(key,value) {
-						var name = (!instance.full_tags || typeof(instance.full_tags[value])=="undefined") ? value : instance.full_tags[value];
-						var tag_elt = $("<span class=\"radius-5\" value=\"" + value + "\">" + name + "<p>×</p></span>");
-						tag_elt.children("p").click(function(e){
-							instance.removeTag(value);
-						});
-						if (instance.multiple!=true) {
-							instance.tags_frame.children("span").remove();
-						}
-						tag_elt.insertBefore(instance.tags_enter);
-					});
-				}
-				/* input value */
-				this.flushTagsInputValue();
-				this.flushEnterComplete();
-			},
-
-			// 移除 tag
-			removeTag: function(value)
-			{
-				this.tags_frame.children("span[value='"+value+"']").empty().remove();
-				/* input value */
-				this.flushTagsInputValue();
-				this.flushEnterComplete();
-			},
-
-			// 给 input 值
-			flushTagsInputValue: function()
-			{
-				/* input value */
-				var value = "";
-				this.tags_frame.children("span").each(function(key, elt){
-					value += (value=="") ? $(elt).attr("value") : "," + $(elt).attr("value");
-				});
-				this.tags_input.val(value);
-			},
-
-			// 选择自动补全
-			selectEnterComplete: function()
-			{
-				if (!this.full_tags || !this.tags_complete.exist()) {
-					return;
-				}
-				var enter_value = this.tags_enter.val()
-				var enter_reg = new RegExp(enter_value, "g");
-				var match_li = null;
-				this.selected_complete = null;
-				this.tags_complete.find("li").each(function(key, elt) {
-					var name = $(elt).children("a").html();
-					if (enter_value.length<1) {
-						$(elt).css("background-color", "#ffffff");
-						$(elt).css("display", "block");
-					}
-					else if (name.match(enter_reg)) {
-						if (match_li==null) {
-							match_li = $(elt).css("background-color", "#eeeeee");
-						}
-						else {
-							$(elt).css("background-color", "#ffffff");
-						}
-						$(elt).css("display", "block");
-					}
-					else {
-						$(elt).css("display", "none");
-					}
-				});
-				if (match_li!=null) {
-					this.selected_complete = match_li.children("a").html();
-				}
-			},
-
-			// 列出自动补全
-			flushEnterComplete: function()
-			{
-				if (!this.full_tags || !this.tags_complete.exist()) {
-					return;
-				}
-				// 拿到需要排除的 tag，不会显示在自动补全
-				var entered_tags = ',';
-				this.tags_frame.children("span").each(function(key, elt){
-					entered_tags += $(elt).attr("value") + ",";
-				});
-				if (this.full_tags) {
-					// 先清除
-					this.tags_complete.empty();
-					// 呃。没办法
-					instance = this;
-					// 开始搜索数据源
-					$.each(this.full_tags, function(value, name) {
-						var reg = new RegExp("," + value + ",", "g");
-						if (!reg.test(entered_tags)) {
-							var complete_li = $("<li><a href=\"javascript:void(0);\">" + name + "</a></li>");
-							complete_li.click(function(e) {
-								instance.insertTag(value);
-								// instance.hiddEnterComplete();
-							});
-							complete_li.appendTo(instance.tags_complete);
-						}
-					});
-				}
-			},
-
-			// 如果可以，显示自动补全
-			showEnterComplete: function()
-			{
-				if (!this.full_tags || !this.tags_complete.exist()) {
-					return;
-				}
-				// 如果自动补全已经录入完毕，就不再显示
-				var display = instance.tags_complete.children("li").exist() ? "block" : "none";
-				this.tags_complete.css("display", display);
-			},
-
-			// 隐藏自动补全
-			hiddEnterComplete: function()
-			{
-				if (!this.full_tags || !this.tags_complete.exist()) {
-					return;
-				}
-				// 关闭自动补全
-				this.tags_complete.css("display", "none");
-			},
-
-			// 输出 tags input 输入模块
-			tagsInputGraph: function()
-			{
-				// 默认不带弹出检索层的 tag 输入系统
-				this.tags_frame = $('<div class="tags-frame form-control"><input type="text" class="tags-enter"></div>');
-				
-				// 带自动完成的输入，根据 options，并判断上弹出还是下弹出
-				if (this.full_tags) {
-					this.tags_frame = $('<div class="tags-frame form-control ' + this.complete_drop + '"><input type="text" class="tags-enter"><ul class="dropdown-menu"></ul></div>');
-				}
-				
-				// 插入到 input 的后面
-				this.tags_frame.appendTo(this.tags_input.parent());
-				// tags 输入组件，录入的 input
-				this.tags_enter = this.tags_frame.children("input");
-				// 自动补全窗口
-				this.tags_complete = this.tags_frame.children("ul");
-				// 自动补全窗口设定高度，和滚屏
-				this.tags_complete.css({"max-height":200, "overflow-y":"auto"});
-
-				// 呃。没办法
-				instance = this;
-
-				// 刷新自动补全的内容
-				this.flushEnterComplete();
-
-				// 输入框 focus 时，外框亮色提示
-				this.tags_frame.click(function(e){
-					// 给焦点
-					instance.tags_enter.focus();
-					// 弹出自动补全框
-					instance.showEnterComplete();
-					// add clsss
-					instance.tags_frame.addClass("tags-frame-focus");
-					// 回车键不会让 form 提交
-					instance.tags_enter.parents("form").bind("keydown", function(e){
-						if(e.keyCode === 13) {
-							return false;
-						}
-					});
-					// 关闭弹出
-					$(document.body).bind("click touchend", function(e) {
-						// 关闭自动弹出
-						instance.hiddEnterComplete();
-						// 去掉 focus 的 css 效果
-						instance.tags_frame.removeClass("tags-frame-focus");
-						// unbind keydown event
-						instance.tags_enter.parents("form").unbind("keydown");
-						// unbind document click/touchend event
-						$(document.body).unbind("click touchend");
-					});
-					// 不冒泡
-					e.stopPropagation();
-				});
-			},
-
-			// 返回完整的 tags 数据
-			fullTags: function()
-			{
-				// 获取属性
-				var data_attr = this.tags_input.attr('tags-data');
-				// 如果没有 tags-data ，说明没有检索部分
-				if (typeof(data_attr)=="undefined" || data_attr.length<1) {
-					return null;
-				}
-				// 切分字符串
-				var tags_data = data_attr.split(",");
-				// 切割字符串，循环处理
-				full_tags = {};
-				for(var ii=0; ii<tags_data.length; ii++) {
-					var one_tags = tags_data[ii].split(":");
-					full_tags[one_tags[0]] = (typeof(one_tags[1])=="undefined") ? one_tags[0] : one_tags[1];
-				}
-				// 返回
-				return full_tags;
-			}
-		},
-
 		KTDateFormat: function(ts, dt)   {
 			var now = ts ? new Date(parseInt(ts)) : new Date();
 			var y = now.getFullYear();
@@ -1137,7 +812,7 @@
 			// 搜索范围
 			$(this).find("input.tags-input").each(function(key, elt) {
 				// 循环处理
-				$.TagsInput.init(elt);
+				new TagsInput(elt);
 			});
 			return this;
 		},
@@ -1309,6 +984,344 @@
 	});
 
 })(jQuery);
+
+function TagsInput(tags_input) {
+
+	// 用来定义 tags input 的 input 组件
+	this.tags_input = $(tags_input);
+
+	// tags 输入组件
+	this.tags_frame = null;
+
+	// tags 输入组件，录入的 input
+	this.tags_enter = null;
+
+	// 自动补全窗口
+	this.tags_complete = null;
+
+	// 完整的 tags
+	this.full_tags = this.fullTags();
+
+	// 当前录入的 tags
+	this.entered_tags = (this.tags_input.val().length<1) ? [] : this.tags_input.val().split(",");
+
+	// 允许录入多个 tags
+	this.multiple = typeof(this.tags_input.attr('multiple'))=="undefined" ? false : true;
+
+	// 自动补全窗口弹出的方向
+	this.complete_drop = typeof(this.tags_input.attr('drop-up'))=="undefined" ? 'dropdown' : 'dropup';
+
+	// 当前自动补全选中的项
+	this.selected_complete = null;
+
+	// 初始化
+	this.init();
+}
+
+/* 
+ * init
+ */
+TagsInput.prototype.init = function() {
+
+	// 清除上一层节点内的属性，让他们都隐藏
+	this.tags_input.parent().children().each(function(key, elt){
+		$(elt).css("display", "none");
+	});
+
+	// 输出 tags input 的 view 部分
+	this.tagsInputGraph();
+
+	// 插入已经定义的 tag
+	this.insertTag(this.entered_tags);
+
+	// 绑定事件
+	this.tagsInputEvent();
+}
+
+// 给 input 部分添加键盘事件
+TagsInput.prototype.tagsInputEvent = function()
+{
+	// 呃。没办法
+	var instance = this;
+	// onkeyup
+	this.tags_enter.bind("keyup", function(e) {
+		// 回车
+		if(e.keyCode === 13) {
+			if (instance.full_tags) {
+				if (instance.selected_complete!=null) {
+					var value = instance.selected_complete.children("a").html();
+					instance.insertTag(value);
+					instance.tags_enter.val("");
+					instance.selected_complete = null;
+				}
+			}
+			else {
+				var value = instance.tags_enter.val();
+				if (value.length>=1 && !instance.tags_frame.children("span[value='" + value+ "']").exist()) {
+					instance.insertTag(value);
+					instance.tags_enter.val("");
+				}
+			}
+		}
+		// 上 or 下
+		else if (e.keyCode === 38 || e.keyCode === 40) {
+			switch_selected_complete = null;
+			// 
+			if (instance.full_tags) {
+				if (e.keyCode === 38) {
+					switch_selected_complete = instance.selected_complete==null
+											? instance.tags_complete.find("li:visible").last()
+											: instance.selected_complete.prev("li:visible");
+				}
+				else if (e.keyCode === 40) {
+					switch_selected_complete = instance.selected_complete==null
+											? instance.tags_complete.find("li:visible").first()
+											: instance.selected_complete.next("li:visible");
+				}
+				if (!switch_selected_complete.exist()) {
+					return false;
+				}
+				if (instance.selected_complete!=null) {
+					instance.selected_complete.css("background-color", "#ffffff");
+				}
+				switch_selected_complete.css("background-color", "#eeeeee");
+				instance.selected_complete = switch_selected_complete;
+				return false;
+			}
+		}
+		else {
+			// 选择自动补全
+			instance.selectEnterComplete();
+			// 如果自动补全的内容都已经输入，就不显示了
+			instance.showEnterComplete();
+		}
+	});
+	// onkeydown
+	this.tags_enter.bind("keydown", function(e) {
+		// 删除
+		if (e.keyCode === 8) {
+			var value = instance.tags_enter.val();
+			if (value.length<1) {
+				var last_tag = instance.tags_frame.children("span").last();
+				var last_value = last_tag.attr("value");
+				instance.removeTag(last_value);
+			}
+		}
+	});
+}
+
+// 插入 tag
+TagsInput.prototype.insertTag = function(values)
+{
+	if (typeof(values)=="string") {
+		values = (values.length<1) ? [] : values.split(",");
+	}
+	if (typeof(values)=="object") {
+		// 呃。没办法
+		var instance = this;
+		// loop
+		$.each(values, function(key, value) {
+			var name = (!instance.full_tags || typeof(instance.full_tags[value])=="undefined") ? value : instance.full_tags[value];
+			var tag_elt = $("<span class=\"radius-5\" value=\"" + value + "\">" + name + "<p>×</p></span>");
+			tag_elt.children("p").click(function(e){
+				instance.removeTag(value);
+			});
+			if (instance.multiple!=true) {
+				instance.tags_frame.children("span").remove();
+			}
+			tag_elt.insertBefore(instance.tags_enter);
+		});
+	}
+	/* input value */
+	this.flushTagsInputValue();
+	this.flushEnterComplete();
+}
+
+// 移除 tag
+TagsInput.prototype.removeTag = function(value)
+{
+	this.tags_frame.children("span[value='"+value+"']").empty().remove();
+	/* input value */
+	this.flushTagsInputValue();
+	this.flushEnterComplete();
+}
+
+// 给 input 值
+TagsInput.prototype.flushTagsInputValue = function()
+{
+	/* input value */
+	var value = "";
+	this.tags_frame.children("span").each(function(key, elt){
+		value += (value=="") ? $(elt).attr("value") : "," + $(elt).attr("value");
+	});
+	this.tags_input.val(value);
+}
+
+// 选择自动补全
+TagsInput.prototype.selectEnterComplete = function()
+{
+	if (!this.full_tags || !this.tags_complete.exist()) {
+		return;
+	}
+	var enter_value = this.tags_enter.val()
+	var enter_reg = new RegExp(enter_value, "g");
+	var match_li = null;
+	this.selected_complete = null;
+	this.tags_complete.find("li").each(function(key, elt) {
+		var name = $(elt).children("a").html();
+		if (enter_value.length<1) {
+			$(elt).css("background-color", "#ffffff");
+			$(elt).css("display", "block");
+		}
+		else if (name.match(enter_reg)) {
+			if (match_li==null) {
+				match_li = $(elt).css("background-color", "#eeeeee");
+			}
+			else {
+				$(elt).css("background-color", "#ffffff");
+			}
+			$(elt).css("display", "block");
+		}
+		else {
+			$(elt).css("display", "none");
+		}
+	});
+	if (match_li!=null) {
+		this.selected_complete = match_li;
+	}
+}
+
+// 列出自动补全
+TagsInput.prototype.flushEnterComplete = function()
+{
+	if (!this.full_tags || !this.tags_complete.exist()) {
+		return;
+	}
+	// 拿到需要排除的 tag，不会显示在自动补全
+	var entered_tags = ',';
+	this.tags_frame.children("span").each(function(key, elt){
+		entered_tags += $(elt).attr("value") + ",";
+	});
+	if (this.full_tags) {
+		// 先清除
+		this.tags_complete.empty();
+		// 呃。没办法
+		var instance = this;
+		// 开始搜索数据源
+		$.each(this.full_tags, function(value, name) {
+			var reg = new RegExp("," + value + ",", "g");
+			if (!reg.test(entered_tags)) {
+				var complete_li = $("<li><a href=\"javascript:void(0);\">" + name + "</a></li>");
+				complete_li.click(function(e) {
+					instance.insertTag(value);
+					// instance.hiddEnterComplete();
+				});
+				complete_li.appendTo(instance.tags_complete);
+			}
+		});
+	}
+}
+
+// 如果可以，显示自动补全
+TagsInput.prototype.showEnterComplete = function()
+{
+	if (!this.full_tags || !this.tags_complete.exist()) {
+		return;
+	}
+	// 如果自动补全已经录入完毕，就不再显示
+	var display = this.tags_complete.children("li").exist() ? "block" : "none";
+	this.tags_complete.css("display", display);
+}
+
+// 隐藏自动补全
+TagsInput.prototype.hiddEnterComplete = function()
+{
+	if (!this.full_tags || !this.tags_complete.exist()) {
+		return;
+	}
+	// 关闭自动补全
+	this.tags_complete.css("display", "none");
+}
+
+// 输出 tags input 输入模块
+TagsInput.prototype.tagsInputGraph = function()
+{
+	// 默认不带弹出检索层的 tag 输入系统
+	this.tags_frame = $('<div class="tags-frame form-control"><input type="text" class="tags-enter" /></div>');
+	
+	// 带自动完成的输入，根据 options，并判断上弹出还是下弹出
+	if (this.full_tags) {
+		this.tags_frame = $('<div class="tags-frame form-control ' + this.complete_drop + '"><input type="text" class="tags-enter" /><ul class="dropdown-menu"></ul></div>');
+	}
+	
+	// 插入到 input 的后面
+	this.tags_frame.appendTo(this.tags_input.parent());
+	// tags 输入组件，录入的 input
+	this.tags_enter = this.tags_frame.children("input");
+	// 自动补全窗口
+	this.tags_complete = this.tags_frame.children("ul");
+	// 自动补全窗口设定高度，和滚屏
+	this.tags_complete.css({"max-height":200, "overflow-y":"auto"});
+
+	// 呃。没办法
+	var instance = this;
+	// 刷新自动补全的内容
+	this.flushEnterComplete();
+
+	// 输入框 focus 时，外框亮色提示
+	this.tags_frame.click(function(e) {
+		// 如果是从别的 tag 点击过来的，那么先触发 document.body.click 事件
+		if (!instance.tags_frame.hasClass("tags-frame-focus")) {
+			$(document.body).trigger("click");
+		}
+		// 给焦点
+		instance.tags_enter.focus();
+		// 弹出自动补全框
+		instance.showEnterComplete();
+		// add clsss
+		instance.tags_frame.addClass("tags-frame-focus");
+		// 回车键不会让 form 提交
+		instance.tags_enter.parents("form").bind("keydown", function(e){
+			if(e.keyCode === 13) {
+				return false;
+			}
+		});
+		// 关闭弹出
+		$(document.body).bind("click touchend", function(e) {
+			// 关闭自动弹出
+			instance.hiddEnterComplete();
+			// 去掉 focus 的 css 效果
+			instance.tags_frame.removeClass("tags-frame-focus");
+			// unbind keydown event
+			instance.tags_enter.parents("form").unbind("keydown");
+			// unbind document click/touchend event
+			$(document.body).unbind("click touchend");
+		});
+		// 不冒泡
+		e.stopPropagation();
+	});
+}
+
+// 返回完整的 tags 数据
+TagsInput.prototype.fullTags = function()
+{
+	// 获取属性
+	var data_attr = this.tags_input.attr('tags-data');
+	// 如果没有 tags-data ，说明没有检索部分
+	if (typeof(data_attr)=="undefined" || data_attr.length<1) {
+		return null;
+	}
+	// 切分字符串
+	var tags_data = data_attr.split(",");
+	// 切割字符串，循环处理
+	full_tags = {};
+	for(var ii=0; ii<tags_data.length; ii++) {
+		var one_tags = tags_data[ii].split(":");
+		full_tags[one_tags[0]] = (typeof(one_tags[1])=="undefined") ? one_tags[0] : one_tags[1];
+	}
+	// 返回
+	return full_tags;
+}
 
 /* set KTAnchor default value */
 $.KTAnchor.init({

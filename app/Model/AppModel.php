@@ -15,7 +15,7 @@ class AppModel extends Model
      *
      * @var string
      */
-    // protected $connection = 'gmtools';
+    protected $connection = 'backend';
 
     /**
      * 该模型是否被自动维护时间戳

@@ -44,7 +44,7 @@ class Controller extends BaseController
         $ajax_request = $request->header('X-Requested-With');
         if (empty($ajax_request)) {
             $task_count = Task::count();
-            echo view('__portal', ['trans' => $this->trans, 'user' => $this->login_user_name, 'task_count'=>$task_count])->render();
+            echo view('__portal', ['trans' => $this->trans, 'locale' => $this->locale, 'user' => $this->login_user_name, 'task_count'=>$task_count])->render();
             exit();
         }
     }
@@ -113,8 +113,17 @@ class Controller extends BaseController
     {
         // 多语言
         $assign['trans'] = $this->trans;
+        // 多语言
+        $assign['locale'] = $this->locale;
         // 输出模板
         return response(view($template, $assign));
+    }
+
+    // 刷新页面
+    protected function flushPage()
+    {
+        // 刷新页面
+        return response('<script>$("#popup-modal").modal("hide");$(window).trigger("popstate");</script>');
     }
 
     // 设置本地语言

@@ -54,10 +54,10 @@
     		<div class="modal-content">
     			<div class="modal-body">
     				<div class="form-group">
-    					<input type="text" name="_account" class="form-control" autocomplete="off" placeholder="{{ $trans->get('login.Please enter account') }}" validation="/email:{{ $trans->get('login.Please enter account') }}/" value="">
+    					<input type="text" name="_account" class="form-control" autocomplete="off" placeholder="{{ $trans->get('login.Please enter account') }}" validation="/email:{{ $trans->get('login.Please enter account') }}/" value="test@test.com">
     				</div>
     				<div class="form-group">
-    					<input type="password" name="_password" class="form-control" autocomplete="off" placeholder="{{ $trans->get('login.Please enter password') }}" validation="/password:{{ $trans->get('login.Please enter password') }}/" value="">
+    					<input type="password" name="_password" class="form-control" autocomplete="off" placeholder="{{ $trans->get('login.Please enter password') }}" validation="/password:{{ $trans->get('login.Please enter password') }}/" value="test@test.com">
     				</div>
     				<div>
     					<label>

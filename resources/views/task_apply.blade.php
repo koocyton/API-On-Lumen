@@ -10,7 +10,7 @@
 				</td>
 				<td>
 					<div class="form-group">
-	  					<input type="text" name="title" class="form-control">
+	  					<input type="text" name="title" class="form-control" validation="/!empty:请输入标题/">
 	  				</div>
 				</td>
 			</tr>
@@ -21,7 +21,7 @@
 				</td>
 				<td>
 					<div class="form-group form-tags">
-						<input type="text" name="owner" value="" search-source="刘毅,严峻,大毛,孙老板,德慧,姜凡" class="tags-input" accept-multipart="no" />
+						<input type="text" name="owner" tags-data="{{ $manager_tags_data }}" class="tags-input" />
 					</div>
 				</td>
 			</tr>
@@ -48,7 +48,7 @@
 				</td>
 			</tr>
 
-			<tr>
+			<!-- <tr>
 				<td>
 					<div class="form-group">时　限：</div>
 				</td>
@@ -58,7 +58,7 @@
 						<span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
 					</div>
 				</td>
-			</tr>
+			</tr> //-->
 
 			<tr>
 				<td>
@@ -66,12 +66,12 @@
 				</td>
 				<td>
 					<div class="form-group">
-						<textarea name="description" class="form-control" style="padding:10px;width:700px;height:250px;resize:none;"></textarea>
+						<textarea name="description" validation="/!empty:请描述任务的内容/" class="form-control" style="padding:10px;width:700px;height:250px;resize:none;"></textarea>
 					</div>
 				</td>
 			</tr>
 
-			<tr>
+			<!-- <tr>
 				<td>
 					<div class="form-group">上传图：</div>
 				</td>
@@ -80,26 +80,15 @@
 						<input type="file" class="upload-input" name="illustration">
 					</div>
 				</td>
-			</tr>
+			</tr> //-->
 
 			<tr>
 				<td>
-					<div class="form-group">Tags：</div>
-				</td>
-				<td>
-					<div class="form-group form-tags ">
-						<input type="text" name="tags" value="" class="tags-input dropup">
-					</div>
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					<div class="form-group">抄　送：</div>
+					<div class="form-group">TAGS：</div>
 				</td>
 				<td>
 					<div class="form-group form-tags">
-						<input type="text" name="subscribers" value="" search-source="刘毅,严峻,大毛,孙老板,德慧,姜凡" class="tags-input dropup">
+						<input type="text" name="tags" value="" class="tags-input" multiple />
 					</div>
 				</td>
 			</tr>

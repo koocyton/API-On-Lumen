@@ -26,9 +26,9 @@
   </head>
   <body>
 
-    <div class="body-background"></div>
+    <div class="body-background blur-10" style="background-image:url(/css/{{ $locale }}_bg.jpg)"></div>
 
-    <nav class="navbar navbar-inverse" role="navigation">
+    <nav class="navbar navbar-inverse opacity-80" role="navigation">
       <div class="container">
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -48,16 +48,16 @@
       </div><!-- /.container -->
     </nav><!-- /.navbar -->
 
-  	<div class="cn-modal-dialog modal-dialog modal-my-sm">
+  	<div class="cn-modal-dialog modal-dialog modal-my-sm opacity-95">
       <form action="/login/signin" method="post">
         <input type="password" style="position:absolute;top:-999px;"/>
     		<div class="modal-content">
     			<div class="modal-body">
     				<div class="form-group">
-    					<input type="text" name="_account" class="form-control" autocomplete="off" placeholder="{{ $trans->get('login.Please enter account') }}" value="test@test.com">
+    					<input type="text" name="_account" class="form-control" autocomplete="off" placeholder="{{ $trans->get('login.Please enter account') }}" validation="/email:{{ $trans->get('login.Please enter account') }}/" value="">
     				</div>
     				<div class="form-group">
-    					<input type="password" name="_password" class="form-control" autocomplete="off" placeholder="{{ $trans->get('login.Please enter password') }}" value="test@test.com">
+    					<input type="password" name="_password" class="form-control" autocomplete="off" placeholder="{{ $trans->get('login.Please enter password') }}" validation="/password:{{ $trans->get('login.Please enter password') }}/" value="">
     				</div>
     				<div>
     					<label>

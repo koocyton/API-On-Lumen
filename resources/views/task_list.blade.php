@@ -62,22 +62,16 @@ foreach ($tasks as $task) {
     $status_title = "";
     if ($task->status == "process") {
         $status_class = "label-info";
-        $status_title = "新增";
-    } else if ($task->status == "resolve") {
+        $status_title = "处理中";
+    } else if ($task->status == "increase") {
         $status_class = "label-info";
-        $status_title = "待处理";
-    } else if ($task->status == "resolve") {
-        $status_class = "label-warning";
-        $status_title = "打回";
+        $status_title = "补充";
     } else if ($task->status == "resolve1") {
         $status_class = "label-success";
         $status_title = "解决";
     } else if ($task->status == "discard") {
-        $status_class = "label-default";
-        $status_title = "丢弃";
-    } else if ($task->status == "discard") {
-        $status_class = "label-default";
-        $status_title = "验收";
+        $status_class = "label-warning";
+        $status_title = "打回";
     }
     ?>
     <span class="label {{ $col }}" data-toggle="tooltip" data-placement="left" title="{{ $tit }}">{{ $tab }}</span>

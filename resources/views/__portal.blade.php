@@ -26,17 +26,17 @@
   </head>
   <body>
 
-    <div class="body-background"></div>
+    <div class="body-background blur-10" style="background-image:url(/css/{{ $locale }}_bg.jpg)"></div>
 
     <div class="body-content">
       <div class="body-content-left scroll-container opacity-80">
-        <div style="top:0px;position:relative;" id="main-menu"></div>
+        <div style="top:0px;position:relative;padding:10px 0 10px 0" id="main-menu"></div>
       </div>
       <div class="body-content-right scroll-container opacity-95">
       </div>
     </div>
 
-    <nav class="navbar navbar-inverse" role="navigation">
+    <nav class="navbar navbar-inverse opacity-95" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <a href="javascript:void(0);" class="navbar-brand"> &nbsp; AOL Manager</a>
@@ -71,14 +71,14 @@
 
 
 
-    <div class="alert alert-danger" role="alert">
+    <div class="alert alert-danger opacity-95" role="alert">
       <strong>Warning!</strong>
       <span class="alert-message"></span>
     </div><!-- /.alert -->
 
     <div class="popup-modal modal fade" id="popup-modal" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-my-lg">
-          <div class="modal-content">
+          <div class="modal-content opacity-95">
             <div class="modal-header">
              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
@@ -92,7 +92,7 @@
 
     <div class="confirm-modal modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
+        <div class="modal-content opacity-95">
           <div class="modal-body"></div>
           <div class="modal-footer">
             <button type="button" class="btn btn-success">确认</button>

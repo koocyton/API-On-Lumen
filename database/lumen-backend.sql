@@ -104,45 +104,36 @@ INSERT INTO `operation-record` VALUES (7,9,'test@test.com','POST','login/signin'
 UNLOCK TABLES;
 
 --
--- Table structure for table `task`
+-- 表的结构 `task`
 --
-
-DROP TABLE IF EXISTS `task`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `task` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(200) NOT NULL,
-  `category` enum('task','bug','doc') NOT NULL,
-  `author` varchar(255) NOT NULL,
-  `owner` text NOT NULL,
-  `subscribers` text NOT NULL,
-  `description` text NOT NULL,
-  `status` enum('process','resolve','discard') NOT NULL,
-  `created_at` int(10) NOT NULL,
-  `updated_at` int(10) NOT NULL,
-  `deleted_at` int(10) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `title` varchar(200) NOT NULL COMMENT '任务 title',
+  `category` enum('task','bug','share') NOT NULL COMMENT '任务分类(任务，bug，分享)',
+  `author` int(11) NOT NULL COMMENT '发布者',
+  `owner` int(11) NOT NULL COMMENT '指派给',
+  `subscribers` varchar(200) NOT NULL COMMENT '抄送',
+  `description` text NOT NULL COMMENT '详细内容',
+  `status` enum('process','increase','resolve','discard') NOT NULL COMMENT '状态',
+  `tags` text NOT NULL COMMENT '标注 tags',
+  `created_at` int(10) NOT NULL COMMENT '创建时间',
+  `updated_at` int(10) NOT NULL COMMENT '更新时间',
+  `deleted_at` int(10) DEFAULT NULL COMMENT '软删除标记',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `task`
+-- 表的结构 `task-follow`
 --
-
-LOCK TABLES `task` WRITE;
-/*!40000 ALTER TABLE `task` DISABLE KEYS */;
-INSERT INTO `task` VALUES (1,'我说一大堆，你也不明白啊','doc','1','刘毅','','4','process',0,0,NULL),(2,'任务描述','bug','1','大毛','','说明','resolve',0,0,NULL),(3,'任务描述','task','1','德慧','','说　明说　明说　明说　明说　明','discard',0,0,NULL),(4,'这里是说明哦这里是说明哦这里是说明哦这里是说明哦','bug','1','大毛','','这里是说明哦','process',0,0,NULL),(5,' 任务描述 任务描述 任务描述','doc','1','刘毅','','说　明说　明说　明说　明说　明','process',0,0,NULL),(6,'描述','bug','1','大毛','','描述','process',1486802651,1486802651,NULL),(7,'asdfsafsafsasaf','bug','1','刘毅','','safdsasafafsfsa','process',1486803484,1486803484,NULL),(8,'asfdsafsafsaf','task','1','','','asdfsafsaf','process',1486803494,1486803494,NULL),(9,'任务描述','bug','1','刘毅','','说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明\r\n说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明说　明','process',1487032552,1487032552,NULL);
-/*!40000 ALTER TABLE `task` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2017-02-15 10:43:30
+CREATE TABLE `task-follow` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `task_id` int(11) NOT NULL COMMENT 'task ID',
+  `title` varchar(200) NOT NULL COMMENT '任务 title',
+  `author` int(11) NOT NULL COMMENT '发布者',
+  `description` text NOT NULL COMMENT '详细内容',
+  `created_at` int(10) NOT NULL COMMENT '创建时间',
+  `updated_at` int(10) NOT NULL COMMENT '更新时间',
+  `deleted_at` int(10) DEFAULT NULL COMMENT '软删除标记',
+  PRIMARY KEY (`id`),
+  INDEX(`task_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

@@ -2,27 +2,29 @@
 
 namespace App\Backend\Controllers;
 
-use App\Exceptions\Handler;
+use App\Service\LoginService;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-  public function index(Request $request)
+  public function index()
   {
-    $h = app(Handler::class);
-    $b = $h->render($request, new \Exception("abc"));
-    print_r($b);exit();
     return $this->render("index");
   }
 
-  public function login()
+  public function login(Request $request, LoginService $loginService)
   {
-    print_r(app("handler"));
-    return $this->render("index");
+    $account = $request->input("account", "");
+    $password = $request->input("password", "");
+    if ($loginService->login($account, $password)) {
+      return redirect("/portal");
+    }
+    return redirect("/login");
   }
 
-  public function logout()
+  public function logout(LoginService $loginService)
   {
-    return $this->render("index");
+    $loginService->logout();
+    return redirect("/login");
   }
 }

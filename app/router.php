@@ -9,5 +9,4 @@ $router->get('/login', ['uses' => 'LoginController@index']);
 $router->post('/login', ['uses' => 'LoginController@login']);
 $router->get('/logout', ['uses' => 'LoginController@logout']);
 
-
 // $router->get('/logout', ['middleware' => 'auth', 'uses' => 'LoginController@index']);

@@ -55,6 +55,7 @@ $app->singleton(
 );
 
 $app->singleton(App\Service\LoginService::class);
+$app->singleton(App\Service\ManagerService::class);
 
 /*
 |--------------------------------------------------------------------------

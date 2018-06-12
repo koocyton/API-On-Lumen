@@ -141,8 +141,8 @@
       if (in_array($manager->account, $managerList)) {
       ?>
         {text:"Admin", menus:[
-            {text:"管理员", href:"/manager"},
-            {text:"权限组", href:"/grouping"}
+            {text:"管理员", href:"/manager/list"},
+            {text:"权限组", href:"/grouping/list"}
         ]}
       <?php } ?>
       ];

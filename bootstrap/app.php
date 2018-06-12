@@ -19,6 +19,12 @@ try {
 |
 */
 
+defined("NOW_TIME") || define("NOW_TIME", time());
+defined("NOW_DATE") || define("NOW_DATE", date("Y-m-d H:i:s", NOW_TIME));
+defined("NOW_DATETIME") || define("NOW_DATETIME", date("Y-m-d H:i:s", NOW_TIME));
+defined("PROTOCOL_HOST") || define("PROTOCOL_HOST", (!empty($_SERVER["HTTPS"]) || !empty($_SERVER['HTTP_X_FORWARDED_PROTO'])) ? "https://".$_SERVER["HTTP_HOST"] : "http://".$_SERVER["HTTP_HOST"]);
+
+
 $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );

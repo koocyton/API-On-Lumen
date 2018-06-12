@@ -35,7 +35,7 @@ class LoginController extends Controller
           new Cookie(
             'sess-token',
             $this->loginService->createAuthToken(Manager::where('account', $account)->first()),
-            $remember ? 0 : time() + 31536000
+            $remember ? NOW_TIME + 31536000 : 0
           )
         );
     }

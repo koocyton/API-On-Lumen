@@ -24,4 +24,8 @@ class Manager extends BaseModel
     protected $hiddens = [
       'password', 'token', 'token_secret','deleted_at', 'created_at', 'updated_at', 'groupings', 'privileges'
     ];
+
+    public static function encryptPassword($manager, $password) {
+      return md5(sprintf(env("APP_ENCRYPT_SALT"), $password, $manager->account));
+    }
 }

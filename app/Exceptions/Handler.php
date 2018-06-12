@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Define\ErrorCode;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -45,6 +46,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if ($e->getCode()==ErrorCode::EXECUTE_ERROR) {
+          return response()->json(["action"=>"showMessage", "message"=>$e->getMessage()]);
+        }
         return parent::render($request, $e);
     }
 }

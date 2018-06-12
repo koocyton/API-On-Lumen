@@ -42,9 +42,8 @@ class LoginController extends Controller
     return response()->json(['action'=>'redirect','url'=>'/login']);
   }
 
-  public function logout(LoginService $loginService)
+  public function logout()
   {
-    $loginService->logout();
-    return redirect("/login");
+    return redirect("/login")->withCookie(new Cookie('sess-token', "", 0));
   }
 }

@@ -86,7 +86,7 @@
             managers: [
                 <?php foreach ($managers as $manager) { ?>
                 {
-                <?=App\Utils\ArrayUtil::getJsObject($manager)?>
+                <?=App\Utils\ArrayUtil::getJsObject($manager->getAttributes())?>
                 "last_span"  : '<?=NOW_TIME?> - <?=$manager->updated_at?>',
                     "style_obj"  : {
                         "color"  : "<?=$manager->deleted_at?>" == "" ? "" : "#bbb",

@@ -42,8 +42,11 @@ class LoginController extends Controller
     return response()->json(['action'=>'redirect','url'=>'/login']);
   }
 
-  public function logout()
+  public function logout(Request $request)
   {
+    if ($request->ajax()) {
+      return response()->json(['action'=>'redirect','url'=>'/login'])->withCookie(new Cookie('sess-token', "", 0));
+    }
     return redirect("/login")->withCookie(new Cookie('sess-token', "", 0));
   }
 }

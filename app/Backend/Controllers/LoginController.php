@@ -31,7 +31,7 @@ class LoginController extends Controller
     $remember = (boolean) $request->input("remember", false);
     // 如果登陆成功
     if ($this->loginService->login($account, $password)) {
-      return response()->json(['action' => 'redirect', 'url' => '/portal'], 200)->withCookie(
+      return response()->json(['action' => 'redirect', 'url' => '/manager'], 200)->withCookie(
           new Cookie(
             'sess-token',
             $this->loginService->createAuthToken(Manager::where('account', $account)->first()),

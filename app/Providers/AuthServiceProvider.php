@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Model\Manager;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -27,11 +28,16 @@ class AuthServiceProvider extends ServiceProvider
         // application. The callback which receives the incoming request instance
         // should return either a User instance or null. You're free to obtain
         // the User instance via an API token or any other method necessary.
+        /**@var Request $request **/
         $this->app['auth']->viaRequest('api', function ($request) {
-            if ($request->header("token")) {
-                return Manager::where('token', $request->header("token"))->first();
+            if ($request->header("sess-token") || $request->cookie("sess-token")) {
+                $sessionToken = empty($request->header("sess-token")) ? $request->cookie("sess-token") : $request->header("sess-token");
+                $manager = Manager::where('token', $sessionToken)->first();
+                if ($manager!=null) {
+                    return $manager;
+                }
             }
-            return $request->rediriect("/login");
+            return null;
         });
     }
 }

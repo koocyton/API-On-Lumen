@@ -54,10 +54,7 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
-$app->singleton(
-  App\Service\LoginService::class,
-  App\Service\LoginService::class
-);
+$app->singleton(App\Service\LoginService::class);
 
 /*
 |--------------------------------------------------------------------------

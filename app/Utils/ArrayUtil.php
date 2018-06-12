@@ -30,6 +30,7 @@ class ArrayUtil
 
   // 将数组输出 js 的对象
   public static function getJsObject($data) {
+    $data = json_decode(json_encode($data));
     $js = "\n";
     foreach($data as $field=>$value) {
       $js .= "                ";

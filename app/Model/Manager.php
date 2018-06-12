@@ -25,7 +25,7 @@ class Manager extends BaseModel
       'password', 'token', 'token_secret','deleted_at', 'created_at', 'updated_at', 'groupings', 'privileges'
     ];
 
-    public static function encryptPassword($manager, $password) {
-      return md5(sprintf(env("APP_ENCRYPT_SALT"), $password, $manager->account));
+    public function encryptPassword($password) {
+      return md5(sprintf(env("APP_ENCRYPT_SALT"), $password, $this->account));
     }
 }

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Voice U</title>
+    <title>Backend</title>
     <!-- Datetimepicker -->
     <link rel="stylesheet" href="/js/jquery.datetimepicker.css" />
     <!-- Bootstrap -->
@@ -43,12 +43,12 @@
     <nav class="navbar navbar-inverse" role="navigation" style="background-color:rgba(0,0,0,0.68);">
       <div class="container">
         <div class="navbar-header">
-          <a href="javascript:void(0);" class="navbar-brand"> &nbsp; Voice U</a>
+          <a href="javascript:void(0);" class="navbar-brand">Backend</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <a href="javascript:void(0);">Hello , <?=$currentManager->username?></a>
+              <a href="javascript:void(0);">Hello , <?=$manager->username?></a>
             </li>
             <li class="dropdown">
               <a href="javascript:;"  class="dropdown-toggle" data-toggle="dropdown" style="padding:8px 6px 4px 6px;"><span class="glyphicon glyphicon-cog" style="font-size:23px;"></span></a>
@@ -137,8 +137,8 @@
           ]},
 
       <?php
-      $managerList = array("andong.fu@ushow.media", "yi.liu@ushow.media", "yangfan.chen@ushow.media");
-      if (in_array($currentManager->account, $managerList)) {
+      $managerList = array("koocyton@gmail.com","test@test.com");
+      if (in_array($manager->account, $managerList)) {
       ?>
         {text:"Admin", menus:[
             {text:"管理员", href:"/manager"},

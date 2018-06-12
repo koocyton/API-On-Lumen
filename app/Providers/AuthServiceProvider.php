@@ -34,6 +34,7 @@ class AuthServiceProvider extends ServiceProvider
                 $sessionToken = empty($request->header("sess-token")) ? $request->cookie("sess-token") : $request->header("sess-token");
                 $manager = Manager::where('token', $sessionToken)->first();
                 if ($manager!=null) {
+                    $_SESSION["manager"] = $manager;
                     return $manager;
                 }
             }

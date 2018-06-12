@@ -23,11 +23,11 @@ class ManagerController extends Controller
   }
 
   public function index() {
-    // return response('Unauthorized.', 401);
+    return $this->list();
   }
 
   public function list() {
     $managers = $this->managerService->getManagers();
-    return $this->render("list", $managers);
+    return $this->render("list", ["managers"=>$managers]);
   }
 }

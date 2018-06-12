@@ -87,13 +87,13 @@
                 }, 'fast', function () {
                     // 绑定界面点击时关闭弹出
                     $(document.body).bind("click touchend", function (e) {
+                        e.stopPropagation();
                         // 关闭动画
                         alert_elt.animate({opacity: 0}, function () {
                             $(".alert-message").html(message);
                             alert_elt.css({display: "none"});
                             $(document.body).unbind("click touchend");
                         });
-                        e.stopPropagation();
                     });
                 });
             },

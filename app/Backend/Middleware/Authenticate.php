@@ -49,6 +49,6 @@ class Authenticate
       return $next($request);
     }
     // 不是 ajax ，显示 portal
-    return response(view("backend/portal"));
+    return response(view("backend/portal", ["manager"=>$_SESSION["manager"]]));
   }
 }
